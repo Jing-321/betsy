@@ -76,3 +76,8 @@ group :test do
   gem 'minitest-rails'
   gem 'minitest-reporters'
 end
+
+#simplecov
+group :test do
+  gem 'simplecov', require: false
+end
