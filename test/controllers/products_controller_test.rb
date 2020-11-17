@@ -82,12 +82,13 @@ describe ProductsController do
   describe "update" do
     let (:update_params) {
       {
-          product: {
-              name: "test update",
-              price: 12.00,
-              description: "updated test description"
-          }
+        product: {
+          name: "test update",
+          price: 12.00,
+          description: "updated test description"
+        }
       }
+    }
     it "it will update product with a valid post request" do
       #todo get product id, product = ??
       expect {
@@ -119,7 +120,7 @@ describe ProductsController do
 
     it "will return not_found when given and invalid id" do
       expect {
-        patach product_path(-1), params: update_hash
+        patch product_path(-1), params: update_hash
       }.wont_differ "Product.count"
 
       must_respond_with :not_found
@@ -127,7 +128,7 @@ describe ProductsController do
   end
 
   describe "destroy" do
-    it "succesfully deletes product, redirect to index and reduces count by 1" do
+    it "successfully deletes product, redirect to index and reduces count by 1" do
       #todo get product id
       expect {
         delete product_path(product)
