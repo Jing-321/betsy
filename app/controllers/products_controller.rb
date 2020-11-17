@@ -76,7 +76,7 @@ class ProductsController < ApplicationController
 
   def destroy
     @product.destroy
-    flash[:success] = "#{@product.name} has been deleted from the product database."
+    flash[:success] = "#{@product.name} has been deleted."
     redirect_to current_merchant_path #check terms
     return
   end
