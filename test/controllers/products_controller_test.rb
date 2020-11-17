@@ -16,7 +16,7 @@ describe ProductsController do
     end
 
     it "will respond with not_found for invalid id" do
-      get propucts_path(-1)
+      get products_path(-1)
       must_respond_with :not_found
     end
   end
