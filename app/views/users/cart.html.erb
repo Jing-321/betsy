@@ -1,0 +1,36 @@
+<section class="user-cart__container">
+  <h3 class="user-cart__header">Votes</h3>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Product Image</th>
+      <th>Product Name</th>
+      <th>Quantity</th>
+      <th>Sold by</th>
+      <th>Price</th>
+      <th>Remove</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <% if @cart %>
+      <% @cart.each do |product| %>
+        <tr>
+          <td><img src= <%=product.name}%>".png"></td>
+          <td><%= link_to product.name, product_path(product.id) %></td>
+          <td><%= product.quantity %></td>
+          <td><%= product.user %></td>
+          <td><%= product.price %></td>
+          <td><%= link_to "Remove", ???? %></td>
+        </tr>
+      <% end %>
+
+      <p> Order Total: $<%= @cart.total %></p>
+    <% else %>
+      <p> Order Total: $0></p>
+    <%end %>
+    </tbody>
+  </table>
+</section>
+
+<%= link_to "Checkout", check_out_path, class: "btn btn-primary" %>

@@ -1,0 +1,52 @@
+<main>
+  <h2>Welcome! </h2>
+  <h3><%= link_to @current_user.username, current_user_path %></h3>
+  <p>Joined site <%= @current_user.created_at.to_date %></p>
+
+
+
+  <nav id="nav_my_account" class="screen-only">
+    <ul class="rue-tabs">
+      <li>
+        <a href="/account/">Account Settings</a>
+      </li>
+
+      <li>
+        <a href="/account/orderHistory/">Orders</a>
+      </li>
+    </ul>
+  </nav>
+
+  <section class="account-info-section" id="member_email">
+    <header>
+      <h4>Email</h4>
+    </header>
+
+    <div>
+      <p> <%= @current_user.email %></p>
+    </div>
+
+  </section>
+
+
+  <section class="account-info-section" id="member_addresses">
+    <header>
+      <h4>Shipping Addresses</h4>
+
+      <button id="add_address" class="btn rue-button" href="/account/address/add/" type="submit">Add Address</button>
+    </header>
+
+    <div>
+      <p> <%= @current_user.address %></p>
+    </div>
+
+    <div class="actions">
+      <%= link_to "Edit", "/account/address/edit/#{@current_user.id}" %>
+      <%= link_to "Remove", "/account/address/delete/#{@current_user.id}" %>
+    </div>
+
+  </section>
+
+
+
+</main>
