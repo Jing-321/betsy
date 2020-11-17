@@ -35,4 +35,10 @@
 yarn-debug.log*
 .yarn-integrity
 
+
+# ignore simple cov directory
+/coverage/*
+
+
 .idea
+
