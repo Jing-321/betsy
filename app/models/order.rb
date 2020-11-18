@@ -3,7 +3,7 @@ class Order < ApplicationRecord
   has_many :order_item
 
   validates :user_id, presence: true
-  validates :status, presence: true, inclusion: {in: ["open", "completed"]}
+  validates :status, presence: true, inclusion: {in: ["pending", "completed"]}
 
 
   def cart_total
