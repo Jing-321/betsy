@@ -4,4 +4,9 @@ class Order < ApplicationRecord
 
   validates :user, presence: true
   validates :status, presence: true, inclusion: {in: ["open", "completed"]}
+
+
+  def cart_total
+
+  end
 end
