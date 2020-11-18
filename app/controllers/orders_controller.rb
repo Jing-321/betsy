@@ -52,6 +52,7 @@ class OrdersController < ApplicationController
   end
 
   def submit
+    #### check address & payment
     if @order.nil?
       head :not_found
       return
