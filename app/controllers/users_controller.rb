@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     user = User.find_by(username: params[:user][:username])
     # New User
     if user.nil?
-      user = User.create(username: params[:user][:username])
+      user = User.new(username: params[:user][:username])
       unless user.save
         flash[:error] = 'Unexpected error occured. Login unsuccessful.'
         redirect_to root_path
