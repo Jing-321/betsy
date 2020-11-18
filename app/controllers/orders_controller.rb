@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
 
-  before_action :find_order, only: [:show, :update, :destroy]
+  before_action :find_order, only: [:show, :update, :destroy, :submit]
 
   def find_order
     @order = Order.find_by(id: params[:id])
@@ -38,6 +38,29 @@ class OrdersController < ApplicationController
     if @order.nil?
       head :not_found
       return
+    end
+  end
+
+  def destroy
+    if @order.nil?
+      head :not_found
+      return
+    end
+    @user = @order.user
+    @order.destroy
+    redirect_to user_path(@user)
+  end
+
+  def submit
+    if @order.nil?
+      head :not_found
+      return
+    else
+      @order.status = "completed"
+      @items = @order.order_item
+      @items.each do |item|
+        Product.find(item.product).stock -= item.quantity
+      end
     end
   end
 
