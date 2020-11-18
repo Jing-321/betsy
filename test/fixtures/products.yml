@@ -1,0 +1,15 @@
+hawaii:
+  name: hawaii tour
+  price: 10
+  description: a relaxing stroll through the beaches and mountains of hawaii
+  stock: 2
+japan:
+  name: japan tour
+  price: 15
+  description: check out the majestic wonders of japan
+  stock: 5
+taiwan:
+  name: taiwan tour
+  price: 12
+  description: enjoy the breathtaking splendor of taiwan
+  stock: 3
