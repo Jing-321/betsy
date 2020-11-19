@@ -1,22 +1,16 @@
 class ProductsController < ApplicationController
 
-  before_action :verify_merchant, only: [:edit, :update, :destroy]
+  # before_action :verify_merchant, only: [:edit, :update, :destroy]
   before_action :find_product, only: [:show, :edit, :update, :destroy]
 
-  skip_before_action :require_login, only: [:root, :show, :index]
+  # skip_before_action :require_login, only: [:root, :show, :index]
 
   def index
     @products = Product.all
   end
 
   def show
-    @product = Product.find_by(id: params[:id])
-    session[:product] = @product # will allow to add a review for that product, not sure if it's right
-
-    if @product.nil?
-      redirect_to products_path
-      return
-    end
+    # session[:product] = @product # will allow to add a review for that product, not sure if it's right
   end
 
   def new
@@ -24,8 +18,8 @@ class ProductsController < ApplicationController
   end
 
   def create
+    # @product.merchant_id = session[:merchant_id]
     @product = Product.new(product_params)
-    @product.merchant_id = session[:merchant_id]
 
     if @product.save
       flash[:success] = "#{@product.name} has been added to the products list"
@@ -38,13 +32,7 @@ class ProductsController < ApplicationController
     end
   end
 
-  def edit
-    @product = Product.find_by(id: params[:id])
-    if @product.nil?
-      redirect_to products_path
-      return
-    end
-  end
+  def edit; end
 
   def update
     if @product.update(product_params)
@@ -53,7 +41,7 @@ class ProductsController < ApplicationController
       return
     else
       flash.now[:error] = "Something is wrong. Could not update #{@product.name}."
-      render :edit
+      render :edit, status: :bad_request
       return
     end
   end
@@ -64,19 +52,13 @@ class ProductsController < ApplicationController
     # return head :not_found if !product
   end
 
-  def find_product
-    @product = Product.find_by(id: params[:id])
-    if @product.nil?
-      flash[:error] = "Product not found."
-      redirect_to products_path
-      return
-    end
-    return @product
-  end
 
+
+  # todo is destroy necessary for products or just retire?
   def destroy
     @product.destroy
     flash[:success] = "#{@product.name} has been deleted."
+    #todo: what is the correct pathway here?
     redirect_to current_merchant_path #check terms
     return
   end
@@ -85,6 +67,17 @@ class ProductsController < ApplicationController
 
   def product_params
     return params.require(:product).permit(:name, :price, :description, :stock, :status, category_ids: []) #:creator, :inventory, :category_id: []
+  end
+
+  def find_product
+    @product = Product.find_by(id: params[:id])
+    if @product.nil?
+      # todo figure out best way to display message or where to send user?
+      # flash[:error] = "Product not found."
+      redirect_to products_path
+      return
+    end
+    return @product
   end
 
 
