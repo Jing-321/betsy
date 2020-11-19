@@ -10,18 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2020_11_18_024735) do
-=======
-
 ActiveRecord::Schema.define(version: 2020_11_18_203003) do
-
->>>>>>> c475389600634657c8d0fa5007eccbbad01bcf72
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-<<<<<<< HEAD
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -30,16 +37,10 @@ ActiveRecord::Schema.define(version: 2020_11_18_203003) do
     t.integer "order_item_id"
     t.integer "review_id"
     t.integer "category_id"
-=======
-
-  create_table "categories", force: :cascade do |t|
-    t.string "name"
->>>>>>> c475389600634657c8d0fa5007eccbbad01bcf72
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-<<<<<<< HEAD
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "email"
@@ -48,13 +49,4 @@ ActiveRecord::Schema.define(version: 2020_11_18_203003) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-=======
-  create_table "orders", force: :cascade do |t|
-    t.string "status", default: "pending"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_orders_on_user_id"
-  end
->>>>>>> c475389600634657c8d0fa5007eccbbad01bcf72
 end
