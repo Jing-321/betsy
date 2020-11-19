@@ -10,20 +10,21 @@ describe ProductsController do
 
   describe "show" do
     it "can get show page" do
-      # todo: get product id
+
+      product = products(:hawaii)
       get products_path(product)
       must_respond_with :success
     end
 
     it "will respond with not_found for invalid id" do
-      get products_path(-1)
-      must_respond_with :not_found
+      get product_path(-1)
+      must_redirect_to products_path
     end
   end
 
   describe "new" do
     it "can get new form" do
-      get new_products_path
+      get new_product_path
       must_respond_with :success
     end
   end
@@ -33,8 +34,9 @@ describe ProductsController do
       {
         product: {
           name: "test_name",
-          price: 15.00,
-          description: "test description"
+          price: 15,
+          description: "test description",
+          stock: 2
         }
       }
     }
@@ -46,12 +48,12 @@ describe ProductsController do
       product = Product.find_by(name: "test_name")
       must_respond_with :redirect
       must_redirect_to product_path(product)
-      # todo include flash message?
+      expect(flash[:success]).wont_be_nil
 
-      # todo verify price is formatted correctly
       expect(product.name).must_equal new_params[:product][:name]
       expect(product.price).must_equal new_params[:product][:price]
       expect(product.description).must_equal new_params[:product][:description]
+      expect(product.stock).must_equal new_params[:product][:stock]
     end
 
     it "won't create product if params are invalid" do
@@ -60,7 +62,7 @@ describe ProductsController do
         post products_path, params: new_params
       }. wont_differ 'Product.count', 1
 
-      # todo include flash message?
+      expect(flash.now[:error]).wont_be_nil
       must_respond_with :bad_request
     end
   end
@@ -68,14 +70,14 @@ describe ProductsController do
   describe "edit" do
     it "can get edit form" do
 
-      #todo get the product id
+      product = products(:hawaii)
       get edit_product_path(product)
       must_respond_with :success
     end
 
     it "will return :not_found if id doesn't exist" do
       get edit_product_path(-1)
-      must_respond_with :not_found
+      must_redirect_to products_path
     end
   end
 
@@ -84,67 +86,70 @@ describe ProductsController do
       {
         product: {
           name: "test update",
-          price: 12.00,
-          description: "updated test description"
+          price: 12,
+          description: "updated test description",
+          stock: 25
         }
       }
     }
     it "it will update product with a valid post request" do
-      #todo get product id, product = ??
+      product = products(:hawaii)
+
       expect {
-        post product_path(product), params: update_params
+        patch product_path(product), params: update_params
       }.wont_differ "Product.count"
 
       product.reload
       must_respond_with :redirect
       must_redirect_to product_path(product)
-      # todo include flash message?
+      expect(flash[:success]).wont_be_nil
 
-      # todo verify price is formatted correctly
       expect(product.name).must_equal update_params[:product][:name]
       expect(product.price).must_equal update_params[:product][:price]
       expect(product.description).must_equal update_params[:product][:description]
+      expect(product.stock).must_equal update_params[:product][:stock]
     end
 
     it "won't update product with invalid params" do
-      update_hash[:product][name] = nil
+      update_params[:product][:name] = nil
 
-      #todo get product id, product = ??
+      product = products(:japan)
       expect {
-        patch product_path(product), params: update_hash
+        patch product_path(product), params: update_params
       }.wont_differ "Product.count"
 
       must_respond_with :bad_request
-      #todo include flash message?
+      expect(flash.now[:error]).wont_be_nil
     end
 
     it "will return not_found when given and invalid id" do
       expect {
-        patch product_path(-1), params: update_hash
+        patch product_path(-1), params: update_params
       }.wont_differ "Product.count"
 
-      must_respond_with :not_found
-    end
-  end
-
-  describe "destroy" do
-    it "successfully deletes product, redirect to index and reduces count by 1" do
-      #todo get product id
-      expect {
-        delete product_path(product)
-      }.must_differ "Product.count", -1
-
-      must_respond_with :redirect
       must_redirect_to products_path
-      # todo include flash message
-    end
-
-    it "will return not_found with invalid id" do
-      expect {
-        delete product_path(-1)
-      }.wont_differ "Product.count"
-
-      must_respond_with :not_found
     end
   end
+
+  # todo is destroy necessary?
+  # describe "destroy" do
+  #   it "successfully deletes product, redirect to index and reduces count by 1" do
+  #     #todo get product id
+  #     expect {
+  #       delete product_path(product)
+  #     }.must_differ "Product.count", -1
+  #
+  #     must_respond_with :redirect
+  #     must_redirect_to products_path
+  #     # todo include flash message
+  #   end
+  #
+  #   it "will return not_found with invalid id" do
+  #     expect {
+  #       delete product_path(-1)
+  #     }.wont_differ "Product.count"
+  #
+  #     must_respond_with :not_found
+  #   end
+  # end
 end
