@@ -29,3 +29,31 @@ end
 
 puts "Added #{Product.count} product records"
 puts "#{product_failures.length} products failed to save"
+
+
+categories = [
+    {
+        name: "Family"
+    },
+    {
+        name: "Romantic"
+    },
+    {
+        name: "Educational"
+    },
+    {
+        name: "Cultural"
+    },
+    {
+        name: "Fun"
+    },
+]
+
+count = 0
+categories.each do |category|
+  if Category.create(category)
+    count += 1
+  end
+end
+
+puts "Created #{count} categories"
