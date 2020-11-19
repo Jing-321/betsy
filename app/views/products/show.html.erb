@@ -1,11 +1,15 @@
 <section>
-  <%# todo add image %>
+  <%= link_to image_tag("#{@product.photo_url}", alt: "#{@product.name}", class: "product-image-show") %>
 </section>
 <section>
   <h1><%= @product.name %></h1>
   <p><%= @product.description %></p>
-  <p><%= @product.price %></p>
+  <p>$<%= @product.price %></p>
 </section>
+
+<%= link_to "Edit Tour", edit_product_path(@product), class: "btn btn-primary" %>
+<%= link_to "Add to Cart", "", class: "btn btn-primary" %>
+<%= link_to "See All Tours", products_path, class: "btn btn-primary" %>
 
 <!--<section class="product-reviews">-->
 <!--  <h3>Reviews</h3>-->
