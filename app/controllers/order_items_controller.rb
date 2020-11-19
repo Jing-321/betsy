@@ -1,5 +1,6 @@
 class OrderItemsController < ApplicationController
   before_action :find_product, only: :create
+  # before_action :validate_quantity, only: [:create, :update]
 
   def create
 
@@ -23,7 +24,7 @@ class OrderItemsController < ApplicationController
   #   end
   # end
 
-  def increase_quantity
+  def increase_quantity #work in progress
 
     product = Product.find_by!(id: params[:product_id]).stock #please check
 
@@ -41,7 +42,7 @@ class OrderItemsController < ApplicationController
   end
 
 
-  def decrease_quantity
+  def decrease_quantity #work in progress
     session[:order].each do |item|
       current_item = Product.find(item["product_id"])
       if current_item.quantity == 0
