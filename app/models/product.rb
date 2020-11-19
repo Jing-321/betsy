@@ -11,7 +11,7 @@ class Product < ApplicationRecord
 
   has_many :order_items
   has_many :reviews, dependent: :destroy
-  has_and_belongs_to_many :category
+  has_and_belongs_to_many :categories
 
   validates :name, presence: true
   validates :description, presence: true
