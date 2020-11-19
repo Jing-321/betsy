@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Betsy</title>
+    <title>Tripsy</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,26 @@
   </head>
 
   <body>
+    <nav class ="navbar navbar-light bg-light navbar-expand-md fixed-top">
+  <%= link_to "Tripsy", root_path, class: "navbar-brand"%>
+  <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">Menu</button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav ml-auto">
+      <li class="navbar-item"> <%= link_to "Home", root_path, class: "nav-link"%></li>
+      <li class="navbar-item"> <%= link_to "All Products", products_path, class: "nav-link"%></li>
+      <li class="navbar-item"> <%= link_to "All TourGuides", merchants_path, class: "nav-link"%></li>
+      <li class="navbar-item"> <%= link_to "Browse by category", root_path, class: "nav-link"%></li>
+    </ul>
+    <%if session[:user_id].nil? %>
+      <button class="btn btn-primary"> <%= link_to "Login with GitHub", github_login_path %></button>
+    <%else %>
+      <button class="btn-primary"> <%= link_to "Logout", logout_path, method: "delete" %></button>
+    <%end %>
+  </div>
+</nav>
+
     <%= yield %>
+
+
   </body>
 </html>
