@@ -1,37 +1,50 @@
 class OrderItemsController < ApplicationController
   before_action :find_product, only: :create
 
-  def create
-    new_id = params["product_id"]
-    new_qty = params["quantity"]
+  # def create
+  #   new_id = params["product_id"]
+  #   new_qty = params["quantity"]
+  #
+  #   if session[:order_id] == nil || session[:order_id] == false || !session[:order_id]
+  #     @order = Order.create(status: "pending")
+  #     session[:order_id] = @order.id
+  #   else
+  #     @order = Order.find_by(id: session[:order_id])
+  #   end
+  #
+  #   if new_qty.to_i + @order.current_qty(new_id) > Product.find(new_product_id).stock #check order model for "current quantity"
+  #     flash.now[:status] = :danger
+  #     flash.now[:result_text] = "Error: please check product availability."
+  #     render 'products/main', status: :bad_request
+  #     return
+  #   end
+  #
+  # end
 
-    if session[:order_id] == nil || session[:order_id] == false || !session[:order_id]
-      @order = Order.create(status: "pending")
-      session[:order_id] = @order.id
-    else
-      @order = Order.find_by(id: session[:order_id])
-    end
-
-    if new_qty.to_i + @order.current_qty(new_id) > Product.find(new_product_id).stock #check order model for "current quantity"
-      flash.now[:status] = :danger
-      flash.now[:result_text] = "Error: please check product availability."
-      render 'products/main', status: :bad_request
-      return
-    end
-
-  end
-
-  def edit
-
-
-  end
+  # def update
+  #   @order_item.quantity = params[:new_quantity]
+  #   @order_item.save
+  #   flash[:status] = :success
+  #   flash[:result_text] = "Cart updated."
+  #   redirect_to order_path(session[:order_id])
+  # end
 
   def update
-    @order_item.quantity = params[:new_quantity]
-    @order_item.save
-    flash[:status] = :success
-    flash[:result_text] = "Cart updated."
-    redirect_to order_path(session[:order_id])
+    new_item = @order_item.product
+    qty = order_item_params[:quantity].to_i
+
+    if qty > new_item.stock
+      flash[:status] = :failure
+      flash[:result_text] = "#{new_item.name} is low in stock. Cannot add item to cart."
+      redirect_to cart_path
+      return
+    else
+      @order_item.update(order_item_params)
+      flash[:status] = :success
+      flash[:result_text] = "#{new_item.name} added to cart."
+      redirect_to cart_path
+      return
+    end
   end
 
   def delete_item  #destroy
@@ -49,6 +62,6 @@ class OrderItemsController < ApplicationController
   private
 
   def order_item_params
-    return params.require(:order_item).permit(:quantity, :product_id, :order_id) #will order_id be really needed, though?
+    return params.require(:order_item).permit(:quantity, :product_id, :order_id)
   end
 end
