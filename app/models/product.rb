@@ -18,4 +18,12 @@ class Product < ApplicationRecord
   validates :price, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :stock, numericality: { greater_than_or_equal_to: 0 }
 
+  def avg_rating
+    all_ratings = reviews.map { |review| review.rating}
+    return nil if all_ratings.empty?
+
+    average = all_ratings.sum / all_ratings.length.to_f
+    return average / 10 == 0 ? average : average.round(1)
+  end
+
 end
