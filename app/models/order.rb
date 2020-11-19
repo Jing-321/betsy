@@ -9,4 +9,8 @@ class Order < ApplicationRecord
   def cart_total
 
   end
+
+  def credit_card_info
+
+  end
 end
