@@ -17,6 +17,8 @@ CSV.foreach(PRODUCT_FILE, headers: true) do |row|
   product.name = row['name']
   product.price = row['price']
   product.description = row['description']
+  product.stock = row['stock']
+  product.photo_url = row['photo_url']
   successful = product.save
   if !successful
     product_failures << product
@@ -28,3 +30,31 @@ end
 
 puts "Added #{Product.count} product records"
 puts "#{product_failures.length} products failed to save"
+
+
+categories = [
+    {
+        name: "Family"
+    },
+    {
+        name: "Romantic"
+    },
+    {
+        name: "Educational"
+    },
+    {
+        name: "Cultural"
+    },
+    {
+        name: "Fun"
+    },
+]
+
+count = 0
+categories.each do |category|
+  if Category.create(category)
+    count += 1
+  end
+end
+
+puts "Created #{count} categories"
