@@ -6,6 +6,6 @@ class Review < ApplicationRecord
   # text_review
 
   validates :rating, presence: true, numericality: { only_integer: true, greater_than: 0}
-  validates :text_review, length: { maximum: 100, too_long: '%{count} characters is the maximum allowed' }
+  validates :text_review, length: { maximum: 140, too_long: '%{count} characters is the maximum allowed' }
 end
 
