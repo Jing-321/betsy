@@ -4,6 +4,7 @@ class OrderItemsController < ApplicationController
 
   def create
 
+
   end
 
   # def update
@@ -37,7 +38,8 @@ class OrderItemsController < ApplicationController
       end
     end
 
-    redirect_to order_items_path
+    fallback_location = order_items_path
+    redirect_back(fallback_location: fallback_location)
     return
   end
 
@@ -55,6 +57,13 @@ class OrderItemsController < ApplicationController
         item["quantity"] > 1 ? item["quantity"] -= 1 : session[:cart].delete(item)
       end
     end
+
+    flash[:success] = "Item removed from shopping cart."
+    fallback_location = order_items_path
+    redirect_back(fallback_location: fallback_location)
+    return
+  end
+
 
   def delete_item  #destroy
     @order_item.destroy
