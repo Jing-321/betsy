@@ -18,6 +18,7 @@ CSV.foreach(PRODUCT_FILE, headers: true) do |row|
   product.price = row['price']
   product.description = row['description']
   product.stock = row['stock']
+  product.photo_url = row['photo_url']
   successful = product.save
   if !successful
     product_failures << product
