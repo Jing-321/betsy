@@ -10,7 +10,7 @@
   </head>
 
   <body>
-    <nav class ="navbar navbar-light bg-light navbar-expand-md fixed-top">
+    <nav class ="navbar navbar-light bg-light navbar-expand-md">
   <%= link_to "Tripsy", root_path, class: "navbar-brand"%>
   <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">Menu</button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -27,6 +27,19 @@
     <%end %>
   </div>
 </nav>
+    <section class="alert__container">
+      <% if flash[:success] %>
+        <div class="alert alert-success">
+          <span> <%= flash[:success] %></span>
+        </div>
+
+      <% elsif flash[:error] %>
+        <div class="alert alert-warning">
+          <span><%= flash[:error] %></span>
+        </div>
+      <% end %>
+    </section>
+
 
     <%= yield %>
 
