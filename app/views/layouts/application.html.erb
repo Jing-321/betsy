@@ -10,23 +10,25 @@
   </head>
 
   <body>
+
     <nav class ="navbar navbar-light bg-light navbar-expand-md">
-  <%= link_to "Tripsy", root_path, class: "navbar-brand"%>
-  <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">Menu</button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav ml-auto">
-      <li class="navbar-item"> <%= link_to "Home", root_path, class: "nav-link"%></li>
-      <li class="navbar-item"> <%= link_to "All Products", products_path, class: "nav-link"%></li>
-      <li class="navbar-item"> <%= link_to "All TourGuides", users_path, class: "nav-link"%></li>
-      <li class="navbar-item"> <%= link_to "Browse by category", root_path, class: "nav-link"%></li>
-    </ul>
-    <%if session[:user_id].nil? %>
-      <%= link_to "Login with GitHub", github_login_path, class: "btn btn-primary" %>
-    <%else %>
-      <%= link_to "Logout", logout_path, method: "delete", class: "btn btn-primary" %>
-    <%end %>
-  </div>
-</nav>
+      <%= link_to "Tripsy", root_path, class: "navbar-brand"%>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">Menu</button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="navbar-item"> <%= link_to "Home", root_path, class: "nav-link"%></li>
+          <li class="navbar-item"> <%= link_to "All Products", products_path, class: "nav-link"%></li>
+          <li class="navbar-item"> <%= link_to "All TourGuides", users_path, class: "nav-link"%></li>
+          <li class="navbar-item"> <%= link_to "Browse by category", root_path, class: "nav-link"%></li>
+        </ul>
+        <%if session[:user_id].nil? %>
+          <%= link_to "Login with GitHub", github_login_path, class: "btn btn-primary" %>
+        <%else %>
+          <%= link_to "Logout", logout_path, method: "delete", class: "btn btn-primary" %>
+        <%end %>
+      </div>
+    </nav>
+
     <section class="alert__container">
       <% if flash[:success] %>
         <div class="alert alert-success">

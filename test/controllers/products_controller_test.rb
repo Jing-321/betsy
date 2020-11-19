@@ -18,8 +18,10 @@ describe ProductsController do
 
     it "will respond with not_found for invalid id" do
       get product_path(-1)
+
       # todo check error message
       expect(flash[:error]).wont_be_nil
+
       must_redirect_to products_path
     end
   end
