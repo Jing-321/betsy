@@ -9,7 +9,7 @@ class Product < ApplicationRecord
   # review_id (relation migration) lower priority
   # category_id *lower priority
 
-  belongs_to :order_item
+  has_many :order_items
   has_many :review, dependent: :destroy
   has_and_belongs_to_many :category
 
