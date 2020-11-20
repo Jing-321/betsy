@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   before_action :find_user, only: [:show]
+  before_action :current, only: [:show]
 
 
   def create

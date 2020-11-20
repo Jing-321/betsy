@@ -8,6 +8,7 @@ class Order < ApplicationRecord
 
 
   def cart_total
+    total = 0
 
   end
 
