@@ -1,9 +1,21 @@
-<h1>Authors</h1>
+<h3>Checkout our wonderful tour guides</h3>
+
+<div class="container" style="margin-top: 5rem">
+  <% @users.each do |user| %>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><%= user.username %></h5>
+      </div>
+
+    </div>
+  <% end %>
+</div>
+
 
 <ul>
-<% @authors.each do |author| %>
-  <li><%= link_to author.name, author_path(author.id) %> 
-    <%= link_to "edit", edit_author_path(author.id) %>
-    <%= link_to "delete", author_path(author.id), method: :delete %>
-<% end %>
+
+    <li> <%= link_to image_tag("#{user.photo_url}", alt: "#{user.username}"), user_path(user.id) %> </li>
+    <li><%= link_to user.username, user_path(user.id) %>
+      <%= link_to "edit", edit_user_path(user.id) %>
+
 </ul>

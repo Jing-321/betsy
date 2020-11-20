@@ -31,7 +31,12 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.where.not("uid = nil")
+    @users = User.all
+    #@users = User.where.not("uid = nil")
+  end
+
+  def edit
+
   end
 
   def show
