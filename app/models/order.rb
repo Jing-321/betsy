@@ -14,15 +14,4 @@ class Order < ApplicationRecord
 
   end
 
-  def current_qty(item_id)
-    if self.order_items.any?
-      self.order_items.each do |current_item|
-        if current_item.product.id == item_id
-          return current_item.quantity.to_i
-        end
-      end
-    end
-    return 0
-  end
-
 end

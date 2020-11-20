@@ -57,20 +57,17 @@ class OrderItemsController < ApplicationController
   end
 
   def increase_quantity #work in progress
-
-    product = Product.find_by!(id: params[:product_id]).stock #please check
+    new_item = Product.find_by!(id: params[:product_id]).stock #please check if params[:product_id] is correct here -- and for the following
 
     session[:order].each do |item|
-      if item["product_id"] == params["product_id"].to_i && item["quantity"] < product
+      if item["product_id"] == params["product_id"].to_i && item["quantity"] < new_item #here
         item["quantity"] += 1
-        flash[:success] = "#{product[:name]} added to shopping cart."
-      elsif item["product_id"] == params["product_id"].to_i && item['quantity'] == product
-        flash[:error] = "#{product[:name]} is low in stock. No additional units can be added to cart."
+        flash[:success] = "#{new_item.name} added to shopping cart."
+      elsif item["product_id"] == params["product_id"].to_i && item['quantity'] == product  #here
+        flash[:error] = "#{product[:name]} is low in stock. Can't add more to the cart."
       end
     end
-
-    fallback_location = order_items_path
-    redirect_back(fallback_location: fallback_location)
+    redirect_to order_items_path
     return
   end
 
@@ -79,19 +76,17 @@ class OrderItemsController < ApplicationController
     session[:order].each do |item|
       current_item = Product.find(item["product_id"])
       if current_item.quantity == 0
-        flash[:error] = "Something is wrong. There is no #{current_item.name} in your cart."
+        flash[:error] = "There is currently no #{current_item.name} in your cart."
         redirect_back(fallback_location: order_items_path)
         return
       end
 
-      if item["product_id"] == params['format'].to_i
-        item["quantity"] > 1 ? item["quantity"] -= 1 : session[:cart].delete(item)
+      if item["product_id"] == params["product_id"].to_i  #here
+        item["quantity"] > 1 ? item["quantity"] -= 1 : session[:order].delete(item)
       end
     end
-
-    flash[:success] = "Item removed from shopping cart."
-    fallback_location = order_items_path
-    redirect_back(fallback_location: fallback_location)
+    flash[:success] = "Item removed from cart."
+    redirect_to order_items_path
     return
   end
 
