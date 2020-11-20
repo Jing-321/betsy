@@ -73,7 +73,7 @@ class ProductsController < ApplicationController
     @product = Product.find_by(id: params[:id])
     if @product.nil?
       # todo figure out best way to display message or where to send user?
-      # flash[:error] = "Product not found."
+      flash[:error] = "Product not found."
       redirect_to products_path
       return
     end
