@@ -1,6 +1,7 @@
 class Order < ApplicationRecord
   belongs_to :user
-  has_many :order_item
+  has_many :order_items
+  belongs_to :payment_info
 
   validates :user_id, presence: true
   validates :status, presence: true, inclusion: {in: ["pending", "completed"]}
