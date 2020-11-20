@@ -23,7 +23,13 @@
         <%if session[:user_id].nil? %>
           <%= link_to "Login with GitHub", github_login_path, class: "btn btn-primary" %>
         <%else %>
-          <%= link_to "Logout", logout_path, method: "delete", class: "btn btn-primary" %>
+          <%= link_to "Hello, #{User.find(session[:user_id]).username}", user_account_path, class: "btn btn-primary" %>
+          <%= link_to "Logout", logout_path, method: "delete", class: "btn btn-secondary" %>
+        <%end %>
+        <%if session[:order_id] %>
+          <%= link_to "Cart", order_path(session[:order_id]), class: "btn btn-primary" %>
+        <%else %>
+          <%= link_to "Cart", empty_cart_path, class: "btn btn-primary" %>
         <%end %>
       </div>
     </nav>

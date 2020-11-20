@@ -21,6 +21,10 @@ class OrdersController < ApplicationController
     @items = @order.items.order(created_at: :desc)
   end
 
+  def empty_cart
+    @current_user = User.find(session[:user_id])
+  end
+
   def destroy
     @order.destroy
     redirect_to user_path(params[:user_id])
