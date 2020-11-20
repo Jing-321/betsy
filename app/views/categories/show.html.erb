@@ -1,0 +1,25 @@
+<h2><%= @category.name %> Tours</h2>
+
+<%# @category.products.each do |product| %>
+<!--  <article>-->
+    <%#= link_to image_tag("#{product.photo_url}", alt: "#{product.name}", class: "product-images-index"), product_path(product) %>
+<!--    <h3><%#= link_to "#{product.name}", product_path(product) %></h3>-->
+    <%# todo figure out what ratings look like, stars? %>
+
+<!--    <h4>$<%#= product.price %></h4>-->
+<!--  </article>-->
+<%# end %>
+
+<div class="row row-cols-3">
+  <% @category.products.each do |product| %>
+    <div class="card col">
+      <img src=<%= product.photo_url %> class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title"><%= product.name %></h5>
+        <p class="card-text"><%= product.description %></p>
+        <strong><p class="card-text">$<%= product.price %></p></strong>
+        <%= link_to "Book", "", class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

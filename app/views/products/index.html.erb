@@ -1,17 +1,32 @@
 <h2>All Virtual Tours</h2>
-<section>
-  <% @products.each do |product| %>
-    <article>
-      <%# todo add image links here %>
-      <%= link_to image_tag("#{product.photo_url}", alt: "#{product.name}", class: "product-images-index"), product_path(product) %>
-      <h3><%= link_to "#{product.name}", product_path(product) %></h3>
-      <%# todo figure out what ratings look like, stars? %>
-<!--      <p><%#= product.avg_rating %></p>-->
-      <h4>$<%= product.price %></h4>
-    </article>
-  <% end %>
-</section>
-
 
 <%= link_to "Add Tour", new_product_path, class: "btn btn-primary" %>
 
+<!--<div class="container">-->
+  <div class="row row-cols-3">
+  <% @products.each do |product| %>
+    <div class="card col">
+      <img src=<%= product.photo_url %> class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title"><%= product.name %></h5>
+        <p class="card-text"><%= product.description %></p>
+        <%= link_to "See Details", product_path(product), class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+  </div>
+<!--</div>-->
+
+
+
+
+
+
+<!--<article>-->
+  <%# todo add image links here %>
+  <%#= link_to image_tag("#{product.photo_url}", alt: "#{product.name}", class: "product-images-index"), product_path(product) %>
+<!--  <h3><%#= link_to "#{product.name}", product_path(product) %></h3>-->
+  <%# todo figure out what ratings look like, stars? %>
+<!--     <p><%##= product.avg_rating %></p>-->
+<!--  <h4>$<%#= product.price %></h4>-->
+<!--</article>-->

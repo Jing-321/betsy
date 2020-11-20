@@ -8,29 +8,6 @@
 
 require 'csv'
 
-PRODUCT_FILE = Rails.root.join('db', 'products-seeds.csv')
-puts "Loading raw word data from #{PRODUCT_FILE}"
-
-product_failures = []
-CSV.foreach(PRODUCT_FILE, headers: true) do |row|
-  product = Product.new
-  product.name = row['name']
-  product.price = row['price']
-  product.description = row['description']
-  product.stock = row['stock']
-  product.photo_url = row['photo_url']
-  successful = product.save
-  if !successful
-    product_failures << product
-    puts "Failed to save user: #{product.inspect}"
-  else
-    puts "Created user: #{product.inspect}"
-  end
-end
-
-puts "Added #{Product.count} product records"
-puts "#{product_failures.length} products failed to save"
-
 
 categories = [
     {
@@ -60,6 +37,34 @@ end
 puts "Created #{count} categories"
 
 
+
+PRODUCT_FILE = Rails.root.join('db', 'products-seeds.csv')
+puts "Loading raw word data from #{PRODUCT_FILE}"
+
+product_failures = []
+CSV.foreach(PRODUCT_FILE, headers: true) do |row|
+  product = Product.new
+  product.name = row['name']
+  product.price = row['price']
+  product.description = row['description']
+  product.stock = row['stock']
+  product.photo_url = row['photo_url']
+  product.categories << Category.all.sample
+  successful = product.save
+  if !successful
+    product_failures << product
+    puts "Failed to save user: #{product.inspect}"
+  else
+    puts "Created user: #{product.inspect}"
+  end
+end
+
+puts "Added #{Product.count} product records"
+puts "#{product_failures.length} products failed to save"
+
+
+
+
 USER_FILE = Rails.root.join('db', 'users-seeds.csv')
 puts "Loading raw word data from #{USER_FILE}"
 
@@ -82,3 +87,5 @@ end
 
 puts "Added #{User.count} user records"
 puts "#{user_failures.length} users failed to save"
+
+
