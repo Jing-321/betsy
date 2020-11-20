@@ -10,6 +10,7 @@
   </head>
 
   <body>
+
     <nav class ="navbar navbar-light bg-light navbar-expand-md">
       <%= link_to "Tripsy", root_path, class: "navbar-brand"%>
       <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">Menu</button>
@@ -33,6 +34,59 @@
     </main>
 
 
+    <nav class ="navbar navbar-light bg-light navbar-expand-md">
+      <%= link_to "Tripsy", root_path, class: "navbar-brand"%>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">Menu</button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="navbar-item"> <%= link_to "Home", root_path, class: "nav-link"%></li>
+          <li class="navbar-item"> <%= link_to "All Products", products_path, class: "nav-link"%></li>
+          <li class="navbar-item"> <%= link_to "All TourGuides", users_path, class: "nav-link"%></li>
+<!--          <li class="navbar-item"> <%#= link_to "Browse by category", root_path, class: "nav-link"%></li>-->
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Categories
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <% Category.all.each do |category| %>
+                <% unless category.products.empty? %>
+              <%=  link_to "#{category.name}", category_path(category), class: "dropdown-item"  %>
+                <% end %>
+              <% end %>
+              <div class="dropdown-divider"></div>
+              <%= link_to "Add Category", new_category_path, class: "dropdown-item" %>
+            </div>
+          </li>
+
+        </ul>
+        <%if session[:user_id].nil? %>
+          <%= link_to "Login with GitHub", github_login_path, class: "btn btn-primary" %>
+        <%else %>
+          <%= link_to "Logout", logout_path, method: "delete", class: "btn btn-primary" %>
+        <%end %>
+      </div>
+    </nav>
+
+
+    <% if flash.any? %>
+    <section class="alert__container">
+      <% if flash[:success] %>
+        <div class="alert alert-success">
+          <span> <%= flash[:success] %></span>
+        </div>
+
+      <% elsif flash[:error] %>
+        <div class="alert alert-warning">
+          <span><%= flash[:error] %></span>
+        </div>
+      <% end %>
+    </section>
+    <% end %>
+
+    <main>
+      <%= yield %>
+    </main>
 
   </body>
 </html>

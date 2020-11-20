@@ -22,11 +22,11 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
 
     if @product.save
-      flash[:success] = "#{@product.name} has been added to the products list"
+      flash[:success] = "#{@product.name} has been added to the tour list"
       redirect_to product_path(@product.id)
       return
     else
-      flash.now[:error] = "Something happened. #{@product.name} could not be added to the products list."
+      flash.now[:error] = "Something happened, could not create tour: #{@product.format_errors}"
       render :new, status: :bad_request
       return
     end
@@ -40,7 +40,7 @@ class ProductsController < ApplicationController
       redirect_to product_path(@product.id)
       return
     else
-      flash.now[:error] = "Something is wrong. Could not update #{@product.name}."
+      flash.now[:error] = "Something is wrong. Could not update tour: #{@product.format_errors}"
       render :edit, status: :bad_request
       return
     end
@@ -52,9 +52,6 @@ class ProductsController < ApplicationController
     # return head :not_found if !product
   end
 
-
-
-  # todo is destroy necessary for products or just retire?
   def destroy
     @product.destroy
     flash[:success] = "#{@product.name} has been deleted."
@@ -72,8 +69,7 @@ class ProductsController < ApplicationController
   def find_product
     @product = Product.find_by(id: params[:id])
     if @product.nil?
-      # todo figure out best way to display message or where to send user?
-      # flash[:error] = "Product not found."
+      flash[:error] = "Tour not found"
       redirect_to products_path
       return
     end
