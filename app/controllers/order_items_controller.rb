@@ -36,7 +36,7 @@ class OrderItemsController < ApplicationController
   end
 
   def update
-    @order_item.quantity = params[:new_quantity]
+    @order_item.quantity = params[:new_qty]
     @order_item.save
     flash[:success] = "Quantity updated"
     redirect_to order_path(session[:order_id])
