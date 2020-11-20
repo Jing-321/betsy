@@ -3,42 +3,40 @@ class OrderItemsController < ApplicationController
   # before_action :validate_quantity, only: [:create, :update]
 
   def create
+    new_qty = params["quantity"].to_i
+    new_item = params["product_id"]
+
     #is there an existing order? if not, create a new Order
     if session[:order_id] == nil || session[:order_id] == false
       @order = Order.new(status: "pending")
-      unless @order.save
-        flash[:error] = "Something went wrong. Please refresh and try again."
-      end
       session[:order_id] = @order.id
-
     else
       @order.find_by(id: session[:order_id])
     end
 
-    #if current order already contains the product, increase amount; else, add new item
-    @order_item = OrderItem.find_by(product_id: params[:product_id], order_id: session[:order_id])
-    if @order_item
-      @order_item.quantity += params[:order_item][:quantity].to_i
-    else
-      @order_item = OrderItem.new(
-          quantity: params[:order_item][:quantity],
-          product_id: params[:product_id],
+    if new_qty + @order.current_quantity(new_item) > Product.find(new_item).stock
+      flash.now[:error] = "This item is low in stock. Can't update cart." #not added
+      redirect_to order_path(session[:order_id])
+      return
+    end
+
+    if @order.confirm_order_items(new_item, new_qty) == false
+      @order.order_items << OrderItem.create(
+          quantity: new_qty,
+          product_id: new_item,
           order_id: @order.id
       )
-    end
-
-    #check validation
-
-    if @order_item.save
-      flash[:success] = "#{@order_item.product.name} added to the cart."
-      redirect_to order_path #check if this is the path we want
-      return
-    else
-      flash.now[:error] = "Something is wrong. Can't add item to cart."
-      render :new, status: :bad_request
-      redirect_to order_path #check if this is the path we want
+      flash[:success] = "Cart updated." #item added
+      redirect_to product_path(params["product_id"])
       return
     end
+  end
+
+  def update
+    @order.order_item.quantity = params[:new_quantity]
+    @order.order_item.save
+    flash[:success] = "Quantity updated"
+    redirect_to order_path(session[:order_id])
   end
 
   # def increase_quantity #work in progress
