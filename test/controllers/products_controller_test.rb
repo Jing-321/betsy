@@ -19,8 +19,7 @@ describe ProductsController do
     it "will respond with not_found for invalid id" do
       get product_path(-1)
 
-      # todo check error message
-      expect(flash[:error]).wont_be_nil
+      expect(flash[:error]).must_equal "Tour not found"
 
       must_redirect_to products_path
     end
@@ -52,7 +51,7 @@ describe ProductsController do
       product = Product.find_by(name: "test_name")
       must_respond_with :redirect
       must_redirect_to product_path(product)
-      expect(flash[:success]).wont_be_nil
+      expect(flash[:success]).must_include new_params[:product][:name]
 
       expect(product.name).must_equal new_params[:product][:name]
       expect(product.price).must_equal new_params[:product][:price]
@@ -66,7 +65,7 @@ describe ProductsController do
         post products_path, params: new_params
       }. wont_differ 'Product.count', 1
 
-      expect(flash.now[:error]).wont_be_nil
+      expect(flash.now[:error]).must_include "Something happened, could not create tour"
       must_respond_with :bad_request
     end
   end
@@ -106,7 +105,7 @@ describe ProductsController do
       product.reload
       must_respond_with :redirect
       must_redirect_to product_path(product)
-      expect(flash[:success]).wont_be_nil
+      expect(flash[:success]).must_include "Successfully updated"
 
       expect(product.name).must_equal update_params[:product][:name]
       expect(product.price).must_equal update_params[:product][:price]
@@ -123,7 +122,7 @@ describe ProductsController do
       }.wont_differ "Product.count"
 
       must_respond_with :bad_request
-      expect(flash.now[:error]).wont_be_nil
+      expect(flash.now[:error]).must_include "Something is wrong. Could not update tour"
     end
 
     it "will return not_found when given and invalid id" do
@@ -132,28 +131,30 @@ describe ProductsController do
       }.wont_differ "Product.count"
 
       must_redirect_to products_path
+      expect(flash[:error]).must_equal "Tour not found"
     end
   end
 
-  # todo is destroy necessary?
-  # describe "destroy" do
-  #   it "successfully deletes product, redirect to index and reduces count by 1" do
-  #     #todo get product id
-  #     expect {
-  #       delete product_path(product)
-  #     }.must_differ "Product.count", -1
-  #
-  #     must_respond_with :redirect
-  #     must_redirect_to products_path
-  #     # todo include flash message
-  #   end
-  #
-  #   it "will return not_found with invalid id" do
-  #     expect {
-  #       delete product_path(-1)
-  #     }.wont_differ "Product.count"
-  #
-  #     must_respond_with :not_found
-  #   end
-  # end
+  describe "destroy" do
+    it "successfully deletes product, redirect to index and reduces count by 1" do
+      product = products(:taiwan)
+      expect {
+        delete product_path(product)
+      }.must_differ "Product.count", -1
+
+      must_respond_with :redirect
+      must_redirect_to products_path
+      expect(flash[:success]).must_include "deleted"
+    end
+
+    it "will return not_found with invalid id" do
+      expect {
+        delete product_path(-1)
+      }.wont_differ "Product.count"
+
+      must_respond_with :redirect
+      must_redirect_to products_path
+      expect(flash[:error]).must_equal "Tour not found"
+    end
+  end
 end

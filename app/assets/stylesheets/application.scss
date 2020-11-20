@@ -20,3 +20,21 @@
 .product-images-index {
   max-width: 50%;
 }
+
+.product-image-show {
+  max-width: 70%;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 1fr [main-start] 5fr [main-end] 1fr;
+}
+
+.navbar, .alert__container {
+  grid-column: 1 / -1;
+}
+
+main {
+  grid-column: main;
+}
+

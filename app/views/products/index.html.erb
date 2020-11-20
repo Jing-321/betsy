@@ -1,4 +1,7 @@
 <h2>All Virtual Tours</h2>
+
+<%= link_to "Add Tour", new_product_path, class: "btn btn-primary" %>
+
 <section>
   <% @products.each do |product| %>
     <article>
@@ -13,5 +16,5 @@
 </section>
 
 
-<%= link_to "Add Tour", new_product_path, class: "btn btn-primary" %>
+
 
