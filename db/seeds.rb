@@ -22,9 +22,9 @@ CSV.foreach(PRODUCT_FILE, headers: true) do |row|
   successful = product.save
   if !successful
     product_failures << product
-    puts "Failed to save product: #{product.inspect}"
+    puts "Failed to save user: #{product.inspect}"
   else
-    puts "Created product: #{product.inspect}"
+    puts "Created user: #{product.inspect}"
   end
 end
 
@@ -58,3 +58,27 @@ categories.each do |category|
 end
 
 puts "Created #{count} categories"
+
+
+USER_FILE = Rails.root.join('db', 'users-seeds.csv')
+puts "Loading raw word data from #{USER_FILE}"
+
+user_failures = []
+CSV.foreach(USER_FILE, headers: true) do |row|
+  user = User.new
+  user.username = row['username']
+  user.email = row['email']
+  user.uid = row['uid']
+  user.provider = row['provider']
+  user.photo_url = row['photo_url']
+  successful = user.save
+  if !successful
+    product_failures << user
+    puts "Failed to save user: #{user.inspect}"
+  else
+    puts "Created user: #{user.inspect}"
+  end
+end
+
+puts "Added #{User.count} user records"
+puts "#{user_failures.length} users failed to save"

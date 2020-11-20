@@ -1,0 +1,43 @@
+
+<h2>Shopping Cart </h2>
+
+<main class="show_page_container">
+    <div class="card">
+      <img class="card-img-top avatar" alt="<%=@current_user.username %>" src="<%=@current_user.photo_url %>">
+      <div class="card-body">
+        <h5 class="card-title">Hey <%= @current_user.username %>,</h5>
+        <p class="card-text"> Let's start to explore the world!</p>
+      </div>
+    </div>
+
+  <table class="table table-hover tour_list_table">
+    <thead>
+    <tr>
+      <th> </th>
+      <th>Tour</th>
+      <th>Group Size</th>
+      <th>Available Date</th>
+      <th>Price</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+      <td><button class="btn btn-primary">Book</button></td>
+      <td>Boat around Lake Washington</td>
+      <td>3</td>
+      <td>Every Wednesday</td>
+      <td>$15</td>
+    </tr>
+
+    <tr>
+      <td><button class="btn btn-primary">Book</button></td>
+      <td>Hike the Gorgeous Trails in Washington</td>
+      <td>4</td>
+      <td>Every Weekday</td>
+      <td>$10</td>
+    </tr>
+    </tbody>
+  </table>
+
+</main>

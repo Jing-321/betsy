@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2020_11_19_054127) do
-
+ActiveRecord::Schema.define(version: 2020_11_20_050645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +41,23 @@ ActiveRecord::Schema.define(version: 2020_11_19_054127) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
+    t.bigint "payment_info_id"
+    t.index ["payment_info_id"], name: "index_orders_on_payment_info_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "payment_infos", force: :cascade do |t|
+    t.string "email"
+    t.string "address"
+    t.string "credit_card_name"
+    t.integer "credit_card_number"
+    t.string "credit_card_exp"
+    t.integer "credit_card_CVV"
+    t.integer "zip_code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_payment_infos_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -72,6 +86,10 @@ ActiveRecord::Schema.define(version: 2020_11_19_054127) do
     t.integer "order_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "uid"
+    t.string "provider"
+    t.string "photo_url"
+    t.string "bio"
   end
 
 end
