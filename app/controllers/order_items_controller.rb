@@ -3,92 +3,77 @@ class OrderItemsController < ApplicationController
   # before_action :validate_quantity, only: [:create, :update]
 
   def create
-    # @book = Book.new(book_params)
-    #
-    # if @book.save
-    #   redirect_to :action => 'list'
-    # else
-    #   @subjects = Subject.all
-    #   render :action => 'new'
-    # end
-
-    qty = params["quantity"].to_i
-    new_item = params["product_id"]  #Product.find_by(id: params["product_id"])
-
-    if session[:order_id] == nil
+    #is there an existing order? if not, create a new Order
+    if session[:order_id] == nil || session[:order_id] == false
       @order = Order.new(status: "pending")
+      unless @order.save
+        flash[:error] = "Something went wrong. Please refresh and try again."
+      end
       session[:order_id] = @order.id
+
     else
       @order.find_by(id: session[:order_id])
     end
 
-    session[:order].each do |item|
-      if item["product_id"] == new_item.id
-        if item["quantity"] < new_item.stock
-          item["quantity"] += 1
-          flash[:sucess] = "#{item.name} added to cart."
-          redirect_to order_path
-          return
-        elsif item["quantity"] == new_item.stock
-          flash[:error] = "#{item.name} is low in stock. Can't add to the cart."
-          redirect_to order_path
-          return
-        end
-      end
+    #if current order already contains the product, increase amount; else, add new item
+    @order_item = OrderItem.find_by(product_id: params[:product_id], order_id: session[:order_id])
+    if @order_item
+      @order_item.quantity += params[:order_item][:quantity].to_i
+    else
+      @order_item = OrderItem.new(
+          quantity: params[:order_item][:quantity],
+          product_id: params[:product_id],
+          order_id: @order.id
+      )
     end
 
-    #def update
+    #check validation
 
-    @order_item = OrderItem.new(quantity: qty, product_id: new_item.id, id: @order.id)
     if @order_item.save
-      session[:order] << @order_item     #array ?
-      flash[:success] = "#{new_item.name} added to the cart."
-      redirect_to product_path(new_item)
+      flash[:success] = "#{@order_item.product.name} added to the cart."
+      redirect_to order_path #check if this is the path we want
       return
     else
-      flash.now[:error] = "Something is wrong. Can't add #{Product.find_by(id: @order_item.product_id).name}"
+      flash.now[:error] = "Something is wrong. Can't add item to cart."
       render :new, status: :bad_request
+      redirect_to order_path #check if this is the path we want
       return
     end
-
-    flash[:error] = "#{new_item.name} is low in stock. Can't add to the cart."
-    #end
-
   end
 
-  def increase_quantity #work in progress
-    new_item = Product.find_by!(id: params[:product_id]).stock #please check if params[:product_id] is correct here -- and for the following
-
-    session[:order].each do |item|
-      if item["product_id"] == params["product_id"].to_i && item["quantity"] < new_item #here
-        item["quantity"] += 1
-        flash[:success] = "#{new_item.name} added to shopping cart."
-      elsif item["product_id"] == params["product_id"].to_i && item['quantity'] == product  #here
-        flash[:error] = "#{product[:name]} is low in stock. Can't add more to the cart."
-      end
-    end
-    redirect_to order_items_path
-    return
-  end
-
-
-  def decrease_quantity #work in progress
-    session[:order].each do |item|
-      current_item = Product.find(item["product_id"])
-      if current_item.quantity == 0
-        flash[:error] = "There is currently no #{current_item.name} in your cart."
-        redirect_back(fallback_location: order_items_path)
-        return
-      end
-
-      if item["product_id"] == params["product_id"].to_i  #here
-        item["quantity"] > 1 ? item["quantity"] -= 1 : session[:order].delete(item)
-      end
-    end
-    flash[:success] = "Item removed from cart."
-    redirect_to order_items_path
-    return
-  end
+  # def increase_quantity #work in progress
+  #   new_item = Product.find_by!(id: params[:product_id]).stock #please check if params[:product_id] is correct here -- and for the following
+  #
+  #   session[:order].each do |item|
+  #     if item["product_id"] == params["product_id"].to_i && item["quantity"] < new_item #here
+  #       item["quantity"] += 1
+  #       flash[:success] = "#{new_item.name} added to shopping cart."
+  #     elsif item["product_id"] == params["product_id"].to_i && item['quantity'] == product  #here
+  #       flash[:error] = "#{product[:name]} is low in stock. Can't add more to the cart."
+  #     end
+  #   end
+  #   redirect_to order_items_path
+  #   return
+  # end
+  #
+  #
+  # def decrease_quantity #work in progress
+  #   session[:order].each do |item|
+  #     current_item = Product.find(item["product_id"])
+  #     if current_item.quantity == 0
+  #       flash[:error] = "There is currently no #{current_item.name} in your cart."
+  #       redirect_back(fallback_location: order_items_path)
+  #       return
+  #     end
+  #
+  #     if item["product_id"] == params["product_id"].to_i  #here
+  #       item["quantity"] > 1 ? item["quantity"] -= 1 : session[:order].delete(item)
+  #     end
+  #   end
+  #   flash[:success] = "Item removed from cart."
+  #   redirect_to order_items_path
+  #   return
+  # end
 
 
   def delete_item  #destroy
