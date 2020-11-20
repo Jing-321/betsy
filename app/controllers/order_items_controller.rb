@@ -1,6 +1,9 @@
 class OrderItemsController < ApplicationController
   before_action :find_product, only: :create
-  # before_action :validate_quantity, only: [:create, :update]
+
+  def new
+    @order_item = OrderItem.new(order_item_params)
+  end
 
   def create
     new_qty = params["quantity"].to_i
@@ -33,46 +36,11 @@ class OrderItemsController < ApplicationController
   end
 
   def update
-    @order.order_item.quantity = params[:new_quantity]
-    @order.order_item.save
+    @order_item.quantity = params[:new_quantity]
+    @order_item.save
     flash[:success] = "Quantity updated"
     redirect_to order_path(session[:order_id])
   end
-
-  # def increase_quantity #work in progress
-  #   new_item = Product.find_by!(id: params[:product_id]).stock #please check if params[:product_id] is correct here -- and for the following
-  #
-  #   session[:order].each do |item|
-  #     if item["product_id"] == params["product_id"].to_i && item["quantity"] < new_item #here
-  #       item["quantity"] += 1
-  #       flash[:success] = "#{new_item.name} added to shopping cart."
-  #     elsif item["product_id"] == params["product_id"].to_i && item['quantity'] == product  #here
-  #       flash[:error] = "#{product[:name]} is low in stock. Can't add more to the cart."
-  #     end
-  #   end
-  #   redirect_to order_items_path
-  #   return
-  # end
-  #
-  #
-  # def decrease_quantity #work in progress
-  #   session[:order].each do |item|
-  #     current_item = Product.find(item["product_id"])
-  #     if current_item.quantity == 0
-  #       flash[:error] = "There is currently no #{current_item.name} in your cart."
-  #       redirect_back(fallback_location: order_items_path)
-  #       return
-  #     end
-  #
-  #     if item["product_id"] == params["product_id"].to_i  #here
-  #       item["quantity"] > 1 ? item["quantity"] -= 1 : session[:order].delete(item)
-  #     end
-  #   end
-  #   flash[:success] = "Item removed from cart."
-  #   redirect_to order_items_path
-  #   return
-  # end
-
 
   def delete_item  #destroy
     @order_item.destroy
