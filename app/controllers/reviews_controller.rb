@@ -16,8 +16,10 @@ class ReviewsController < ApplicationController
   # end
 
   def create
+    #How do we know what the guest user_id is???
+    @user = User.find(session[:user_id])
     @product = Product.find(params[:product_id])
-    @review = @product.reviews.build(params[:review])
+    @review = Review.new(review_params)
 
     if @review.save
       flash[:notice] = 'Review was successfully created.'
