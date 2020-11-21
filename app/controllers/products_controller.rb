@@ -60,6 +60,10 @@ class ProductsController < ApplicationController
     return
   end
 
+  def explore
+    @products = Product.get_top_rated
+  end
+
   private
 
   def product_params

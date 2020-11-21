@@ -28,4 +28,9 @@ class Product < ApplicationRecord
     return average / 10 == 0 ? average : average.round(1)
   end
 
+  def self.get_top_rated
+    # use avg rating to get the top rated trips
+    # if there no rated trips, sample a collection of them
+  end
+
 end
