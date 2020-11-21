@@ -3,8 +3,11 @@ Rails.application.routes.draw do
   root to: "products#index"
   resources :products
   resources :users, only: [:index, :show, :edit]
+  get '/users/id/user_account', to: 'users#user_account', as: 'user_account'
   get '/users/id/order_history', to: 'users#order_history', as: 'order_history'
-  resources :orders, except: [:index, :new]
+
+  get '/orders/shopping_cart', to: 'orders#shopping_cart', as: 'shopping_cart'
+  resources :orders, except: [:new]
   resources :order_items, except: [:index, :show, :new]
 
   #lower priority

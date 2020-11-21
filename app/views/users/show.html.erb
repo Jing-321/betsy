@@ -1,48 +1,41 @@
-<main>
-  <h2>Welcome! </h2>
-  <h3><%= link_to @current_user.username, current_user_path %></h3>
-  <p>Joined site <%= @current_user.created_at.to_date %></p>
-
-
-
-  <div class="container" style="margin-top: 5rem">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <%= link_to "Account Information", user_account_path() %>
-      </li>
-    </ul>
+<main class="show_page_container">
+  <div class="card">
+    <img class="card-img-top avatar" alt="<%=@user.username %>" src="<%=@user.photo_url %>">
+    <div class="card-body">
+      <h5 class="card-title"><%= @user.username %></h5>
+      <p class="card-text"> <%=@user.bio %></p>
+    </div>
   </div>
 
-  <section class="account-info-section" id="member_email">
-    <header>
-      <h4>Email</h4>
-    </header>
+  <table class="table table-hover tour_list_table">
+    <thead>
+    <tr>
+      <th> </th>
+      <th>Tour</th>
+      <th>Group Size</th>
+      <th>Available Date</th>
+      <th>Price</th>
+    </tr>
+    </thead>
 
-    <div>
-      <p> <%= @current_user.email %></p>
-    </div>
+    <tbody>
+      <tr>
+        <td><button class="btn btn-primary">Book</button></td>
+        <td>Boat around Lake Washington</td>
+        <td>3</td>
+        <td>Every Wednesday</td>
+        <td>$15</td>
+      </tr>
 
-  </section>
-
-
-  <section class="account-info-section" id="member_addresses">
-    <header>
-      <h4>Shipping Addresses</h4>
-
-      <button id="add_address" class="btn rue-button" href="/account/address/add/" type="submit">Add Address</button>
-    </header>
-
-    <div>
-      <p> <%= @current_user.address %></p>
-    </div>
-
-    <div class="actions">
-      <%= link_to "Edit", "/account/address/edit/#{@current_user.id}" %>
-      <%= link_to "Remove", "/account/address/delete/#{@current_user.id}" %>
-    </div>
-
-  </section>
-
+      <tr>
+        <td><button class="btn btn-primary">Book</button></td>
+        <td>Hike the Gorgeous Trails in Washington</td>
+        <td>4</td>
+        <td>Every Weekday</td>
+        <td>$10</td>
+      </tr>
+    </tbody>
+  </table>
 
 
 </main>

@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :find_user, only: [:show]
-  before_action :current, only: [:show]
+  before_action :current, only: [:show, :user_account, :order_history]
 
 
   def create
@@ -40,10 +39,21 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = User.find_by(id: params[:id])
     if @user.nil?
       head :not_found
       return
     end
+  end
+
+  def user_account
+    @products = @current_user.products
+    @payment_infos = @current_user.payment_infos
+    @addresse = @current_user.payment_infos.first.address
+  end
+
+  def order_history
+    @orders = @current_user.orders
   end
 
   def current
@@ -75,8 +85,8 @@ class UsersController < ApplicationController
 
   private
 
-  def find_user
-    @user = User.find_by(id: params[:id])
-  end
+  # def find_user
+  #   @user = User.find_by(id: params[:id])
+  # end
 
 end
