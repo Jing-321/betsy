@@ -50,6 +50,7 @@ class UsersController < ApplicationController
     @products = @current_user.products
     @payment_infos = @current_user.payment_infos
     @addresse = @current_user.payment_infos.first.address
+
   end
 
   def order_history

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   resources :orders, except: [:new]
   resources :order_items, except: [:index, :show, :new]
 
+  resources :payment_infos, except: [:index, :show]
+
   #lower priority
   resources :categories
 

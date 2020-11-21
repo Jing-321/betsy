@@ -29,7 +29,12 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Shipping Address</h5>
-      <p class="card-text"> <%=@address %> </p>
+      <%if @address.nil? %>
+        <p class="card-text"> No address saved </p>
+      <%else %>
+        <p class="card-text"> <%=@address %> </p>
+      <%end %>
+
       <%= link_to "Edit", edit_user_path(@current_user), class: "btn btn-primary" %>
     </div>
   </div>

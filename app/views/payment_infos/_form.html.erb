@@ -1,0 +1,35 @@
+<% if @payment_info.errors.any? %>
+  <ul class="errors">
+    <% @payment_info.errors.each do |column, message| %>
+      <li>
+        <strong><%= column.capitalize %></strong> <%= message %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @payment_info, class: 'create-book' do |f| %>
+
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+
+  <%= f.label :address %>
+  <%= f.label :address %>
+
+  <%= f.label "credit card name" %>
+  <%= f.text_field :credit_card_name %>
+
+  <%= f.label "credit card number" %>
+  <%= f.text_field :credit_card_number %>
+
+  <%= f.label "EXP" %>
+  <%= f.text_field :credit_card_exp %>
+
+  <%= f.label "CVV" %>
+  <%= f.text_field :credit_card_CVV %>
+
+  <%= f.label "zip code" %>
+  <%= f.text_field :zip_code %>
+
+  <%= f.submit "Submit", class: "btn btn-primary" %>
+<% end %>
