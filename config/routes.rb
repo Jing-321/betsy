@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show, :edit]
   get '/users/id/user_account', to: 'users#user_account', as: 'user_account'
   get '/users/id/order_history', to: 'users#order_history', as: 'order_history'
+
+  get '/orders/shopping_cart', to: 'orders#shopping_cart', as: 'shopping_cart'
   resources :orders, except: [:new]
-  get '/orders/empty_cart', to: 'orders#empty_cart', as: 'empty_cart'
   resources :order_items, except: [:index, :show, :new]
 
   #lower priority
