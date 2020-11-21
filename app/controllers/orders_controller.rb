@@ -31,6 +31,7 @@ class OrdersController < ApplicationController
 
   def shopping_cart
     @order = Order.find_by(session[:order_id])
+    @current_user = User.find(session[:user_id])
 
     if @order.nil?
       @items = []
