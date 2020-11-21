@@ -42,7 +42,7 @@ class OrderItemsController < ApplicationController
     redirect_to order_path(session[:order_id])
   end
 
-  def delete_item  #destroy
+  def destroy
     @order_item.destroy
     flash.now[:status] = :success
     flash.now[:result_text] = "#{@order_item.product.name} removed from cart."
