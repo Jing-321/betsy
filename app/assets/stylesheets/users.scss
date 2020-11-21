@@ -1,3 +1,42 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+.avatar {
+    max-width: 90%;
+    height: auto;
+    border:1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+}
+
+.card {
+    width: 15rem;
+    margin: 1rem 2rem 1rem 2rem;
+}
+
+.container {
+    display: flex;
+    flex-wrap:wrap;
+}
+
+.show_page_container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.user_account_container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tour_list_table {
+    width: 40rem;
+    margin-top: 3rem;
+}
+
+.index_page_book_btn {
+
+}
