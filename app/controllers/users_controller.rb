@@ -14,7 +14,7 @@ class UsersController < ApplicationController
       if user.save
         flash[:success] = "Logged in as new user #{user.username}."
       else
-        flash[:error] = "Sorry, could not create new account #{user.errors.message}"
+        flash[:error] = "Sorry, could not create new account #{user.errors.messages}"
         return redirect_to root_path
       end
     end
