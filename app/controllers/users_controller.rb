@@ -56,6 +56,9 @@ class UsersController < ApplicationController
     @orders = @current_user.orders
   end
 
+  def manage_tours
+    @products = @current_user.products
+  end
 
   private
 
@@ -67,3 +70,4 @@ class UsersController < ApplicationController
       return
     end
   end
+end
