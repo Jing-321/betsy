@@ -1,6 +1,9 @@
 require "test_helper"
 
 describe Category do
+  let(:category) {
+    Category.new(name: "test category")
+  }
   describe "Validations" do
     it "is valid with all fields present" do
 
