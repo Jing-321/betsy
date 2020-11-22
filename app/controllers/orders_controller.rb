@@ -21,14 +21,19 @@ class OrdersController < ApplicationController
   end
 
   def shopping_cart
-    @current_user = User.find(session[:user_id])
-
-    if session[:order_id].nil?
+    if session[:user_id].nil?
       @items = []
     else
-      @order = Order.find(session[:order_id])
-      @items = @order.order_items.order(created_at: :desc)
+      @current_user = User.find(session[:user_id])
+      if session[:order_id].nil?
+        @items = []
+      else
+        @order = Order.find(session[:order_id])
+        @items = @order.order_items.order(created_at: :desc)
+      end
     end
+
+
   end
 
   def destroy
