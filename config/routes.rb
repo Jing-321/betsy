@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :products do
     resources :reviews, only: [:create]
   end
+
+
   resources :users, only: [:index, :show, :edit]
   get '/users/id/user_account', to: 'users#user_account', as: 'user_account'
   get '/users/id/order_history', to: 'users#order_history', as: 'order_history'

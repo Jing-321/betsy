@@ -31,7 +31,13 @@ class ProductsController < ApplicationController
     end
   end
 
-  def edit; end
+  # def edit
+  #   @product = Product.find_by(id: params[:id])
+  #   if @product.nil?
+  #     redirect_to products_path
+  #     return
+  #   end
+  # end
 
   def update
     if @product.update(product_params)
@@ -53,10 +59,13 @@ class ProductsController < ApplicationController
 
   def retire
     if @product.retire
-      if @product.active == true
-        flash[:success] = "#{@product.name} is now active and will appear on searches."
-      else
+      if @product.active # == true
+        @product.update(active: false)
         flash[:success] = "#{@product.name} is now retired and won't appear on searches."
+        redirect_to product_path(@product.id)
+      else
+        @product.update(active: true)
+        flash[:success] = "#{@product.name} is now retired and will appear on searches."
       end
       redirect_to product_path(@product.id)
     end
@@ -86,5 +95,12 @@ class ProductsController < ApplicationController
     return @product
   end
 
+  def check_authorization
+    if @product.user_id != @user.id
+      flash.now[:warning] = "You are not authorized to view this page."
+      render 'products/index', status: :unauthorized
+      return
+    end
+  end
 
 end
