@@ -1,12 +1,11 @@
 class ProductsController < ApplicationController
 
-  # before_action :verify_merchant, only: [:edit, :update, :destroy]
   before_action :find_product, only: [:show, :edit, :update, :destroy]
+  before_action :check_authorization, only: [:edit, :update, :retire]
 
-  # skip_before_action :require_login, only: [:root, :show, :index]
 
   def index
-    @products = Product.all
+    @products = Product.where(active: true)
   end
 
   def show
@@ -18,8 +17,8 @@ class ProductsController < ApplicationController
   end
 
   def create
-    # @product.merchant_id = session[:merchant_id]
     @product = Product.new(product_params)
+    @product.user_id = session[:user_id]
 
     if @product.save
       flash[:success] = "#{@product.name} has been added to the tour list"
@@ -52,18 +51,29 @@ class ProductsController < ApplicationController
     # return head :not_found if !product
   end
 
-  def destroy
-    @product.destroy
-    flash[:success] = "#{@product.name} has been deleted."
-    #todo: what is the correct pathway here?
-    redirect_to current_merchant_path #check terms
-    return
+  def retire
+    if @product.retire
+      if @product.active == true
+        flash[:success] = "#{@product.name} is now active and will appear on searches."
+      else
+        flash[:success] = "#{@product.name} is now retired and won't appear on searches."
+      end
+      redirect_to product_path(@product.id)
+    end
   end
+
+  # def destroy
+  #   @product.destroy
+  #   flash[:success] = "#{@product.name} has been deleted."
+  #   #todo: what is the correct pathway here?
+  #   redirect_to current_merchant_path #check terms
+  #   return
+  # end
 
   private
 
   def product_params
-    return params.require(:product).permit(:name, :price, :description, :stock, :status, category_ids: []) #user_id
+    return params.require(:product).permit(:name, :price, :description, :stock, :status, :active, category_ids: []) #user_id
   end
 
   def find_product
