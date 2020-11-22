@@ -1,4 +1,4 @@
-class Product < ApplicationRecord
+ class Product < ApplicationRecord
   #id (default)
   # name
   # description
@@ -26,6 +26,10 @@ class Product < ApplicationRecord
 
     average = all_ratings.sum / all_ratings.length.to_f
     return average / 10 == 0 ? average : average.round(1)
+  end
+
+  def self.get_top_rated
+    return all.sort {|a,b| a.avg_rating <=> b.avg_rating}.first(4)
   end
 
 end

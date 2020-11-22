@@ -1,0 +1,14 @@
+<h2>Explore Available Tours</h2>
+
+<div class="row row-cols-3">
+  <% @products.each do |product| %>
+    <div class="card col">
+      <img src=<%= product.photo_url %> class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title"><%= product.name %></h5>
+        <p class="card-text"><%= product.description %></p>
+        <%= link_to "See Details", product_path(product), class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>
