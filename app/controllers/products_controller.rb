@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
 
   before_action :find_product, only: [:show, :edit, :update, :destroy]
-  before_action :check_authorization, only: [:edit, :update, :retire]
+  # before_action :check_authorization, only: [:edit, :update, :retire]
 
 
   def index
