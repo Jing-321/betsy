@@ -50,7 +50,7 @@ class UsersController < ApplicationController
     @products = @current_user.products
 
 
-    if @current_user.payment_infos.nil?
+    if @current_user.payment_infos.nil? || @current_user.payment_infos == []
       @address = "No address saved"
     else
       @payment_infos = @current_user.payment_infos
