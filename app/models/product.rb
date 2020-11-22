@@ -1,4 +1,4 @@
-class Product < ApplicationRecord
+ class Product < ApplicationRecord
   #id (default)
   # name
   # description
@@ -29,8 +29,7 @@ class Product < ApplicationRecord
   end
 
   def self.get_top_rated
-    # use avg rating to get the top rated trips
-    # if there no rated trips, sample a collection of them
+    return all.sort {|a,b| a.avg_rating <=> b.avg_rating}.first(4)
   end
 
 end
