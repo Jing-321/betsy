@@ -1,16 +1,7 @@
 class OrdersController < ApplicationController
 
-  before_action :find_order, only: [:submit, :checkout]
+  before_action :find_order, only: [:submit, :checkout, :submit]
 
-
-
-  def find_order
-    @order = Order.find_by(session[:order_id])
-    if @order.nil?
-      flash[:error] = "Sorry, can't find the order."
-      return redirect_to root_path
-    end
-  end
 
   # def index
   #   if params[:user_id]
@@ -20,9 +11,9 @@ class OrdersController < ApplicationController
   # end
 
   def show
-    @order = Order.find_by(session[:order_id])
+    @order = Order.find_by(id: session[:order_id])
 
-    if @order.nil?
+    if session[:order_id].nil?
       @items = []
     else
       @items = @order.order_items.order(created_at: :desc)
@@ -30,12 +21,12 @@ class OrdersController < ApplicationController
   end
 
   def shopping_cart
-    @order = Order.find_by(session[:order_id])
     @current_user = User.find(session[:user_id])
 
-    if @order.nil?
+    if session[:order_id].nil?
       @items = []
     else
+      @order = Order.find(session[:order_id])
       @items = @order.order_items.order(created_at: :desc)
     end
   end
@@ -53,24 +44,15 @@ class OrdersController < ApplicationController
     end
     @current_user = User.find_by(id: session[:user_id])
     @order = Order.find(session[:order_id])
-
-
-
   end
 
   def submit
-    #### check address & payment
-    if @order.nil?
-      head :not_found
-      return
-    else
-
-      @order.status = "completed"
-      @items = @order.order_item
-      @items.each do |item|
-        Product.find(item.product).stock -= item.quantity
-      end
+    @order.status = "completed"
+    @items = @order.order_items
+    @items.each do |item|
+      Product.find(item.product).stock -= item.quantity
     end
+    return
   end
 
   private
@@ -78,4 +60,11 @@ class OrdersController < ApplicationController
     return params.require(:order).permit(:user_id, :status)
   end
 
+  def find_order
+    @order = Order.find_by(session[:order_id])
+    if @order.nil?
+      flash[:error] = "Sorry, can't find the order."
+      return redirect_to root_path
+    end
+  end
 end

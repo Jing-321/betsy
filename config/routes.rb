@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get '/users/id/order_history', to: 'users#order_history', as: 'order_history'
 
   get '/orders/shopping_cart', to: 'orders#shopping_cart', as: 'shopping_cart'
+  get '/orders/id/submit', to: 'orders#submit', as: 'order_submit'
   resources :orders, except: [:new]
   resources :order_items, except: [:index, :show, :new]
   resources :reviews, only: [:new]
