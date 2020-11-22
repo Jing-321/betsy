@@ -1,4 +1,4 @@
-class Product < ApplicationRecord
+ class Product < ApplicationRecord
   #id (default)
   # name
   # description
@@ -36,6 +36,11 @@ class Product < ApplicationRecord
     else
       return self.update(active: true)
     end
+  end
+
+
+  def self.get_top_rated
+    return all.sort {|a,b| a.avg_rating <=> b.avg_rating}.first(4)
   end
 
 end

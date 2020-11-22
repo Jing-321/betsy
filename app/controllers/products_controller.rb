@@ -18,7 +18,7 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-    @product.user_id = session[:user_id]
+    @product.user = User.find_by(id: session[:user_id])
 
     if @product.save
       flash[:success] = "#{@product.name} has been added to the tour list"
@@ -71,13 +71,9 @@ class ProductsController < ApplicationController
     end
   end
 
-  # def destroy
-  #   @product.destroy
-  #   flash[:success] = "#{@product.name} has been deleted."
-  #   #todo: what is the correct pathway here?
-  #   redirect_to current_merchant_path #check terms
-  #   return
-  # end
+  def explore
+    @products = Product.get_top_rated
+  end
 
   private
 

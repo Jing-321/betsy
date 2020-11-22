@@ -12,28 +12,23 @@
     <tr>
       <th> </th>
       <th>Tour</th>
-      <th>Group Size</th>
-      <th>Available Date</th>
       <th>Price</th>
+      <th>Rating</th>
+      <th>Stock</th>
     </tr>
     </thead>
 
     <tbody>
+      <% @user.products.each do |product| %>
       <tr>
         <td><button class="btn btn-primary">Book</button></td>
-        <td>Boat around Lake Washington</td>
-        <td>3</td>
-        <td>Every Wednesday</td>
-        <td>$15</td>
+        <td><%= product.name %></td>
+        <td><%= product.price %></td>
+        <td><%= product.avg_rating %></td>
+        <td><%= product.stock %></td>
       </tr>
+      <% end %>
 
-      <tr>
-        <td><button class="btn btn-primary">Book</button></td>
-        <td>Hike the Gorgeous Trails in Washington</td>
-        <td>4</td>
-        <td>Every Weekday</td>
-        <td>$10</td>
-      </tr>
     </tbody>
   </table>
 
