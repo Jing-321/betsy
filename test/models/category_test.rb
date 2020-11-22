@@ -1,7 +1,29 @@
 require "test_helper"
 
 describe Category do
-  # it "does a thing" do
-  #   value(1+1).must_equal 2
-  # end
+  describe "Validations" do
+    it "is valid with all fields present" do
+
+    end
+
+    it "is invalid when there is no name" do
+
+    end
+
+    it "is invalid when if name of the category already exists" do
+
+    end
+  end
+
+  describe "Relationships" do
+    it "can have many products" do
+
+    end
+
+    it "can belong to many products" do
+
+    end
+  end
+
+
 end
