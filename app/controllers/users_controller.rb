@@ -48,9 +48,14 @@ class UsersController < ApplicationController
 
   def user_account
     @products = @current_user.products
-    @payment_infos = @current_user.payment_infos
-    @addresse = @current_user.payment_infos.first.address
 
+
+    if @current_user.payment_infos.nil?
+      @address = "No address saved"
+    else
+      @payment_infos = @current_user.payment_infos
+      @address = @current_user.payment_infos.first.address
+    end
   end
 
   def order_history
