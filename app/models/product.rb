@@ -10,7 +10,7 @@ class Product < ApplicationRecord
   # category_id *lower priority
 
   has_many :order_items
-
+  belongs_to :user
   has_many :reviews, dependent: :destroy
   has_and_belongs_to_many :categories
 

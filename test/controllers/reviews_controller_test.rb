@@ -26,8 +26,7 @@ describe ReviewsController do
 
       review = Review.find_by(rating: 4)
       must_respond_with :redirect
-      must_redirect_to review_path(review)
-      expect(flash[:success]).must_include new_params[:review][:rating]
+      must_redirect_to product_path(products(:hawaii).id)
 
       expect(review.rating).must_equal new_params[:review][:rating]
       expect(review.text_review).must_equal new_params[:review][:text_review]
@@ -40,7 +39,8 @@ describe ReviewsController do
       post product_reviews_path(products(:hawaii).id), params: new_params
     }. wont_differ 'Review.count', 0
 
-    expect(flash.now[:error]).must_include "Something happened, could not create a review"
-    must_respond_with :bad_request
+    expect(flash.now[:error]).must_include "Error creating review"
+    must_respond_with :redirect
+    must_redirect_to product_path(products(:hawaii).id)
   end
 end
