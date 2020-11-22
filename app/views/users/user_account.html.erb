@@ -29,11 +29,7 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Shipping Address</h5>
-      <%if @address.nil? %>
-        <p class="card-text"> No address saved </p>
-      <%else %>
-        <p class="card-text"> <%=@address %> </p>
-      <%end %>
+      <p class="card-text"> <%=@address %> </p>
 
       <%= link_to "Edit", edit_user_path(@current_user), class: "btn btn-primary" %>
     </div>
@@ -43,15 +39,20 @@
     <div class="card-body">
       <h5 class="card-title">Credit Card Info</h5>
     </div>
-    <%@payment_infos.each do |payment_info| %>
-    <ul class="list-group">
-      <li class="list-group-item">Card No.=>  <%= payment_info.credit_card_number %></li>
-      <li class="list-group-item">Name on Card => <%= payment_info.credit_card_name %></li>
-      <li class="list-group-item">exp => <%= payment_info.credit_card_exp %></li>
-      <li class="list-group-item">CVV => <%= payment_info.credit_card_CVV %></li>
-      <li class="list-group-item">Billing Address => <%= payment_info.address %></li>
-      <li class="list-group-item">zip code => <%= payment_info.zip_code %></li>
-    </ul>
+
+    <%if @payment_infos.nil? %>
+      <p class="card-text"> No credit card information saved </p>
+    <%else %>
+      <%@payment_infos.each do |payment_info| %>
+        <ul class="list-group">
+          <li class="list-group-item">Card No.=>  <%= payment_info.credit_card_number %></li>
+          <li class="list-group-item">Name on Card => <%= payment_info.credit_card_name %></li>
+          <li class="list-group-item">exp => <%= payment_info.credit_card_exp %></li>
+          <li class="list-group-item">CVV => <%= payment_info.credit_card_CVV %></li>
+          <li class="list-group-item">Billing Address => <%= payment_info.address %></li>
+          <li class="list-group-item">zip code => <%= payment_info.zip_code %></li>
+        </ul>
+      <%end %>
     <%end %>
     <div class="card-body">
       <%= link_to "Edit", edit_user_path(@current_user), class: "btn btn-primary" %>
