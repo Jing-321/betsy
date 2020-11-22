@@ -1,5 +1,5 @@
 class PaymentInfosController < ApplicationController
-  before_action :find_payment_info, only: [:update, :destroy]
+  before_action :find_payment_info, only: [:edit, :update, :destroy]
 
   def new
     @current_user = User.find(session[:user_id])
@@ -14,7 +14,7 @@ class PaymentInfosController < ApplicationController
     @payment_info = PaymentInfo.new(payment_info_params)
     if @payment_info.save
       flash[:success] = "Payment information received."
-      return redirect_to order_confirmation
+      return redirect_to order_submit_path
     else
       flash.now[:error] = "Payment information invalid. Please try again."
       return render :new, status: :bad_request
@@ -33,8 +33,8 @@ class PaymentInfosController < ApplicationController
       head :not_found
       return
     elsif @payment_info.update(payment_info_params)
-      flash[:success] = "Payment information updated."
-      redirect_to user_path(session[:user_id])
+      flash[:success] = "Payment information received."
+      return redirect_to order_submit_path
     else
       flash.now[:error] = "Payment information invalid. Update failed."
       render :edit, status: :bad_request
@@ -61,6 +61,6 @@ class PaymentInfosController < ApplicationController
   end
 
   def find_payment_info
-    @payment_info = PaymentInfo.find(params[:payment_info_id])
+    @payment_info = PaymentInfo.find(params[:id])
   end
 end
