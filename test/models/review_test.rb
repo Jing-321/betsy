@@ -3,9 +3,9 @@ require "test_helper"
 describe Review do
   let(:review) {
     Review.new(rating: 5,
-                            text_review: "Trip was great!",
-                            product_id: products(:hawaii).id,
-                            user_id: users(:jasmine).id) }
+      text_review: "Trip was great!",
+      product_id: products(:hawaii).id)
+    }
 
   it "can be instantiated" do
     expect(review.valid?).must_equal true
@@ -55,18 +55,6 @@ describe Review do
 
     it "is invalid without a product id" do
       review.product_id = nil
-      result = review.valid?
-
-      expect(result).must_equal false
-    end
-    it "belongs to user" do
-      result = review.user
-
-      expect(result).must_equal users(:jasmine)
-    end
-
-    it "is invalid without a user id" do
-      review.user_id = nil
       result = review.valid?
 
       expect(result).must_equal false

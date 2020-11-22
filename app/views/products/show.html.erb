@@ -10,17 +10,18 @@
 <%= link_to "Edit Tour", edit_product_path(@product), class: "btn btn-primary" %>
 <%= link_to "Add to Cart", "", class: "btn btn-primary" %>
 <%= link_to "See All Tours", products_path, class: "btn btn-primary" %>
+<%= link_to "Rate Trip", new_review_path, class: "btn btn-primary" %>
 
-<!--<section class="product-reviews">-->
-<!--  <h3>Reviews</h3>-->
-    <%# @product.reviews.each do |review| %>
-<!--      <section>-->
+<section class="product-reviews">
+  <h3>Reviews</h3>
+    <% @product.reviews.each do |review| %>
+      <section>
 <!--        <p><%#= review.title %></p>-->
 <!--        <p> Reviewer: <%#= review.name %></p>-->
         <%# todo: updating rating system %>
-<!--        <p><%#= review.rating %></p>-->
-<!--        <p><%#= review.description %></p>-->
-<!--      </section>-->
-    <%# end %>
-<!--</section>-->
+        <p><%= review.rating %></p>
+        <p><%= review.text_review %></p>
+      </section>
+    <% end %>
+</section>
 
