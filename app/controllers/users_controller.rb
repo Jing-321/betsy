@@ -2,6 +2,10 @@ class UsersController < ApplicationController
 
   before_action :current, only: [:show, :user_account, :order_history]
 
+  def index
+    @users = User.all
+    #@users = User.where.not("uid = nil")
+  end
 
   def create
     auth_hash = request.env["omniauth.auth"]
@@ -22,20 +26,10 @@ class UsersController < ApplicationController
     return redirect_to root_path
   end
 
-
   def destroy
     session[:user_id] = nil
     flash[:success] = "Logged out. See you next time!"
     return redirect_to root_path
-  end
-
-  def index
-    @users = User.all
-    #@users = User.where.not("uid = nil")
-  end
-
-  def edit
-
   end
 
   def show
@@ -62,6 +56,8 @@ class UsersController < ApplicationController
     @orders = @current_user.orders
   end
 
+  private
+
   def current
     @current_user = User.find_by(id: session[:user_id])
     unless @current_user
@@ -70,29 +66,5 @@ class UsersController < ApplicationController
       return
     end
   end
-
-  def create_guest
-    session[:guest_user_id] = save_guest.id
-  end
-
-  def save_guest
-    user = User.create(username: 'guest', password: 'guest')
-    user.save(validate: false)
-    user
-  end
-
-  def guest_user
-    User.find(session[:guest_user_id]) if session[:guest_user_id]
-  end
-
-  def guest?
-    !!guest_user
-  end
-
-  private
-
-  # def find_user
-  #   @user = User.find_by(id: params[:id])
-  # end
 
 end
