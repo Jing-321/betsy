@@ -18,8 +18,9 @@ class ProductsController < ApplicationController
   end
 
   def create
-    # @product.merchant_id = session[:merchant_id]
+
     @product = Product.new(product_params)
+    @product.user = User.find_by(id: session[:user_id])
 
     if @product.save
       flash[:success] = "#{@product.name} has been added to the tour list"
