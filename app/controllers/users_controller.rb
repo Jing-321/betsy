@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :current, only: [:show, :user_account, :order_history]
+  before_action :current, only: [:show, :user_account, :order_history, :manage_tours]
 
 
   def create
@@ -62,6 +62,10 @@ class UsersController < ApplicationController
     @orders = @current_user.orders
   end
 
+  def manage_tours
+    @products = @current_user.products
+  end
+
   def current
     @current_user = User.find_by(id: session[:user_id])
     unless @current_user
@@ -70,6 +74,7 @@ class UsersController < ApplicationController
       return
     end
   end
+
 
   def create_guest
     session[:guest_user_id] = save_guest.id
@@ -88,6 +93,8 @@ class UsersController < ApplicationController
   def guest?
     !!guest_user
   end
+
+
 
   private
 
