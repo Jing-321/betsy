@@ -24,34 +24,66 @@ describe Product do
   end
   describe "Validations" do
     it "must have a name" do
+      new_tour.name = nil
+      expect(new_tour.valid?).must_equal false
+      expect(new_tour.errors.messages).must_include :name
+      expect(new_tour.errors.messages[:name]).must_equal ["can't be blank"]
 
     end
     it "must have a description" do
-
+      new_tour.description = nil
+      expect(new_tour.valid?).must_equal false
+      expect(new_tour.errors.messages).must_include :description
+      expect(new_tour.errors.messages[:description]).must_equal ["can't be blank"]
     end
 
     it "must have a price" do
-
+      new_tour.price = nil
+      expect(new_tour.valid?).must_equal false
+      expect(new_tour.errors.messages).must_include :price
+      expect(new_tour.errors.messages[:price]).must_include "can't be blank"
     end
 
-    it "must have a price that is greater than 0" do
+    it "must have a price that is greater than or equal to 0" do
+      new_tour.price = -3
+      expect(new_tour.valid?).must_equal false
+      expect(new_tour.errors.messages).must_include :price
+      expect(new_tour.errors.messages[:price]).must_include "must be greater than or equal to 0"
+    end
 
+    it "must be a number" do
+      new_tour.price = "a"
+      expect(new_tour.valid?).must_equal false
+      expect(new_tour.errors.messages).must_include :price
+      expect(new_tour.errors.messages[:price]).must_include "is not a number"
     end
 
     it "must have a price that is only an integer" do
-
+      new_tour.price = 5.6
+      expect(new_tour.valid?).must_equal false
+      expect(new_tour.errors.messages).must_include :price
+      expect(new_tour.errors.messages[:price]).must_include "must be an integer"
     end
 
     it "must have stock" do
-
+      new_tour.stock = nil
+      expect(new_tour.valid?).must_equal false
+      expect(new_tour.errors.messages).must_include :stock
+      expect(new_tour.errors.messages[:stock]).must_include "can't be blank"
     end
 
-    it "it must have a stock greater than 0" do
-
+    it "it must be greater than or equal to" do
+      new_tour.stock = -1
+      expect(new_tour.valid?).must_equal false
+      expect(new_tour.errors.messages).must_include :stock
+      expect(new_tour.errors.messages[:stock]).must_include "must be greater than or equal to 0"
     end
 
     it "must have a user_id" do
-
+      new_tour.user_id = nil
+      expect(new_tour.valid?).must_equal false
+      expect(new_tour.errors.messages).must_include :user_id
+      expect(new_tour.errors.messages[:user_id]).must_include "can't be blank"
     end
   end
 
