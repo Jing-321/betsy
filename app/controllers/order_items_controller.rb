@@ -54,6 +54,25 @@ class OrderItemsController < ApplicationController
     end
   end
 
+  def increase_qty
+    if session[:order_id] == nil || session[:order_id] == false
+      return "Your cart is empty. Please add some adventures to it."
+    end
+
+    @product = Product.find_by(id: )
+
+    session[:order_id].each do |item|
+      if item["product_id"] ==
+    end
+
+
+    end
+
+    def decrease_qty
+
+    end
+
+
 
   private
 
