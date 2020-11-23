@@ -23,14 +23,14 @@ class ReviewsController < ApplicationController
     @product = Product.find(params[:product_id])
 
     @review = Review.new(review_params)
-    @review.rating = rand(1..5)
+    # @review.rating = rand(1..5)
     @review.product = @product
     check_authorization
     if @review.save
       flash[:success] = 'Review was successfully created.'
       redirect_to product_path(@product)
     else
-      flash[:error] = "Error creating review: #{@review.errors}"
+      flash[:error] = "Error creating review: #{@review.format_errors}"
       redirect_to product_path(@product)
     end
   end
