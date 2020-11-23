@@ -135,7 +135,7 @@ class ProductsController < ApplicationController
   end
 
   def explore
-    @products = Product.where(active: true).get_top_rated
+    @products = Product.get_top_rated
   end
 
   # def change_status
