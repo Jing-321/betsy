@@ -5,10 +5,28 @@
   <h1><%= @product.name %></h1>
   <p><%= @product.description %></p>
   <p>$<%= @product.price %></p>
+
+  <p>Categories: <% @product.categories.each do |category| %>
+    <li><%= link_to category.name, category_path(category) %></li>
+  <%end%></p>
+
 </section>
 
 <%= link_to "Edit Tour", edit_product_path(@product), class: "btn btn-primary" %>
-<%= link_to "Add to Cart", "", class: "btn btn-primary" %>
+<%= link_to "Add to Cart", add_to_cart_path, class: "btn btn-primary" %>
+
+<%# if @product.stock > 0 %>
+  <%#= form_with model: @order_item, url: {:action => "add_to_cart"} do |f| %>
+
+    <%#= f.label "Quantity: ", class: "product-line" %>
+    <%#= f.select(:quantity, (1..@product.stock).map(&:to_i), {}, { class: "custom-select item_quantity_select" }) %>
+
+    <%#= f.submit "Add to Cart", class: "btn btn-primary" %>
+  <%# end %>
+<%# else %>
+<!--  <p>Sorry, this item is out of stock.</p>-->
+<%# end %>
+
 <%= link_to "See All Tours", products_path, class: "btn btn-primary" %>
 <%= link_to "Rate Trip", new_review_path, class: "btn btn-primary" %>
 
