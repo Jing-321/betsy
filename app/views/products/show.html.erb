@@ -23,16 +23,19 @@
 <%end%>
 
 <section class="product-reviews">
+  <br>
   <h3>Reviews</h3>
     <% @product.reviews.each do |review| %>
       <section>
-<!--        <p><%#= review.title %></p>-->
-<!--        <p> Reviewer: <%#= review.name %></p>-->
-        <%# todo: updating rating system %>
-        <p><%= review.rating %></p>
-        <p><%= review.text_review %></p>
+        <div class="rate-area">
+        <% review.rating.times do%>
+          <span> ★ </span>
+        <% end %>
+        </div>
       </section>
-    <% end %>
+    <p><%= review.text_review %></p>
+  <% end %>
+
 </section>
 
 

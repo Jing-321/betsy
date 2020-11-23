@@ -27,7 +27,7 @@
   text-shadow: 1px 1px #bbb;
 }
 
-.rate-area:not(:checked) > label:before { content: '★ '; }
+.rate-area:not(:checked) > label:before { content:'★'; }
 
 .rate-area > input:checked ~ label {
   color: gold;
