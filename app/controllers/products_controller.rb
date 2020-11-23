@@ -115,7 +115,7 @@ class ProductsController < ApplicationController
   end
 
   def check_authorization
-    if @product.user_id != @user.id
+    if @product.user_id != session[:user_id]
       flash.now[:warning] = "You are not authorized to view this page."
       render 'products/index', status: :unauthorized
       return
