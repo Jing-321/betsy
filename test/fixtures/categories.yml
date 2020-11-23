@@ -4,7 +4,9 @@ fun:
   name: Fun
 romantic:
   name: Romantic
-peacful:
+peaceful:
   name: Peaceful
 edu:
   name: Educational
+adventure:
+  name: Adventurous
