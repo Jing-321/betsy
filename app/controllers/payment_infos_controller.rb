@@ -14,10 +14,12 @@ class PaymentInfosController < ApplicationController
     @payment_info = PaymentInfo.new(payment_info_params)
     if session[:user_id].nil?
       guest = User.create(username: "guest")
-      User.find(@payment_info.user_id).username = @payment_info.email
+      User.find(guest.id).username = @payment_info.email
       @payment_info.user_id = guest.id
     else
       @payment_info.user_id = session[:user_id]
+      user = User.find(@payment_info.user_id)
+      user.username = @payment_info.email if user.username = "guest"
     end
 
     if @payment_info.save

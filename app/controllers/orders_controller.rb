@@ -3,12 +3,12 @@ class OrdersController < ApplicationController
   before_action :find_order, only: [:submit, :checkout, :submit]
 
 
-  # def index
-  #   if params[:user_id]
-  #     user = User.find_by(id: params[:user_id])
-  #     @orders = user.orders
-  #   end
-  # end
+  def index
+    if params[:user_id]
+      user = User.find_by(id: params[:user_id])
+      @orders = user.orders
+    end
+  end
 
   def show
     @order = Order.find_by(id: session[:order_id])
@@ -26,6 +26,7 @@ class OrdersController < ApplicationController
         @items = []
       else
         @order = Order.find(session[:order_id])
+        @items = @order.order_items.order(created_at: :desc)
       end
 
     else
@@ -64,6 +65,7 @@ class OrdersController < ApplicationController
       product.stock -= item.quantity
       product.save
     end
+    session[:order_id] = nil
     return
   end
 
