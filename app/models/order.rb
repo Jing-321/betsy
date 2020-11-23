@@ -1,10 +1,11 @@
 class Order < ApplicationRecord
   belongs_to :user
   has_many :order_items
-  belongs_to :payment_info
+  belongs_to :payment_info, optional: true
 
   validates :user_id, presence: true
-  validates :status, presence: true, inclusion: {in: ["pending", "completed"]}
+  validates :status, presence: true, inclusion: {in: ["pending", "complete"]}
+  # validates :payment_info, allow_nil: true, allow_blank: true
 
 
   def cart_total

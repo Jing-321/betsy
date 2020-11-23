@@ -12,13 +12,22 @@ class PaymentInfosController < ApplicationController
 
   def create
     @payment_info = PaymentInfo.new(payment_info_params)
-    if @payment_info.save
-      flash[:success] = "Payment information received."
-      return redirect_to order_submit_path
+    if session[:user_id].nil?
+      guest = User.create(username: "guest")
+      User.find(@payment_info.user_id).username = @payment_info.email
+      @payment_info.user_id = guest.id
     else
-      flash.now[:error] = "Payment information invalid. Please try again."
-      return render :new, status: :bad_request
+      @payment_info.user_id = session[:user_id]
     end
+
+    if @payment_info.save
+
+        flash[:success] = "Payment information received."
+        return redirect_to order_submit_path
+      else
+        flash.now[:error] = "Payment information invalid. Please try again."
+        return render :new, status: :bad_request
+      end
   end
 
   def edit

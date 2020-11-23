@@ -55,36 +55,57 @@ class ProductsController < ApplicationController
   end
 
   def add_to_cart
-    product = Product.find_by(id: params[:id])
-    if product.nil? || !product
+    @product = Product.find(params[:id])
+    if @product.nil? || !@product
       return head :not_found
     end
 
     if session[:order_id] == nil || session[:order_id] == false
-         order = Order.new(status: "pending")
+         order = Order.create!(user_id: session[:user_id], status: "pending")
          session[:order_id] = order.id
-    end
-
-    if session[:order_id] && session[:order_id].products.include?(product)
-      order_item = OrderItem.new(
-          quantity: 0,
-          product_id: product.id,
-          order_id: session[:order_id]
-      )
-    end
-
-    #if qty > stock + current qty, don't save
-    if params[:quantity].to_i > (product.stock - order_item.quantity)
-      flash[:error] = "#{product.name} is low in stock and was not added to cart."
-      redirect_to product_path(product.id)
-      return
     else
-      order_item.quantity += params[:quantity].to_i
-      order_item.save
-      flash[:success] = "#{product.name} added to cart."
-      redirect_to product_path(product.id)
-      return
+      order = Order.find_by(id: session[:order_id])
+      if order.order_items.first.nil?
+        OrderItem.create(
+            quantity: 1,
+            product_id: @product.id,
+            order_id: session[:order_id]
+        )
+        flash[:success] = "#{@product.name} is added to your cart."
+        redirect_to shopping_cart_path
+      else
+        order_item = order.order_items.find{|item| item.product_id == @product.id}
+
+        if order_item
+          if @product.stock > 0
+            order_item.quantity += 1
+          else
+            flash[:error] = "Sorry, #{@product.name} is out of stock."
+            return redirect_to product_path(@product.id)
+          end
+
+          if order_item.save
+            flash[:success] = "#{@product.name} is added to your cart."
+            redirect_to shopping_cart_path
+            return
+          else
+            flash[:error] = "Oops, #{@product.name} can't be added to your cart."
+            redirect_to product_path(@product.id)
+            return
+          end
+        else
+          OrderItem.create(
+              quantity: 1,
+              product_id: @product.id,
+              order_id: session[:order_id]
+          )
+          flash[:success] = "#{@product.name} is added to your cart."
+          redirect_to shopping_cart_path
+          return
+        end
+      end
     end
+
   end
 
   def retire
