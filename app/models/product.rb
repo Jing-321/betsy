@@ -23,7 +23,7 @@
   validates :user_id, presence: true
 
   def avg_rating
-    all_ratings = reviews.map { |review| review.rating}
+    all_ratings = reviews.map { |review| review.rating }
     return nil if all_ratings.empty?
 
     average = all_ratings.sum / all_ratings.length.to_f
@@ -40,7 +40,22 @@
 
 
   def self.get_top_rated
-    return all.sort {|a,b| a.avg_rating <=> b.avg_rating}.first(4)
+
+    products = Product.where(active: true)
+    
+    products_no_reviews = products.select { |p| p.avg_rating.nil? }
+    products_with_reviews = products - products_no_reviews
+    
+    top_rated = products_with_reviews.sort  { |p| p.avg_rating }
+        
+    if top_rated.count < 4
+      (4 - top_rated.count).times do |i|
+        top_rated << products_no_reviews[i]
+      end
+    end
+
+    return top_rated
+    
   end
 
   # def deactivate_product
