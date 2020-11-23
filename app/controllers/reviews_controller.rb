@@ -12,15 +12,18 @@ class ReviewsController < ApplicationController
     #  check_authorization
     #  @review = @product.reviews.new
     #  end
+    @product = Product.find(params[:product_id])
     @review = Review.new
 
   end
 
   def create
+
     #How do we know what the guest user_id is???
     @product = Product.find(params[:product_id])
 
     @review = Review.new(review_params)
+    @review.rating = rand(1..5)
     @review.product = @product
     check_authorization
     if @review.save
@@ -31,6 +34,8 @@ class ReviewsController < ApplicationController
       redirect_to product_path(@product)
     end
   end
+
+
 
 
 
