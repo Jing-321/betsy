@@ -45,11 +45,14 @@ describe Category do
 
     it "can belong to many products" do
       japan = products(:japan)
-      expect(japan.categories.count).must_equal 3
+      hawaii = products(:hawaii)
+      adventure = categories(:adventure)
 
-      japan.categories.each do |category|
-        expect(category).must_be_instance_of Category
-      end
+      japan.categories << adventure
+      hawaii.categories << adventure
+
+      expect(japan.categories).must_include adventure
+      expect(hawaii.categories).must_include adventure
 
     end
   end

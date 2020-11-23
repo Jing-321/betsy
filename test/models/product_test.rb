@@ -1,7 +1,35 @@
 require "test_helper"
 
 describe Product do
-  # it "does a thing" do
-  #   value(1+1).must_equal 2
-  # end
+  describe "Validations" do
+
+  end
+
+  describe "Relationships" do
+    it "belongs to a user" do
+
+    end
+
+    it "has many order_items" do
+
+    end
+
+    it "has many reviews" do
+
+    end
+
+    it "has many categories" do
+
+    end
+
+    it "belongs to many categories" do
+
+    end
+  end
+
+  describe "Custom Methods" do
+
+  end
+
+
 end
