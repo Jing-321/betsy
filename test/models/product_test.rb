@@ -1,12 +1,26 @@
 require "test_helper"
 
 describe Product do
+  let(:new_tour) {
+    Product.new(
+      name: "New Tour",
+      description: "Have a grand time!",
+      price: 12,
+      stock: 2,
+      user_id: users(:jasmine).id
+    )
+  }
   it "can be instantiated" do
-
+    expect(new_tour.valid?).must_equal true
   end
 
   it "will have the required fields" do
+    new_tour.save!
+    tour = Product.find_by(name: "New Tour")
 
+    [:name, :description, :price, :stock, :user_id].each do |field|
+      expect(tour).must_respond_to field
+    end
   end
   describe "Validations" do
     it "must have a name" do
