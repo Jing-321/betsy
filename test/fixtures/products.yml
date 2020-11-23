@@ -3,13 +3,13 @@ hawaii:
   price: 10
   description: a relaxing stroll through the beaches and mountains of hawaii
   stock: 2
-  categories: romantic
+  categories: [romantic, fun]
 japan:
   name: japan tour
   price: 15
   description: check out the majestic wonders of japan
   stock: 5
-  categories: peaceful
+  categories: [peaceful, romantic, fun]
 taiwan:
   name: taiwan tour
   price: 12

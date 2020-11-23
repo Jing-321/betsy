@@ -1,10 +1,16 @@
 jasmine:
+  provider: github
+  uid: 12345
   username: jasmine
   email: jasmine@email.com
 ayesha:
+  provider: github
+  uid: 54321
   username: ayesha
   email: ayesha@email.com
 jing:
+  provider: github
+  uid: 34212
   username: jing
   email: jing@email.com
 denise:

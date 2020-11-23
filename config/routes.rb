@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post '/products/:id/add_to_cart', to: 'products#add_to_cart', as: 'add_to_cart'
   post '/products/retire/:id', to: 'products#retire', as: 'retire'
   resources :products do
-    resources :reviews, only: [:create]
+    resources :reviews, only: [:create, :new]
   end
 
 
@@ -19,13 +19,13 @@ Rails.application.routes.draw do
   get '/orders/id/submit', to: 'orders#submit', as: 'order_submit'
   resources :orders, except: [:new]
   resources :order_items, except: [:index, :show, :new]
-  resources :reviews, only: [:new]
+  # resources :reviews, only: [:new]
   resources :payment_infos, except: [:index, :show]
   resources :categories
 
 
   get "/auth/github", as: "github_login"
-  get "/auth/:provider/callback", to: "users#create"
+  get "/auth/:provider/callback", to: "users#create", as: "auth_callback"
   delete "/logout", to: "users#destroy", as: "logout"
 
 end

@@ -78,6 +78,7 @@ CSV.foreach(PRODUCT_FILE, headers: true) do |row|
   product.photo_url = row['photo_url']
   product.categories << Category.all.sample
   product.user = User.all.sample
+  product.active = true
   successful = product.save
   if !successful
     product_failures << product
