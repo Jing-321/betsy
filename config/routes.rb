@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "products#index"
   resources :products do
-    resources :reviews, only: [:create]
+    resources :reviews, only: [:create, :new]
   end
   resources :users, only: [:index, :show, :edit]
   get '/users/id/user_account', to: 'users#user_account', as: 'user_account'
@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get '/orders/shopping_cart', to: 'orders#shopping_cart', as: 'shopping_cart'
   resources :orders, except: [:new]
   resources :order_items, except: [:index, :show, :new]
-  resources :reviews, only: [:new]
+  # resources :reviews, only: [:new]
   resources :payment_infos, except: [:index, :show]
   resources :categories
 
