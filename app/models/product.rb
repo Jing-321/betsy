@@ -46,7 +46,7 @@
     products_no_reviews = products.select { |p| p.avg_rating.nil? }
     products_with_reviews = products - products_no_reviews
     
-    top_rated = products_with_reviews.sort  { |p| p.avg_rating }
+    top_rated = products_with_reviews.sort  { |p| p.avg_rating }.reverse!
         
     if top_rated.count < 4
       (4 - top_rated.count).times do |i|
