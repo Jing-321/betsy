@@ -2,6 +2,7 @@ class ProductsController < ApplicationController
 
   before_action :find_product, only: [:show, :edit, :update, :destroy, :retire]
   before_action :check_authorization, only: [:edit, :update, :retire]
+  #there should be a before action requirement for login
 
 
   def index
@@ -9,7 +10,7 @@ class ProductsController < ApplicationController
   end
 
   def show
-    #@products = Product.where(active: true)
+    @products = Product.where(active: true)
   end
 
   def new
@@ -19,6 +20,7 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
     @product.user = User.find_by(id: session[:user_id])
+    @product.active = true
 
     if @product.save
       flash[:success] = "#{@product.name} has been added to the tour list"
@@ -31,7 +33,14 @@ class ProductsController < ApplicationController
     end
   end
 
-  def edit ; end
+  def edit
+    @product = Product.find_by(id: params[:id])
+    if @product.nil?
+      redirect_to products_path
+      return
+    end
+  end
+
 
   def update
     if @product.update(product_params)
@@ -96,6 +105,14 @@ class ProductsController < ApplicationController
     @products = Product.where(active: true).get_top_rated
   end
 
+  # def change_status
+  #   if @product.switch_status
+  #     flash[:success] = "#{@product.name}'s status is now updated."
+  #     redirect_to products_path #merchant dashboard path?
+  #     return
+  #   end
+  # end
+
   def destroy; end
 
   private
@@ -117,7 +134,7 @@ class ProductsController < ApplicationController
   def check_authorization
     if @product.user_id != session[:user_id]
       flash.now[:warning] = "You are not authorized to view this page."
-      render 'products/index', status: :unauthorized
+      render 'products/show', status: :unauthorized
       return
     end
   end

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   get '/products/explore', to: 'products#explore', as: 'explore'
   post '/products/:id/add_to_cart', to: 'products#add_to_cart', as: 'add_to_cart'
-  post '/products/retire/:id', to: 'products#retire', as: 'retire_product'
+  post '/products/retire/:id', to: 'products#retire', as: 'retire'
   resources :products do
     resources :reviews, only: [:create]
   end
