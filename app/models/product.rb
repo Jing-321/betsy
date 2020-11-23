@@ -43,4 +43,10 @@
     return all.sort {|a,b| a.avg_rating <=> b.avg_rating}.first(4)
   end
 
+  # def deactivate_product
+  #   if self.inventory == 0
+  #     self.update(active: false)
+  #   end
+  # end
+
 end
