@@ -1,0 +1,54 @@
+/*
+Error: Invalid CSS after "...e-columns: 1fr ": expected ";", was "[main-start] 5f..."
+        on line 30 of /Users/ayesha/Development/ADA/Rails/betsy/app/assets/stylesheets/application.scss
+
+25:   max-width: 70%;
+26: }
+27: 
+28: body {
+29:   display: grid;
+30:   grid-template-columns: 1fr [main-start] 5fr [main-end] 1fr;
+31: }
+32: 
+33: .navbar, .alert__container {
+34:   grid-column: 1 / -1;
+35: }
+
+Backtrace:
+/Users/ayesha/Development/ADA/Rails/betsy/app/assets/stylesheets/application.scss:30
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:1207:in `expected'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:1137:in `expected'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:1132:in `tok!'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:786:in `block in try_declaration'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:1183:in `rethrow'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:791:in `try_declaration'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:720:in `declaration_or_ruleset'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:685:in `block_child'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:677:in `block_contents'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:666:in `block'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:658:in `ruleset'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:684:in `block_child'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:677:in `block_contents'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:125:in `stylesheet'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/scss/parser.rb:41:in `parse'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/engine.rb:409:in `_to_tree'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/engine.rb:284:in `render'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/plugin/compiler.rb:494:in `update_stylesheet'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/plugin/compiler.rb:209:in `each'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/sass-3.4.25/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/compass-1.0.3/lib/compass/sass_compiler.rb:40:in `compile!'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/compass-1.0.3/lib/compass/commands/update_project.rb:49:in `perform'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/compass-1.0.3/lib/compass/commands/base.rb:18:in `execute'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/compass-1.0.3/lib/compass/commands/project_base.rb:19:in `execute'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:15:in `run!'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/compass-1.0.3/bin/compass:30:in `block in <top (required)>'
+/Users/ayesha/.rbenv/versions/2.6.5/lib/ruby/gems/2.6.0/gems/compass-1.0.3/bin/compass:44:in `<top (required)>'
+/Users/ayesha/.rbenv/versions/2.6.5/bin/compass:23:in `load'
+/Users/ayesha/.rbenv/versions/2.6.5/bin/compass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"...e-columns: 1fr \": expected \";\", was \"[main-start] 5f...\"\A         on line 30 of /Users/ayesha/Development/ADA/Rails/betsy/app/assets/stylesheets/application.scss\A \A 25:   max-width: 70%;\A 26: }\A 27: \A 28: body {\A 29:   display: grid;\A 30:   grid-template-columns: 1fr [main-start] 5fr [main-end] 1fr;\A 31: }\A 32: \A 33: .navbar, .alert__container {\A 34:   grid-column: 1 / -1;\A 35: }"; }
