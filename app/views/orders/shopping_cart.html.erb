@@ -1,7 +1,7 @@
 
   <h2>Shopping Cart</h2>
 
-  <%if @items.first.nil? %>
+  <%if @items.nil? || @items.empty? %>
     <button class="btn btn-secondary btn-lg float-right">Add a tour to checkout</button>
   <%else %>
     <%if @current_user.payment_infos.first.nil?%>
@@ -26,6 +26,8 @@
       </thead>
 
       <tbody>
+      <%if @items.nil? || @items.empty? %>
+
       <%@items.each do |item| %>
         <tr>
           <%product = Product.find(item.product_id) %>
@@ -44,7 +46,7 @@
   <%if @items.first.nil? %>
     <button class="btn btn-secondary btn-lg float-right">Add a tour to checkout</button>
   <%else %>
-    <%if @current_user.payment_infos.nil? %>
+    <%if @current_user.payment_infos.first.nil? %>
       <%= link_to "Checkout", new_payment_info_path, class: "btn btn-primary btn-lg float-right" %>
     <%else %>
       <%= link_to "Checkout", edit_payment_info_path(@current_user.payment_infos.first.id), class: "btn btn-primary btn-lg float-right" %>
