@@ -1,0 +1,49 @@
+<section>
+  <%= link_to image_tag("#{@product.photo_url}", alt: "#{@product.name}", class: "product-image-show") %>
+</section>
+<section>
+  <h1><%= @product.name %></h1>
+  <p><%= @product.description %></p>
+  <p>$<%= @product.price %></p>
+
+  <p>Categories: <% @product.categories.each do |category| %>
+    <li><%= link_to category.name, category_path(category) %></li>
+  <%end%></p>
+
+</section>
+
+<%= link_to "Edit Tour", edit_product_path(@product), class: "btn btn-primary" %>
+<%= link_to "Add to Cart", add_to_cart_path, class: "btn btn-primary", method: :post %>
+<%= link_to "See All Tours", products_path, class: "btn btn-primary" %>
+<%= link_to "Rate Trip", new_product_review_path(@product), class: "btn btn-primary" %>
+
+
+<% @product.categories.each do |category| %>
+  <%= link_to category.name, category_path(category) %>
+<%end%>
+
+<section class="product-reviews">
+  <h3>Reviews</h3>
+    <% @product.reviews.each do |review| %>
+      <section>
+<!--        <p><%#= review.title %></p>-->
+<!--        <p> Reviewer: <%#= review.name %></p>-->
+        <%# todo: updating rating system %>
+        <p><%= review.rating %></p>
+        <p><%= review.text_review %></p>
+      </section>
+    <% end %>
+</section>
+
+
+<%# if @product.stock > 0 %>
+<%#= form_with model: @order_item, url: {:action => "add_to_cart"} do |f| %>
+
+<%#= f.label "Quantity: "%>
+<%#= f.select(:quantity, (1..@product.stock).map(&:to_i), {}) %>
+
+<%#= f.submit "Add to Cart", class: "btn btn-primary" %>
+<%# end %>
+<%# else %>
+<!--  <p>Sorry, this item is out of stock.</p>-->
+<%# end %>

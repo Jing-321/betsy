@@ -43,11 +43,12 @@ class OrderItemsController < ApplicationController
   end
 
   def destroy
+    @order_item = OrderItem.find(params[:id])
     @order_item.destroy
     flash.now[:status] = :success
     flash.now[:result_text] = "#{@order_item.product.name} removed from cart."
     if session[:order_id]
-      redirect_to order_path(session[:order_id])
+      redirect_to shopping_cart_path
     else
       redirect_to root_path
     end

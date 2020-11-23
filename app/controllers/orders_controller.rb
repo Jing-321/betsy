@@ -22,7 +22,12 @@ class OrdersController < ApplicationController
 
   def shopping_cart
     if session[:user_id].nil?
-      @items = []
+      if session[:order_id].nil?
+        @items = []
+      else
+        @order = Order.find(session[:order_id])
+      end
+
     else
       @current_user = User.find(session[:user_id])
       if session[:order_id].nil?
@@ -55,7 +60,9 @@ class OrdersController < ApplicationController
     @order.status = "completed"
     @items = @order.order_items
     @items.each do |item|
-      Product.find(item.product).stock -= item.quantity
+      product = Product.find(item.product_id)
+      product.stock -= item.quantity
+      product.save
     end
     return
   end
@@ -66,7 +73,7 @@ class OrdersController < ApplicationController
   end
 
   def find_order
-    @order = Order.find_by(session[:order_id])
+    @order = Order.find(session[:order_id])
     if @order.nil?
       flash[:error] = "Sorry, can't find the order."
       return redirect_to root_path

@@ -17,7 +17,7 @@
       <%@items.each do |item| %>
         <tr>
           <%product = Product.find(item.product_id) %>
-          <td><%= link_to "#{product.user_id.name}", user_path(product.user_id) %></td>
+          <td><%= link_to "#{User.find(product.user_id).username}", user_path(product.user_id) %></td>
           <td> <%= item.quantity %> </td>
           <td><%= item.created_at %></td>
           <td><%= product.price %></td>

@@ -1,6 +1,5 @@
 class PaymentInfo < ApplicationRecord
   validates :email, presence: true
-            #format: {with: /^(.+)@(.+)$/, message: "Email invalid" }
   validates :address, presence: true
   validates :credit_card_name, presence: true
   validates :credit_card_number, presence: true,
