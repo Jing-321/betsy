@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
 
-  before_action :find_product, only: [:show, :edit, :update, :destroy]
+  before_action :find_product, only: [:show, :edit, :update, :destroy, :retire]
   before_action :check_authorization, only: [:edit, :update, :retire]
 
 
@@ -9,7 +9,7 @@ class ProductsController < ApplicationController
   end
 
   def show
-    # session[:product] = @product # will allow to add a review for that product, not sure if it's right
+    #@products = Product.where(active: true)
   end
 
   def new
@@ -31,13 +31,7 @@ class ProductsController < ApplicationController
     end
   end
 
-  # def edit
-  #   @product = Product.find_by(id: params[:id])
-  #   if @product.nil?
-  #     redirect_to products_path
-  #     return
-  #   end
-  # end
+  def edit ; end
 
   def update
     if @product.update(product_params)
@@ -51,12 +45,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  def add_to_cart
-    #find product by the id passed in params
-    # product.find_by(id: params[:id])
-    # return head :not_found if !product
-  end
-
   def retire
     if @product.retire
       if @product.active # == true
@@ -65,20 +53,22 @@ class ProductsController < ApplicationController
         redirect_to product_path(@product.id)
       else
         @product.update(active: true)
-        flash[:success] = "#{@product.name} is now retired and will appear on searches."
+        flash[:success] = "#{@product.name} is now active and will appear on searches."
       end
       redirect_to product_path(@product.id)
     end
   end
 
   def explore
-    @products = Product.get_top_rated
+    @products = Product.where(active: true).get_top_rated
   end
+
+  def destroy; end
 
   private
 
   def product_params
-    return params.require(:product).permit(:name, :price, :description, :stock, :status, :active, category_ids: []) #user_id
+    return params.require(:product).permit(:name, :price, :description, :stock, :photo_url, active: true, category_ids: []) #user_id ??
   end
 
   def find_product
