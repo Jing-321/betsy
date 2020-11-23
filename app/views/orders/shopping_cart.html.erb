@@ -4,7 +4,7 @@
   <%if @items.nil? || @items.empty? %>
     <button class="btn btn-secondary btn-lg float-right">Add a tour to checkout</button>
   <%else %>
-    <%if @current_user.payment_infos.first.nil?%>
+    <%if @current_user.nil? || @current_user.payment_infos.empty?%>
       <%= link_to "Checkout", new_payment_info_path, class: "btn btn-primary btn-lg float-right" %>
     <%else %>
       <%= link_to "Checkout", edit_payment_info_path(@current_user.payment_infos.first.id), class: "btn btn-primary btn-lg float-right" %>
@@ -27,26 +27,28 @@
 
       <tbody>
       <%if @items.nil? || @items.empty? %>
-
-      <%@items.each do |item| %>
-        <tr>
-          <%product = Product.find(item.product_id) %>
-          <td><%= link_to "#{product.name}", product_path(item.product_id) %></td>
-          <td> <button class="btn btn-info btn-sm">-</button> <%= item.quantity %> <button class="btn btn-info btn-sm">-</button></td>
-          <td><%= item.created_at %></td>
-          <td><%= product.price %></td>
-          <td><%= link_to "Remove", order_item_path(item.id), method: :delete, data: {confirm: "Are you sure?"}%></td>
-        </tr>
+        <tr></tr>
+      <%else %>
+        <%@items.each do |item| %>
+          <tr>
+            <%product = Product.find(item.product_id) %>
+            <td><%= link_to "#{product.name}", product_path(item.product_id) %></td>
+            <td> <button class="btn btn-info btn-sm">-</button> <%= item.quantity %> <button class="btn btn-info btn-sm">-</button></td>
+            <td><%= item.created_at %></td>
+            <td><%= product.price %></td>
+            <td><%= link_to "Remove", order_item_path(item.id), method: :delete, data: {confirm: "Are you sure?"}%></td>
+          </tr>
+        <%end %>
       <%end %>
       </tbody>
     </table>
 
   </div>
 
-  <%if @items.first.nil? %>
+  <%if @items.nil? || @items.empty? %>
     <button class="btn btn-secondary btn-lg float-right">Add a tour to checkout</button>
   <%else %>
-    <%if @current_user.payment_infos.first.nil? %>
+    <%if @current_user.nil? || @current_user.payment_infos.empty?%>
       <%= link_to "Checkout", new_payment_info_path, class: "btn btn-primary btn-lg float-right" %>
     <%else %>
       <%= link_to "Checkout", edit_payment_info_path(@current_user.payment_infos.first.id), class: "btn btn-primary btn-lg float-right" %>

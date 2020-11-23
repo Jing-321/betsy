@@ -59,13 +59,25 @@ class ProductsController < ApplicationController
     if @product.nil? || !@product
       return head :not_found
     end
+    if session[:user_id].nil?
+      guest = User.create!(username: "guest")
+      session[:user_id] = guest.id
+    end
 
     if session[:order_id] == nil || session[:order_id] == false
          order = Order.create!(user_id: session[:user_id], status: "pending")
          session[:order_id] = order.id
+
+         OrderItem.create(
+             quantity: 1,
+             product_id: @product.id,
+             order_id: session[:order_id]
+         )
+         flash[:success] = "#{@product.name} is added to your cart:)"
+         redirect_to shopping_cart_path
     else
       order = Order.find_by(id: session[:order_id])
-      if order.order_items.first.nil?
+      if order.order_items.empty?
         OrderItem.create(
             quantity: 1,
             product_id: @product.id,
@@ -85,7 +97,7 @@ class ProductsController < ApplicationController
           end
 
           if order_item.save
-            flash[:success] = "#{@product.name} is added to your cart."
+            flash[:success] = "#{@product.name} is added to your cart  :)"
             redirect_to shopping_cart_path
             return
           else
