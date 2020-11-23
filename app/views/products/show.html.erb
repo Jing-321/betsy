@@ -18,7 +18,6 @@
 <%= link_to "Rate Trip", new_review_path, class: "btn btn-primary" %>
 
 
-
 <% @product.categories.each do |category| %>
   <%= link_to category.name, category_path(category) %>
 <%end%>
