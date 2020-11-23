@@ -16,7 +16,7 @@
   has_and_belongs_to_many :categories
 
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
   validates :description, presence: true
   validates :price, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :stock, presence: true, numericality: { greater_than_or_equal_to: 0 }
@@ -30,7 +30,7 @@
     return average / 10 == 0 ? average : average.round(1)
   end
 
-  def retire
+  def switch_status
     if self.active
       return self.update(active: false)
     else
@@ -45,7 +45,7 @@
 
   # def deactivate_product
   #   if self.inventory == 0
-  #     self.update(active: false)
+  #     self.update(active: false) #or active: true?
   #   end
   # end
 
