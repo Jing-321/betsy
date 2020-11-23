@@ -45,6 +45,39 @@ class ProductsController < ApplicationController
     end
   end
 
+  def add_to_cart
+    product = Product.find_by(id: params[:id])
+    if product.nil? || !product
+      return head :not_found
+    end
+
+    if session[:order_id] == nil || session[:order_id] == false
+         order = Order.new(status: "pending")
+         session[:order_id] = order.id
+    end
+
+    if session[:order_id] && session[:order_id].products.include?(product)
+      order_item = OrderItem.new(
+          quantity: 0,
+          product_id: product.id,
+          order_id: session[:order_id]
+      )
+    end
+
+    #if qty > stock + current qty, don't save
+    if params[:quantity].to_i > (product.stock - order_item.quantity)
+      flash[:error] = "#{product.name} is low in stock and was not added to cart."
+      redirect_to product_path(product.id)
+      return
+    else
+      order_item.quantity += params[:quantity].to_i
+      order_item.save
+      flash[:success] = "#{product.name} added to cart."
+      redirect_to product_path(product.id)
+      return
+    end
+  end
+
   def retire
     if @product.retire
       if @product.active # == true
