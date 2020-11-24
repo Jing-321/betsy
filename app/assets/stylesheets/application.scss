@@ -17,9 +17,52 @@
 
 @import "**/*";
 
-
-
-.btn {
-  margin: 1rem 0.1rem 1rem 0.1rem
+.container {
+  padding: 0 !important;
 }
+
+nav .btn,
+.button-group .btn {
+  margin: 1rem 0.2rem 1rem 0.2rem
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  min-height: 100vh;
+}
+
+.parent-main {
+  flex : 1;
+  margin-bottom: 7rem;
+}
+
+hr {
+  width: 100%;
+}
+
+footer {
+  min-width: 100%;
+  border: none !important;
+  height: 10rem;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h2 {
+  margin: 3rem 0;
+  text-transform: capitalize;
+}
+
+.no-flex {
+  display: block;
+}
+
+
 
