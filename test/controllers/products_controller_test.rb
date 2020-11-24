@@ -44,6 +44,8 @@ describe ProductsController do
       }
     }
     it "successfully creates product with all valid inputs" do
+      perform_login
+
       expect {
         post products_path, params: new_params
       }.must_differ "Product.count", 1
@@ -74,11 +76,15 @@ describe ProductsController do
     it "can get edit form" do
 
       product = products(:hawaii)
+      user = product.user
+      perform_login(user)
+
       get edit_product_path(product)
       must_respond_with :success
     end
 
     it "will return :not_found if id doesn't exist" do
+      perform_login
       get edit_product_path(-1)
       must_redirect_to products_path
     end
@@ -96,7 +102,11 @@ describe ProductsController do
       }
     }
     it "it will update product with a valid post request" do
+
+
       product = products(:hawaii)
+      user = product.user
+      perform_login(user)
 
       expect {
         patch product_path(product), params: update_params
@@ -117,6 +127,8 @@ describe ProductsController do
       update_params[:product][:name] = nil
 
       product = products(:japan)
+      user = product.user
+      perform_login(user)
       expect {
         patch product_path(product), params: update_params
       }.wont_differ "Product.count"
@@ -135,26 +147,52 @@ describe ProductsController do
     end
   end
 
-  describe "destroy" do
-    it "successfully deletes product, redirect to index and reduces count by 1" do
-      product = products(:taiwan)
-      expect {
-        delete product_path(product)
-      }.must_differ "Product.count", -1
+  describe "add to cart" do
+    it "creates a new order if one does not exist" do
 
-      must_respond_with :redirect
-      must_redirect_to products_path
-      expect(flash[:success]).must_include "deleted"
     end
 
-    it "will return not_found with invalid id" do
-      expect {
-        delete product_path(-1)
-      }.wont_differ "Product.count"
-
-      must_respond_with :redirect
-      must_redirect_to products_path
-      expect(flash[:error]).must_equal "Tour not found"
-    end
+    it ""
   end
+
+  describe "retire" do
+
+  end
+
+  describe "explore" do
+
+  end
+
+  describe "find_product" do
+
+  end
+
+  describe "check_authorization" do
+
+  end
+
+  # describe "destroy" do
+  #   it "successfully deletes product, redirect to index and reduces count by 1" do
+  #     product = products(:taiwan)
+  #     user = product.user
+  #     perform_login(user)
+  #     expect {
+  #       delete product_path(product)
+  #     }.must_differ "Product.count", -1
+  #
+  #     must_respond_with :redirect
+  #     must_redirect_to products_path
+  #     expect(flash[:success]).must_include "deleted"
+  #   end
+  #
+  #   it "will return not_found with invalid id" do
+  #     expect {
+  #       delete product_path(-1)
+  #     }.wont_differ "Product.count"
+  #
+  #     must_respond_with :redirect
+  #     must_redirect_to products_path
+  #     expect(flash[:error]).must_equal "Tour not found"
+  #   end
+  # end
 end

@@ -1,23 +1,11 @@
 class OrdersController < ApplicationController
 
-  before_action :find_order, only: [:submit, :checkout, :submit]
-
-
-  def index
-    if params[:user_id]
-      user = User.find_by(id: params[:user_id])
-      @orders = user.orders
-    end
-  end
+  before_action :find_order, only: [:submit, :submit]
+  before_action :current, only: [:show, :submit]
 
   def show
-    @order = Order.find_by(id: session[:order_id])
-
-    if session[:order_id].nil?
-      @items = []
-    else
-      @items = @order.order_items.order(created_at: :desc)
-    end
+    @order = Order.find(params[:id])
+    @items = @order.order_items.order(created_at: :desc)
   end
 
   def shopping_cart
@@ -42,29 +30,20 @@ class OrdersController < ApplicationController
 
   end
 
-  def destroy
-    @order.destroy
-    redirect_to user_path(params[:user_id])
-  end
-
-  def checkout
-    @order = Order.find_by(session[:order_id])
-    if @order.nil?
-      flash[:error] = "There is nothing in your cart."
-      return redirect_to shopping_cart_path
-    end
-    @current_user = User.find_by(id: session[:user_id])
-    @order = Order.find(session[:order_id])
-  end
+  # def destroy
+  #   @order.destroy
+  #   redirect_to user_path(params[:user_id])
+  # end
 
   def submit
-    @order.status = "completed"
+    @order.status = "complete"
     @items = @order.order_items
     @items.each do |item|
       product = Product.find(item.product_id)
       product.stock -= item.quantity
       product.save
     end
+    @order.save
     session[:order_id] = nil
     return
   end
@@ -79,6 +58,15 @@ class OrdersController < ApplicationController
     if @order.nil?
       flash[:error] = "Sorry, can't find the order."
       return redirect_to root_path
+    end
+  end
+
+  def current
+    @current_user = User.find_by(id: session[:user_id])
+    unless @current_user
+      flash[:error] = 'You must be logged in to see this page'
+      redirect_to root_path
+      return
     end
   end
 end

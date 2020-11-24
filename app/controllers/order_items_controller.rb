@@ -64,9 +64,10 @@ class OrderItemsController < ApplicationController
     @order_item = OrderItem.find_by(id: params[:id])
     @product = @order_item.product.stock
 
-    if @order_item.quantity <= @product
+    if @order_item.quantity < @product
       @order_item.quantity += 1
-        flash[:success] = "Item added to cart."
+      @order_item.save
+        flash[:success] = "Cart Updated."
     else
       flash[:error] = "No additional tours can be booked at this time."
     end
@@ -83,8 +84,9 @@ class OrderItemsController < ApplicationController
 
     @order_item = OrderItem.find_by(id: params[:id])
 
-    if @order_item.quantity > 0
+    if @order_item.quantity > 1
       @order_item.quantity -= 1
+      @order_item.save
       flash[:success] = "Quantity updated."
       redirect_to shopping_cart_path
       return

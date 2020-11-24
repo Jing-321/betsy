@@ -1,0 +1,9 @@
+order1:
+  status: pending
+  user_id: 1
+  payment_info_id: 1
+
+order2:
+  status: complete
+  user_id: 2
+  payment_info_id: 2

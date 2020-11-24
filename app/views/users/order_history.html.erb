@@ -25,7 +25,7 @@
       <thead>
       <tr>
         <th>Tour ID</th>
-        <th>Quantity of Tours</th>
+        <th>Type of Tours</th>
         <th>Date</th>
         <th>Price</th>
       </tr>
@@ -35,9 +35,9 @@
       <%@orders.each do |order| %>
         <tr>
           <td><%= link_to "#{order.id}", order_path(order) %></td>
-          <td><%= order.order_items.size %></td>
+          <td><%= order.order_items.length %></td>
           <td><%= order.created_at %></td>
-          <td>need "total" attribute?</td>
+          <td><%= order.total_price %></td>
         </tr>
       <%end %>
       </tbody>

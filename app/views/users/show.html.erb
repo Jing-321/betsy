@@ -21,7 +21,7 @@
     <tbody>
       <% @user.products.each do |product| %>
       <tr>
-        <td><button class="btn btn-primary">Book</button></td>
+        <td> <%= link_to "See Details", product_path(product), class: "btn btn-primary" %> </td>
         <td><%= product.name %></td>
         <td><%= product.price %></td>
         <td><%= product.avg_rating %></td>

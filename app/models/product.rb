@@ -27,7 +27,7 @@
     return nil if all_ratings.empty?
 
     average = all_ratings.sum / all_ratings.length.to_f
-    return average / 10 == 0 ? average : average.round(1)
+    return average.round
   end
 
   def switch_status
@@ -46,15 +46,15 @@
     products_no_reviews = products.select { |p| p.avg_rating.nil? }
     products_with_reviews = products - products_no_reviews
     
-    top_rated = products_with_reviews.sort  { |p| p.avg_rating }.reverse!
+    top_rated = products_with_reviews.sort  { |p| p.avg_rating }.reverse! + products_no_reviews
         
-    if top_rated.count < 4
-      (4 - top_rated.count).times do |i|
-        top_rated << products_no_reviews[i]
-      end
-    end
+    # if top_rated.count < 4
+    #   (4 - top_rated.count).times do |i|
+    #     top_rated << products_no_reviews[i]
+    #   end
+    # end
 
-    return top_rated
+    return top_rated.first(4)
     
   end
 

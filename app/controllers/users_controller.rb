@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
 
-  before_action :current, only: [:show, :user_account, :order_history, :manage_tours]
+  before_action :current, only: [:user_account, :order_history, :manage_tours, :retail_history]
 
   def index
-    @users = User.all
-    #@users = User.where.not("uid = nil")
+    @users = User.joins(:products).group('users.id')
   end
 
   def create
@@ -54,6 +53,10 @@ class UsersController < ApplicationController
 
   def order_history
     @orders = @current_user.orders
+  end
+
+  def retail_history
+
   end
 
   def manage_tours

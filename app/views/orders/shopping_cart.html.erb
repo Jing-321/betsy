@@ -33,7 +33,11 @@
           <tr>
             <%product = Product.find(item.product_id) %>
             <td><%= link_to "#{product.name}", product_path(item.product_id) %></td>
-            <td> <%= button_to '-', subtract_path(product.id), method: :patch, class: "btn btn-info btn-sm"%> <%= item.quantity %> <%= button_to '+', add_path(product.id), method: :patch, class: "btn btn-info btn-sm"%></td>
+            <td class="shopping_cart_item_container">
+              <%= link_to '-', subtract_path(item.id), method: :patch, class: "btn btn-info btn-sm"%>
+              <%= item.quantity %>
+              <%= link_to '+', add_path(item.id), method: :patch, class: "btn btn-info btn-sm"%>
+            </td>
             <td><%= item.created_at %></td>
             <td><%= product.price %></td>
             <td><%= link_to "Remove", order_item_path(item.id), method: :delete, data: {confirm: "Are you sure?"}%></td>
@@ -42,7 +46,11 @@
       <%end %>
       </tbody>
     </table>
-
+    <% if @order.nil? %>
+      <h4>Total: 0</h4>
+    <%else %>
+      <h4>Total: <%= @order.total_price %></h4>
+    <%end %>
   </div>
 
   <%if @items.nil? || @items.empty? %>

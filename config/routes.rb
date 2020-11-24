@@ -17,13 +17,13 @@ Rails.application.routes.draw do
 
   get '/orders/shopping_cart', to: 'orders#shopping_cart', as: 'shopping_cart'
   get '/orders/id/submit', to: 'orders#submit', as: 'order_submit'
-  resources :orders, except: [:new]
+  resources :orders, except: [:new, :index]
   resources :order_items, except: [:index, :show, :new]
   # resources :reviews, only: [:new]
   resources :payment_infos, except: [:index, :show]
   resources :categories
 
-  patch 'order_items/:id/add', to: "order_items#increase_qty", as: "add"
+  patch '/order_items/:id/add', to: "order_items#increase_qty", as: "add"
   patch '/order_items/:id/subtract', to:"order_items#decrease_qty", as: "subtract"
 
 

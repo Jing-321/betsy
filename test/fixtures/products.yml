@@ -4,20 +4,24 @@ hawaii:
   description: a relaxing stroll through the beaches and mountains of hawaii
   stock: 2
   categories: [romantic, fun]
+  user: jasmine
 japan:
   name: japan tour
   price: 15
   description: check out the majestic wonders of japan
   stock: 5
   categories: [peaceful, romantic, fun]
+  user: jing
 taiwan:
   name: taiwan tour
   price: 12
   description: enjoy the breathtaking splendor of taiwan
   stock: 3
+  user: ayesha
 disney:
   name: disney tour
   price: 10
   description: fun for the whole family
   stock: 2
   categories: [family, fun]
+  user: denise
