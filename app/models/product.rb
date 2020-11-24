@@ -58,9 +58,9 @@
     
   end
 
-  # def deactivate_product
-  #   if self.inventory == 0
-  #     self.update(active: false) #or active: true?
+  # def out_of_stock
+  #   if self.stock == 0
+  #     print message "Tour is currently out of stock."
   #   end
   # end
 
