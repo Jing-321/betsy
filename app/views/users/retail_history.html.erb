@@ -9,7 +9,7 @@
         <%= link_to "Account Information", user_account_path(@current_user.id), class: "nav-link" %>
       </li>
       <li class="nav-item">
-        <%= link_to "Order History", order_history_path(@current_user.id), class: "nav-link active" %>
+        <%= link_to "Order History", order_history_path(@current_user.id), class: "nav-link" %>
       </li>
 
       <li class="nav-item">
@@ -17,7 +17,7 @@
       </li>
 
       <li class="nav-item">
-        <%= link_to "Retail History", retail_history_path(@current_user.id), class: "nav-link" %>
+        <%= link_to "Retail History", retail_history_path(@current_user.id), class: "nav-link active" %>
       </li>
     </ul>
   </div>
@@ -27,20 +27,23 @@
     <table class="table table-hover">
       <thead>
       <tr>
-        <th>Tour ID</th>
-        <th>Type of Tours</th>
+        <th>Order ID</th>
+        <th>Tour</th>
+        <th>Quantity</th>
         <th>Date</th>
         <th>Price</th>
       </tr>
       </thead>
 
       <tbody>
-      <%@orders.each do |order| %>
+      <%@items.each do |item| %>
+        <%product = Product.find(item.product_id) %>
         <tr>
-          <td><%= link_to "#{order.id}", order_path(order) %></td>
-          <td><%= order.order_items.length %></td>
-          <td><%= order.created_at %></td>
-          <td><%= order.total_price %></td>
+          <td><%= link_to "#{item.order_id}", order_path(item.order_id) %></td>
+          <td><%= link_to "#{product.name}", product_path(product.id) %></td>
+          <td><%= item.quantity %></td>
+          <td><%= item.created_at %></td>
+          <td><%= item.quantity * product.price %></td>
         </tr>
       <%end %>
       </tbody>

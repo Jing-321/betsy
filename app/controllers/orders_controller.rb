@@ -6,6 +6,10 @@ class OrdersController < ApplicationController
   def show
     @order = Order.find(params[:id])
     @items = @order.order_items.order(created_at: :desc)
+    if @order.user_id != session[:user_id]
+      @items = @items.select {|item| Product.find(item.product_id).user_id == session[:user_id]}
+    end
+    return
   end
 
   def shopping_cart
