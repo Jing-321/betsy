@@ -42,10 +42,8 @@
   def self.get_top_rated
 
     products = Product.where(active: true)
-    
     products_no_reviews = products.select { |p| p.avg_rating.nil? }
     products_with_reviews = products - products_no_reviews
-    
     top_rated = products_with_reviews.sort  { |p| p.avg_rating }.reverse! + products_no_reviews
         
     # if top_rated.count < 4
@@ -55,13 +53,6 @@
     # end
 
     return top_rated.first(4)
-    
   end
-
-  # def out_of_stock
-  #   if self.stock == 0
-  #     print message "Tour is currently out of stock."
-  #   end
-  # end
 
 end
