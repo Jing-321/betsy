@@ -3,8 +3,7 @@ class UsersController < ApplicationController
   before_action :current, only: [:user_account, :order_history, :manage_tours]
 
   def index
-    @users = User.all
-    #@users = User.where.not("uid = nil")
+    @users = User.joins(:products).group('users.id')
   end
 
   def create

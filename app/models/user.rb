@@ -22,6 +22,7 @@ class User < ApplicationRecord
     user.provider = "github"
     user.username = auth_hash["info"]["nickname"]
     user.email = auth_hash["info"]["email"]
+    user.photo_url = auth_hash["info"]["image"]
     return user
   end
 end
