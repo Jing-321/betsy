@@ -56,53 +56,47 @@ class OrderItemsController < ApplicationController
 
   def increase_qty
     if session[:order_id] == nil || session[:order_id] == false
-      return "Your cart is empty. Please add some adventures to it."
+      flash[:error] = "Your cart is empty. Please add some adventures to it."
+      redirect_to shopping_cart_path
+      return
     end
 
-    @product = Product.find_by(id: ).stock #find by stock
+    @order_item = OrderItem.find_by(id: params[:id])
+    @product = @order_item.product.stock
 
-    session[:order_id].each do |item|
-      if item["product_id"] == #checking if current quantity in cart + amount to be added are lower than stock
-          item["quantity"] += 1 # 1 click at the button adds one extra item at a time to cart
+    if @order_item.quantity <= @product
+      @order_item.quantity += 1
         flash[:success] = "Item added to cart."
-      elsif #the current qty  == stock, leaving no stock left
-        flash[:warning] = "No additional tours can be booked at this time."
-      end
+    else
+      flash[:error] = "No additional tours can be booked at this time."
     end
-
-    redirect_to order_items_path #should it return to cart?
+    redirect_to shopping_cart_path
     return
+  end
+
+  def decrease_qty
+    if session[:order_id] == nil || session[:order_id] == false
+      flash[:error] = "Your cart is empty. Please add some adventures to it."
+      redirect_to shopping_cart_path
+      return
     end
-end
 
+    @order_item = OrderItem.find_by(id: params[:id])
 
-
-    def decrease_qty
-      if session[:order_id] == nil || session[:order_id] == false
-        return "Your cart is empty. Please add some adventures to it."
-      end
-
-      session[:order_id].each do |item|
-        current_item = Product.find(item["product_id"])
-        if !current_item.active
-          flash[:error] = "Something is wrong. Inactive item"
-          redirect_to order_items_path #cart path
-        end
-
-        if current_item.stock == 0 || current_item.stock.nil?
-          flash[:error] = "#{current_item.name} has already been removed from cart."
-          redirect_to order_items_path #cart_path?
-          return
-        end
-
-        if item["product_id"] #what should i compare it to?
-          item["quantity"] > 1? item["quantity"] -= 1 : session[:order_id].delete(item)
-        end
-      end
+    if @order_item.quantity > 0
+      @order_item.quantity -= 1
+      flash[:success] = "Quantity updated."
+      redirect_to shopping_cart_path
+      return
+    else
+      @order_item.delete
+      flash[:success] = "#{@order_item.product.name} has been removed from cart."
+      redirect_to shopping_cart_path
+      return
     end
 
 
-
+  end
 
   private
 

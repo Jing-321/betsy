@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :payment_infos, except: [:index, :show]
   resources :categories
 
+  patch 'order_items/:id/add', to: "order_items#increase_qty", as: "add"
 
   get "/auth/github", as: "github_login"
   get "/auth/:provider/callback", to: "users#create", as: "auth_callback"
