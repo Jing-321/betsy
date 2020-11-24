@@ -121,16 +121,16 @@ class ProductsController < ApplicationController
   end
 
   def retire
-    if @product.retire
+    if @product.switch_status
       if @product.active # == true
-        @product.update(active: false)
-        flash[:success] = "#{@product.name} is now retired and won't appear on searches."
-        redirect_to product_path(@product.id)
-      else
-        @product.update(active: true)
         flash[:success] = "#{@product.name} is now active and will appear on searches."
+        redirect_to manage_tours_path
+        return
+      else
+        flash[:success] = "#{@product.name} is now retired and won't appear on searches."
+        redirect_to manage_tours_path
+        return
       end
-      redirect_to product_path(@product.id)
     end
   end
 
