@@ -56,7 +56,6 @@ class UsersController < ApplicationController
   end
 
   def retail_history
-    #@items = OrderItem.all(:joins => :product, :conditions => { :products => { :user_id => @current_user.id}})
     @items = OrderItem.joins(:product).where(products: {user_id: @current_user.id})
   end
 
