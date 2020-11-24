@@ -1,14 +1,37 @@
-<h2>Explore Available Tours</h2>
+<div class="container"><h2>Explore Featured Tours</h2></div>
 
-<div class="row row-cols-3">
+<div class="container explore-page">
   <% @products.each do |product| %>
-    <div class="card col">
-      <img src=<%= product.photo_url %> class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title"><%= product.name %></h5>
-        <p class="card-text"><%= product.description %></p>
-        <%= link_to "See Details", product_path(product), class: "btn btn-primary" %>
+  <div class="card mb-3 product-show-card" style="min-width: 100%;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <%= image_tag("#{product.photo_url}", alt: "#{product.name}", class: "card-img product-show-img") %>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body product-card-body-show">
+          <% if product.avg_rating %>
+            <p class="card-title">
+              <% product.avg_rating.times do%>
+                <span> ★ </span>
+              <% end %>
+            </p>
+          <% else %>
+            <p class="text-muted"><small>Be the first to adventure!</small></p>
+          <% end %>
+          <h2 class="card-title"><%= product.name %></h2>
+          <p class="card-text"><%= product.description %></p>
+
+          <p class="card-text"><strong>$<%= product.price %></strong></p>
+
+          <p class="text-muted"><small>Categories: <% product.categories.each do |category| %>
+              <%= link_to category.name, category_path(category) %>
+            <%end%></small></p>
+
+          <%= link_to "See Details", product_path(product), class: "btn btn-primary" %>
+
+        </div>
       </div>
     </div>
+  </div>
   <% end %>
 </div>

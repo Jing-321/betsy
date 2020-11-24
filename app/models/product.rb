@@ -27,7 +27,7 @@
     return nil if all_ratings.empty?
 
     average = all_ratings.sum / all_ratings.length.to_f
-    return average / 10 == 0 ? average : average.round(1)
+    return average.round
   end
 
   def switch_status

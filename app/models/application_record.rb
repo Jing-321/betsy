@@ -4,8 +4,8 @@ class ApplicationRecord < ActiveRecord::Base
   def format_errors
     error_message = ""
     errors.each do |attribute, message|
-      error_message += "#{attribute.capitalize.to_s.gsub("_id", "")} #{message} "
+      error_message += "#{attribute.capitalize.to_s.gsub("_id", "")} #{message}, "
     end
-    return error_message
+    return error_message.delete_suffix(", ")
   end
 end

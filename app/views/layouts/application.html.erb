@@ -29,8 +29,6 @@
               <%=  link_to "#{category.name}", category_path(category), class: "dropdown-item"  %>
                 <% end %>
               <% end %>
-              <div class="dropdown-divider"></div>
-              <%= link_to "Add Category", new_category_path, class: "dropdown-item" %>
             </div>
           </li>
 
@@ -63,7 +61,7 @@
     </section>
     <% end %>
 
-    <main>
+    <main class="container">
       <%= yield %>
     </main>
 

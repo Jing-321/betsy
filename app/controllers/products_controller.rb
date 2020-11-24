@@ -2,6 +2,7 @@ class ProductsController < ApplicationController
 
   before_action :find_product, only: [:show, :edit, :update, :destroy, :retire]
   before_action :check_authorization, only: [:edit, :update, :retire]
+  before_action :add_image, only: [:create, :update]
   #there should be a before action requirement for login
 
 
@@ -146,7 +147,7 @@ class ProductsController < ApplicationController
   #   end
   # end
 
-  def destroy; end
+  # def destroy; end
 
   private
 
@@ -166,9 +167,15 @@ class ProductsController < ApplicationController
 
   def check_authorization
     if @product.user_id != session[:user_id]
-      flash.now[:warning] = "You are not authorized to view this page."
+      flash.now[:error] = "You are not authorized to view this page."
       render 'products/show', status: :unauthorized
       return
+    end
+  end
+
+  def add_image
+    if params[:product][:photo_url].nil? || params[:product][:photo_url].empty?
+      params[:product][:photo_url] = "https://i.stack.imgur.com/y9DpT.jpg"
     end
   end
 
