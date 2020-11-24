@@ -1,5 +1,5 @@
 class ReviewsController < ApplicationController
-  before_action :set_review, only: [:show, :edit, :update, :destroy]
+  # before_action :check_authorization, only: [:new, :create]
 
   # def show
   #   @product = Product.find(params[:product_id])
@@ -7,37 +7,29 @@ class ReviewsController < ApplicationController
   # end
 
   def new
-    # if params[:product_id]
-    #  @product = Product.find_by(id: params[:product_id])
-    #  check_authorization
-    #  @review = @product.reviews.new
-    #  end
     @product = Product.find(params[:product_id])
-    @review = Review.new
 
+    check_authorization(@product)
+    @review = Review.new
+    # @review = @product.reviews.new
   end
 
   def create
-
-    #How do we know what the guest user_id is???
     @product = Product.find(params[:product_id])
 
+    check_authorization(@product)
     @review = Review.new(review_params)
-    # @review.rating = rand(1..5)
     @review.product = @product
-    check_authorization
     if @review.save
       flash[:success] = 'Review was successfully created.'
       redirect_to product_path(@product)
+      return
     else
       flash[:error] = "Error creating review: #{@review.format_errors}"
       redirect_to product_path(@product)
+      return
     end
   end
-
-
-
-
 
   # def edit
   #   @product = Product.find(params[:product_id])
@@ -62,11 +54,11 @@ class ReviewsController < ApplicationController
   #   @review.destroy
   #   redirect_to(@review.post)
   # end
-  def check_authorization
+  def check_authorization(product)
     @user = User.find_by(id: session[:user_id])
-    if @product.user_id == @user_id && @user != nil
-      flash[:warning] = "You cannot review your own product"
-      redirect_to 'products/index' # => we can change this based on the usage
+    if product.user_id == @user.id && @user != nil
+      flash[:error] = "You cannot review your own product"
+      redirect_to product_path(product) # => we can change this based on the usage
       return
     end
   end
