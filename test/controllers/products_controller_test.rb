@@ -77,8 +77,8 @@ describe ProductsController do
 
       product = products(:hawaii)
       user = product.user
+      perform_login(user)
 
-      p perform_login(user)
       get edit_product_path(product)
       must_respond_with :success
     end
@@ -102,7 +102,11 @@ describe ProductsController do
       }
     }
     it "it will update product with a valid post request" do
+
+
       product = products(:hawaii)
+      user = product.user
+      perform_login(user)
 
       expect {
         patch product_path(product), params: update_params
@@ -123,6 +127,8 @@ describe ProductsController do
       update_params[:product][:name] = nil
 
       product = products(:japan)
+      user = product.user
+      perform_login(user)
       expect {
         patch product_path(product), params: update_params
       }.wont_differ "Product.count"
@@ -141,9 +147,35 @@ describe ProductsController do
     end
   end
 
+  describe "add to cart" do
+    it "creates a new order if one does not exist" do
+
+    end
+
+    it ""
+  end
+
+  describe "retire" do
+
+  end
+
+  describe "explore" do
+
+  end
+
+  describe "find_product" do
+
+  end
+
+  describe "check_authorization" do
+
+  end
+
   # describe "destroy" do
   #   it "successfully deletes product, redirect to index and reduces count by 1" do
   #     product = products(:taiwan)
+  #     user = product.user
+  #     perform_login(user)
   #     expect {
   #       delete product_path(product)
   #     }.must_differ "Product.count", -1
