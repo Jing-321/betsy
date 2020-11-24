@@ -1,0 +1,5 @@
+<div class="container no-flex">
+  <h2>Welcome! </h2>
+  <h3><%= link_to @current_user.username, user_account_path(@current_user) %></h3>
+  <p>Joined site <%= @current_user.created_at.to_date %></p>
+</div>

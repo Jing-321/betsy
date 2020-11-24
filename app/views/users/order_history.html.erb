@@ -1,9 +1,5 @@
-
-  <h2>Welcome! </h2>
-  <h3><%= link_to @current_user.username, user_account_path(@current_user) %></h3>
-  <p>Joined site <%= @current_user.created_at.to_date %></p>
-
-
+<div class="container">
+<%= render partial: "user_welcome"%>
 
   <div class="container" style="margin-top: 5rem">
     <ul class="nav nav-tabs">
@@ -44,3 +40,4 @@
     </table>
 
   </div>
+</div>
