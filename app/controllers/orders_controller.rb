@@ -29,20 +29,10 @@ class OrdersController < ApplicationController
 
   end
 
-  def destroy
-    @order.destroy
-    redirect_to user_path(params[:user_id])
-  end
-
-  def checkout
-    @order = Order.find_by(session[:order_id])
-    if @order.nil?
-      flash[:error] = "There is nothing in your cart."
-      return redirect_to shopping_cart_path
-    end
-    @current_user = User.find_by(id: session[:user_id])
-    @order = Order.find(session[:order_id])
-  end
+  # def destroy
+  #   @order.destroy
+  #   redirect_to user_path(params[:user_id])
+  # end
 
   def submit
     @order.status = "complete"
