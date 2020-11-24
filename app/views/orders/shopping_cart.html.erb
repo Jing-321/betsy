@@ -1,4 +1,4 @@
-<div class="container">
+
   <h2>Shopping Cart</h2>
 
   <%#if @items.nil? || @items.empty? %>
@@ -62,4 +62,3 @@
       <%= link_to "Checkout", edit_payment_info_path(@current_user.payment_infos.first.id), class: "btn btn-primary btn-lg float-right" %>
     <%end %>
   <%end %>
-</div>
