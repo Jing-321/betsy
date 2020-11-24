@@ -2,14 +2,6 @@ class OrdersController < ApplicationController
 
   before_action :find_order, only: [:submit, :checkout, :submit]
 
-
-  def index
-    if params[:user_id]
-      user = User.find_by(id: params[:user_id])
-      @orders = user.orders
-    end
-  end
-
   def show
     @order = Order.find(params[:id])
     @items = @order.order_items.order(created_at: :desc)
