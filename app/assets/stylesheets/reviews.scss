@@ -5,7 +5,7 @@
 .rate-area {
   float: left;
   border-style: none;
-  padding: 0 3em;
+  padding: 0 0em;
 }
 
 .rate-area:not(:checked) > input {
@@ -15,7 +15,7 @@
 }
 
 .rate-area:not(:checked) > label {
-  float: right;
+  float: left;
   width: 1em;
   //padding: 0 .1em;
   overflow: hidden;
