@@ -139,16 +139,6 @@ class ProductsController < ApplicationController
     @products = Product.get_top_rated
   end
 
-  # def change_status
-  #   if @product.switch_status
-  #     flash[:success] = "#{@product.name}'s status is now updated."
-  #     redirect_to products_path #merchant dashboard path?
-  #     return
-  #   end
-  # end
-
-  # def destroy; end
-
   private
 
   def product_params
