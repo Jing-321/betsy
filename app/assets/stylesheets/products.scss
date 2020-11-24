@@ -34,9 +34,7 @@
   object-fit: cover;
 }
 
-h2 {
-  margin: 3rem 0;
-}
+
 
 .product-show-view > * {
   margin: 5em 0 0 0 !important;
@@ -68,10 +66,23 @@ h2 {
 }
 
 .product-card-body-show {
-  margin-left: 1.5rem;
+  margin-left: 1rem;
 }
 
 .explore-page > * {
   margin: 0 0 5rem 0 !important;
 }
+
+.product-show-card {
+  margin: 5rem 0 2rem 0 !important;
+}
+
+.form-group:last-child {
+  display: flex;
+}
+
+.form-group input.btn {
+  margin: 2rem auto;
+}
+
 

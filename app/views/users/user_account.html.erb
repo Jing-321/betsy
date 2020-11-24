@@ -1,7 +1,7 @@
-<main>
-  <h2>Welcome! </h2>
-  <h3><%= link_to @current_user.username, user_account_path(@current_user) %></h3>
-  <p>Joined site <%= @current_user.created_at.to_date %></p>
+
+
+<%= render partial: "user_welcome"%>
+
 
   <div class="container" style="margin-top: 5rem">
     <ul class="nav nav-tabs">
@@ -23,47 +23,43 @@
   </div>
 
 
-<div class="user_account_container">
-  <div class="card">
-    <img class="card-img-top avatar" alt="<%=@current_user.username %>" src="<%=@current_user.photo_url %>">
-    <div class="card-body">
-      <h5 class="card-title"><%= @current_user.username %></h5>
-      <p class="card-text"> <%=@current_user.bio %></p>
+  <div class="user_account_container">
+    <div class="card">
+      <img class="card-img-top avatar" alt="<%=@current_user.username %>" src="<%=@current_user.photo_url %>">
+      <div class="card-body">
+        <h5 class="card-title"><%= @current_user.username %></h5>
+        <p class="card-text"> <%=@current_user.bio %></p>
 
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Shipping Address</h5>
+        <p class="card-text"> <%=@address %> </p>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Credit Card Info</h5>
+
+        <%if @payment_infos.nil? %>
+          <p class="card-text"> No credit card information saved </p>
+        <%else %>
+          <%@payment_infos.each do |payment_info| %>
+            <ul class="list-group">
+              <li class="list-group-item">Card No.=>  <%= payment_info.credit_card_number %></li>
+              <li class="list-group-item">Name on Card => <%= payment_info.credit_card_name %></li>
+              <li class="list-group-item">exp => <%= payment_info.credit_card_exp %></li>
+              <li class="list-group-item">CVV => <%= payment_info.credit_card_CVV %></li>
+              <li class="list-group-item">Billing Address => <%= payment_info.address %></li>
+              <li class="list-group-item">zip code => <%= payment_info.zip_code %></li>
+            </ul>
+          <%end %>
+        <%end %>
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Shipping Address</h5>
-      <p class="card-text"> <%=@address %> </p>
-
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Credit Card Info</h5>
-    </div>
-
-    <%if @payment_infos.nil? %>
-      <p class="card-text"> No credit card information saved </p>
-    <%else %>
-      <%@payment_infos.each do |payment_info| %>
-        <ul class="list-group">
-          <li class="list-group-item">Card No.=>  <%= payment_info.credit_card_number %></li>
-          <li class="list-group-item">Name on Card => <%= payment_info.credit_card_name %></li>
-          <li class="list-group-item">exp => <%= payment_info.credit_card_exp %></li>
-          <li class="list-group-item">CVV => <%= payment_info.credit_card_CVV %></li>
-          <li class="list-group-item">Billing Address => <%= payment_info.address %></li>
-          <li class="list-group-item">zip code => <%= payment_info.zip_code %></li>
-        </ul>
-      <%end %>
-    <%end %>
-    <div class="card-body">
-
-    </div>
-  </div>
-</div>
-
-</main>
