@@ -17,8 +17,8 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav ml-auto">
           <li class="navbar-item"> <%= link_to "Explore", explore_path, class: "nav-link"%></li>
-          <li class="navbar-item"> <%= link_to "All Products", products_path, class: "nav-link"%></li>
-          <li class="navbar-item"> <%= link_to "All TourGuides", users_path, class: "nav-link"%></li>
+          <li class="navbar-item"> <%= link_to "All Tours", products_path, class: "nav-link"%></li>
+          <li class="navbar-item"> <%= link_to "All Tour Guides", users_path, class: "nav-link"%></li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Categories
@@ -61,9 +61,16 @@
     </section>
     <% end %>
 
-    <main class="container">
+    <main class="parent-main">
+        <div class="container">
       <%= yield %>
+        </div>
     </main>
 
   </body>
+
+    <footer class="card-footer bg-light footer-font-style text-muted footer-position">
+      <p>Copyright © 2020 <%= link_to "Tripsy", "" %>, All Rights Reserved.</p>
+    </footer>
+
 </html>
