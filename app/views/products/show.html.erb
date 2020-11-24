@@ -1,42 +1,62 @@
-<section>
-  <%= link_to image_tag("#{@product.photo_url}", alt: "#{@product.name}", class: "product-image-show") %>
-</section>
-<section>
-  <h1><%= @product.name %></h1>
-  <p><%= @product.description %></p>
-  <p>$<%= @product.price %></p>
 
-  <p>Categories: <% @product.categories.each do |category| %>
-    <li><%= link_to category.name, category_path(category) %></li>
-  <%end%></p>
+<!--<div>-->
+  <%#= link_to image_tag("#{@product.photo_url}", alt: "#{@product.name}", class: "product-image-show") %>
+<!--</div>-->
+<div class="container product-show-view">
 
-</section>
+  <div class="card mb-3 product-show-card" style="min-width: 100%; border:none;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <%= image_tag("#{@product.photo_url}", alt: "#{@product.name}", class: "card-img product-show-img") %>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body product-card-body-show">
+          <% if @product.avg_rating %>
+            <p class="card-title">
+            <% @product.avg_rating.times do%>
+              <span> ★ </span>
+            <% end %>
+            </p>
+          <% else %>
+            <p class="text-muted"><small>No ratings yet, be the first!</small></p>
+          <% end %>
+          <h2 class="card-title"><%= @product.name %></h2>
+          <p class="card-text"><%= @product.description %></p>
+          <% if @product.active %>
+            <p class="card-text"><strong>Available: <%= @product.stock %></strong></p>
+          <% else %>
+            <p class="card-text"><strong>Currently Unavailable</strong></p>
+          <% end %>
+          <p class="card-text"><strong>$<%= @product.price %></strong></p>
 
-<%= link_to "Edit Tour", edit_product_path(@product), class: "btn btn-primary" %>
-<%= link_to "Add to Cart", add_to_cart_path, class: "btn btn-primary", method: :post %>
-<%= link_to "See All Tours", products_path, class: "btn btn-primary" %>
-<%= link_to "Rate Trip", new_product_review_path(@product), class: "btn btn-primary" %>
+          <p class="text-muted"><small>Categories: <% @product.categories.each do |category| %>
+            <%= link_to category.name, category_path(category) %>
+          <%end%></small></p>
 
+          <%= link_to "Add to Cart", add_to_cart_path, class: "btn btn-primary", method: :post %>
+          <%= link_to "Rate Trip", new_product_review_path(@product), class: "btn btn-secondary" %>
 
-<% @product.categories.each do |category| %>
-  <%= link_to category.name, category_path(category) %>
-<%end%>
-
-<section class="product-reviews">
-  <br>
-  <h3>Reviews</h3>
-    <% @product.reviews.each do |review| %>
-      <section>
-        <div class="rate-area">
-        <% review.rating.times do%>
-          <span> ★ </span>
-        <% end %>
         </div>
-      </section>
-    <p><%= review.text_review %></p>
-  <% end %>
+      </div>
+    </div>
+  </div>
 
-</section>
+  <div class="product-reviews">
+    <br>
+    <h3>Reviews</h3>
+      <% @product.reviews.each do |review| %>
+        <div>
+          <div class="rate-area">
+          <% review.rating.times do%>
+            <span> ★ </span>
+          <% end %>
+          </div>
+        </div>
+      <p><%= review.text_review %></p>
+    <% end %>
+
+  </div>
+</div>
 
 
 <%# if @product.stock > 0 %>
