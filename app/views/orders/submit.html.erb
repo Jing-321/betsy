@@ -10,6 +10,7 @@
         <th>Tour Guide</th>
         <th>Date</th>
         <th>Price</th>
+        <th>Status</th>
       </tr>
       </thead>
 
@@ -17,10 +18,11 @@
       <%@items.each do |item| %>
         <tr>
           <%product = Product.find(item.product_id) %>
-          <td> <%= product.name %> </td>
+          <td> <%= link_to product.name, product_path(product.id)%> </td>
           <td><%= link_to "#{User.find(product.user_id).username}", user_path(product.user_id) %></td>
           <td><%= item.created_at %></td>
           <td><%= product.price %></td>
+          <td><%= @order.status %></td>
         </tr>
       <%end %>
       </tbody>
