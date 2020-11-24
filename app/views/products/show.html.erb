@@ -33,7 +33,12 @@
             <%= link_to category.name, category_path(category) %>
           <%end%></small></p>
 
-          <%= link_to "Add to Cart", add_to_cart_path, class: "btn btn-primary", method: :post %>
+          <% if @product.stock > 0 %>
+              <%= link_to "Add to Cart", add_to_cart_path, class: "btn btn-primary", method: :post %>
+          <%else %>
+            <p>This tour is in high demand and it is currently sold out. More booking time slots will be available soon!</p>
+          <% end %>
+
           <%= link_to "Rate Trip", new_product_review_path(@product), class: "btn btn-secondary" %>
 
         </div>
