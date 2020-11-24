@@ -37,7 +37,6 @@
       <th>Price</th>
       <th>Edit</th>
       <th>Retire</th>
-      <th>Delete</th>
     </tr>
     </thead>
 
@@ -49,8 +48,12 @@
         <td><%= product.avg_rating %></td>
         <td><%= product.price %></td>
         <td><%= link_to "Edit", edit_product_path(product), class: "btn btn-primary" %></td>
-        <td><%= link_to "Retire", "", class: "btn btn-primary", method: :post%></td>
-        <td><%= link_to "Delete", product_path(product), class: "btn btn-primary", method: :delete %></td>
+        <% if product.active %>
+          <td><%= link_to "Retire", retire_path(product), class: "btn btn-primary", method: :post%></td>
+        <% else %>
+          <td><%= link_to "Reactivate", retire_path(product), class: "btn btn-primary", method: :post%></td>
+        <% end %>
+
       </tr>
     <%end %>
     </tbody>
