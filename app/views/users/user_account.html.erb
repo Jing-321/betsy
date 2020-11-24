@@ -1,3 +1,4 @@
+
 <div class="container">
 <%= render partial: "user_welcome"%>
 
@@ -14,8 +15,13 @@
       <li class="nav-item">
         <%= link_to "Manage Trips", manage_tours_path(@current_user.id), class: "nav-link" %>
       </li>
+
+      <li class="nav-item">
+        <%= link_to "Retail History", retail_history_path(@current_user.id), class: "nav-link" %>
+      </li>
     </ul>
   </div>
+
 
 <div class="user_account_container">
   <div class="card">
@@ -23,7 +29,7 @@
     <div class="card-body">
       <h5 class="card-title"><%= @current_user.username %></h5>
       <p class="card-text"> <%=@current_user.bio %></p>
-      <%= link_to "Edit", edit_user_path(@current_user), class: "btn btn-primary" %>
+
     </div>
   </div>
 
@@ -32,7 +38,6 @@
       <h5 class="card-title">Shipping Address</h5>
       <p class="card-text"> <%=@address %> </p>
 
-      <%= link_to "Edit", edit_user_path(@current_user), class: "btn btn-primary" %>
     </div>
   </div>
 
@@ -56,7 +61,7 @@
       <%end %>
     <%end %>
     <div class="card-body">
-      <%= link_to "Edit", edit_user_path(@current_user), class: "btn btn-primary" %>
+
     </div>
   </div>
 </div>
