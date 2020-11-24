@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :current, only: [:show, :user_account, :order_history, :manage_tours]
+  before_action :current, only: [:user_account, :order_history, :manage_tours]
 
   def index
     @users = User.all
