@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :current, only: [:user_account, :order_history, :manage_tours]
+  before_action :current, only: [:user_account, :order_history, :manage_tours, :retail_history]
 
   def index
     @users = User.joins(:products).group('users.id')
@@ -53,6 +53,10 @@ class UsersController < ApplicationController
 
   def order_history
     @orders = @current_user.orders
+  end
+
+  def retail_history
+
   end
 
   def manage_tours

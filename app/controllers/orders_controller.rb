@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
 
-  before_action :find_order, only: [:submit, :checkout, :submit]
+  before_action :find_order, only: [:submit, :submit]
+  before_action :current, only: [:show, :submit]
 
   def show
     @order = Order.find(params[:id])
@@ -57,6 +58,15 @@ class OrdersController < ApplicationController
     if @order.nil?
       flash[:error] = "Sorry, can't find the order."
       return redirect_to root_path
+    end
+  end
+
+  def current
+    @current_user = User.find_by(id: session[:user_id])
+    unless @current_user
+      flash[:error] = 'You must be logged in to see this page'
+      redirect_to root_path
+      return
     end
   end
 end
