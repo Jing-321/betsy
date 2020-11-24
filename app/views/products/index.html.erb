@@ -7,7 +7,9 @@
   <div class="container product-container-index">
   <% @products.each do |product| %>
     <div class="card product-card">
-      <img src=<%= product.photo_url %> class="card-img-top product-card-img" alt="...">
+<!--      <img src=<%#= product.photo_url %> class="card-img-top product-card-image" alt="...">-->
+      <%= image_tag product.photo_url, class: "card-img-top product-card-image", alt: product.name %>
+
       <div class="card-body">
         <h5 class="card-title"><%= product.name %></h5>
         <p class="card-text"><%= product.description %></p>
