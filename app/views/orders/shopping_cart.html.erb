@@ -42,7 +42,11 @@
       <%end %>
       </tbody>
     </table>
-
+    <% if @order.nil? %>
+      <h4>Total: 0</h4>
+    <%else %>
+      <h4>Total: <%= @order.total_price %></h4>
+    <%end %>
   </div>
 
   <%if @items.nil? || @items.empty? %>
