@@ -27,3 +27,5 @@
     </table>
 
   </div>
+
+  <%= link_to "Back to #{User.find(session[:user_id]).username} account", user_account_path, class: "btn btn-primary" %>

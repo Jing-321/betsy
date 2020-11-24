@@ -8,13 +8,20 @@ class Order < ApplicationRecord
   # validates :payment_info, allow_nil: true, allow_blank: true
 
 
-  def cart_total
+  def total_price
     total = 0
+    if self.nil? || self.order_items.empty?
+    else
+      items = Order.find(self.id).order_items
+      if items.length > 0
+        items.each do |item|
+          total += Product.find(item.product_id).price * item.quantity
+        end
+      end
+    end
 
-  end
 
-  def credit_card_info
-
+    return total
   end
 
   def current_quantity(new_item)

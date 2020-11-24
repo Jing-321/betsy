@@ -11,13 +11,8 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.find_by(id: session[:order_id])
-
-    if session[:order_id].nil?
-      @items = []
-    else
-      @items = @order.order_items.order(created_at: :desc)
-    end
+    @order = Order.find(params[:id])
+    @items = @order.order_items.order(created_at: :desc)
   end
 
   def shopping_cart
@@ -58,13 +53,14 @@ class OrdersController < ApplicationController
   end
 
   def submit
-    @order.status = "completed"
+    @order.status = "complete"
     @items = @order.order_items
     @items.each do |item|
       product = Product.find(item.product_id)
       product.stock -= item.quantity
       product.save
     end
+    @order.save
     session[:order_id] = nil
     return
   end
