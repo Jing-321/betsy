@@ -1,12 +1,13 @@
-<h2>All Virtual Tours</h2>
+<div class="container"><h2>All Virtual Tours</h2></div>
 
-<%= link_to "Add Tour", new_product_path, class: "btn btn-primary" %>
+
+<%#= link_to "Add Tour", new_product_path, class: "btn btn-primary" %>
 
 <!--<div class="container">-->
-  <div class="row row-cols-3">
+  <div class="container product-container-index">
   <% @products.each do |product| %>
-    <div class="card col">
-      <img src=<%= product.photo_url %> class="card-img-top" alt="...">
+    <div class="card product-card">
+      <img src=<%= product.photo_url %> class="card-img-top product-card-img" alt="...">
       <div class="card-body">
         <h5 class="card-title"><%= product.name %></h5>
         <p class="card-text"><%= product.description %></p>
@@ -17,6 +18,22 @@
   </div>
 <!--</div>-->
 
+<!--<div class="card" style="width: 18rem;">-->
+<!--  <img src="..." class="card-img-top" alt="...">-->
+<!--  <div class="card-body">-->
+<!--    <h5 class="card-title">Card title</h5>-->
+<!--    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--  </div>-->
+<!--  <ul class="list-group list-group-flush">-->
+<!--    <li class="list-group-item">Cras justo odio</li>-->
+<!--    <li class="list-group-item">Dapibus ac facilisis in</li>-->
+<!--    <li class="list-group-item">Vestibulum at eros</li>-->
+<!--  </ul>-->
+<!--  <div class="card-body">-->
+<!--    <a href="#" class="card-link">Card link</a>-->
+<!--    <a href="#" class="card-link">Another link</a>-->
+<!--  </div>-->
+<!--</div>-->
 
 
 
