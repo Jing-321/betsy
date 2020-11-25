@@ -1,10 +1,7 @@
 class CategoriesController < ApplicationController
 
-  before_action :find_category, only: [:show, :destroy]
+  before_action :find_category, only: :show
 
-  def index
-    @categories = Category.all
-  end
 
   def show; end
 
@@ -16,9 +13,7 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
     if @category.save
       flash[:success] = "Successfully created #{@category.name}"
-      # not sure if this will redirect to where user was prior to the form
-      # todo where will user add category? user show page?
-      redirect_to root_path
+      redirect_to manage_tours_path
       return
     else
       flash[:error] = "Could not create new category: #{@category.errors.messages}"

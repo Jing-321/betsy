@@ -3,8 +3,10 @@ require "test_helper"
 describe ProductsController do
   describe "index" do
     it "can get index" do
+
       get products_path
       must_respond_with :success
+
     end
   end
 
@@ -12,7 +14,7 @@ describe ProductsController do
     it "can get show page" do
 
       product = products(:hawaii)
-      get products_path(product)
+      get product_path(product)
       must_respond_with :success
     end
 
@@ -26,9 +28,17 @@ describe ProductsController do
   end
 
   describe "new" do
-    it "can get new form" do
+    it "can get new form when logged in" do
+      perform_login
+
       get new_product_path
       must_respond_with :success
+    end
+
+    it "cannot get new form when not logged in" do
+      get new_product_path
+      expect(flash[:error]).must_include "not authorized"
+      must_respond_with :redirect
     end
   end
 
@@ -83,7 +93,7 @@ describe ProductsController do
       must_respond_with :success
     end
 
-    it "will return :not_found if id doesn't exist" do
+    it "will redirect if id doesn't exist" do
       perform_login
       get edit_product_path(-1)
       must_redirect_to products_path
@@ -148,27 +158,198 @@ describe ProductsController do
   end
 
   describe "add to cart" do
-    it "creates a new order if one does not exist" do
+
+    it "returns not found if the product doesn't exist" do
+      post add_to_cart_path(-1)
+      must_respond_with :not_found
+    end
+
+    it "will create a user for a quest when no one is logged in" do
+      hawaii = products(:hawaii)
+      expect {
+        post add_to_cart_path(hawaii)
+      }.must_differ "User.count", 1
+
+      guest = User.find_by(id: session[:user_id])
+      expect(guest).wont_be_nil
+
+      expect(session[:user_id]).must_equal guest.id
+    end
+
+    it "creates a new order if one does not exist with status pending" do
+
+      perform_login
+
+      hawaii = products(:hawaii)
+      expect {
+        post add_to_cart_path(hawaii)
+      }.must_differ "Order.count", 1
+
+      merchant = User.find_by(id: session[:user_id])
+      order = Order.find_by(id: session[:order_id])
+      expect(order.user_id).must_equal merchant.id
+      expect(order.status).must_equal "pending"
 
     end
 
-    it ""
+    it "creates an order_item if with the creation of an order" do
+      perform_login
+
+      hawaii = products(:hawaii)
+      post add_to_cart_path(hawaii)
+
+      order = Order.find_by(id: session[:order_id])
+      order_item = order.order_items.first
+      expect(order_item.quantity).must_equal 1
+      expect(order_item.product_id).must_equal hawaii.id
+      expect(order_item.order_id).must_equal order.id
+    end
+
+    it "redirects to the shopping cart when the first product is added to the cart" do
+      hawaii = products(:hawaii)
+      post add_to_cart_path(hawaii)
+      expect(flash[:success]).must_include "added to your cart"
+      must_respond_with :redirect
+      must_redirect_to shopping_cart_path
+    end
+
+    it "creates an order item if there are no order items but an order already exists & redirects to cart" do
+      perform_login
+
+      hawaii = products(:hawaii)
+      japan = products(:japan)
+      # initially create the Order + first order_item
+      post add_to_cart_path(hawaii)
+      item = OrderItem.first
+      # delete order_item so order is still exists
+      delete order_item_path(item)
+      expect(OrderItem.all).must_be_empty
+      # add a new item to cart
+      expect {
+      post add_to_cart_path(japan)
+      }.must_differ "OrderItem.count", 1
+
+      item = OrderItem.first
+      expect(item.product).must_equal japan
+      expect(item.quantity).must_equal 1
+      expect(item.order_id).must_equal session[:order_id]
+
+      expect(flash[:success]).must_include "added to your cart"
+      must_respond_with :redirect
+      must_redirect_to shopping_cart_path
+    end
+
+    it "it will increase the quantity by one if the same product exists in the cart and redirect" do
+      perform_login
+
+      hawaii = products(:hawaii)
+      # initially create the Order + first order_item
+      post add_to_cart_path(hawaii)
+
+      # add a new item to cart
+      expect {
+        post add_to_cart_path(hawaii)
+      }.wont_differ "OrderItem.count"
+
+      item = OrderItem.last
+      expect(OrderItem.all.count).must_equal 1
+      expect(item.product).must_equal hawaii
+      expect(item.quantity).must_equal 2
+      expect(item.order_id).must_equal session[:order_id]
+
+      expect(flash[:success]).must_include "added to your cart"
+      must_respond_with :redirect
+      must_redirect_to shopping_cart_path
+    end
+
+    it "will redirect & show message if a user tries to add a product that is out of stock" do
+      perform_login
+
+      disney = products(:disney)
+      disney.stock = 0
+      disney.save!
+      # initially create the Order + first order_item
+      post add_to_cart_path(disney)
+
+      expect(flash[:error]).must_include "out of stock"
+      must_respond_with :redirect
+      must_redirect_to product_path(disney)
+    end
+
+    it "will create an order_item if the associated product is not in the cart & the cart has order items & redirect" do
+      perform_login
+
+      hawaii = products(:hawaii)
+      japan = products(:japan)
+      # initially create the Order + first order_item
+      post add_to_cart_path(hawaii)
+
+      expect {
+        post add_to_cart_path(japan)
+      }.must_differ "OrderItem.count", 1
+
+      item = OrderItem.find_by(product_id: japan.id)
+      expect(item.product).must_equal japan
+      expect(item.quantity).must_equal 1
+      expect(item.order_id).must_equal session[:order_id]
+
+      expect(flash[:success]).must_include "added to your cart"
+      must_respond_with :redirect
+      must_redirect_to shopping_cart_path
+    end
   end
 
   describe "retire" do
+    let(:product_test) {
+      Product.new(
+          name: "test product",
+          description: "desscriptions",
+          price: 15,
+          stock: 2,
+          active: true,
+          user_id: users(:jasmine).id
 
+      )
+    }
+    it "will change a products status to false if true" do
+      perform_login(users(:jasmine))
+      product_test.save!
+
+      post retire_path(product_test)
+      product_test.reload
+      expect(product_test.active).must_equal false
+      expect(flash[:success]).must_include "now retired"
+      must_respond_with :redirect
+      must_redirect_to manage_tours_path
+    end
+
+    it "will change a products status to true if false" do
+      perform_login(users(:jasmine))
+      product_test.active = false
+      product_test.save!
+      post retire_path(product_test)
+      product_test.reload
+      expect(product_test.active).must_equal true
+      expect(flash[:success]).must_include "now active"
+      must_respond_with :redirect
+      must_redirect_to manage_tours_path
+    end
   end
 
   describe "explore" do
-
-  end
-
-  describe "find_product" do
-
+    it "returns success when it gets explore" do
+      get explore_path
+      must_respond_with :success
+    end
   end
 
   describe "check_authorization" do
-
+    it "will prevent a guest user from editing a tour" do
+      hawaii = products(:hawaii)
+      get edit_product_path(hawaii)
+      expect(flash.now[:error] ).must_equal "You are not authorized to view this page."
+      must_respond_with :unauthorized
+    end
   end
 
   # describe "destroy" do

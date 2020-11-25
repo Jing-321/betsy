@@ -1,12 +1,6 @@
 require "test_helper"
 
 describe CategoriesController do
-  describe "index" do
-    it "responds with success when getting index" do
-      get categories_path
-      must_respond_with :success
-    end
-  end
 
   describe "show" do
     it "responds with success with a valid id" do
@@ -17,7 +11,9 @@ describe CategoriesController do
 
     it "returns not found with an invalid id" do
       get category_path(-1)
-      must_respond_with :not_found
+      expect(flash[:error]).must_equal "Could not find Category"
+      must_respond_with :redirect
+      must_redirect_to root_path
     end
   end
 
@@ -42,6 +38,7 @@ describe CategoriesController do
       }.must_differ 'Category.count', 1
 
       must_respond_with :redirect
+      must_redirect_to manage_tours_path
       expect(flash[:success]).wont_be_nil
 
       updated_cat = Category.find_by(name: "test name")
@@ -57,27 +54,6 @@ describe CategoriesController do
       }.wont_differ 'Category.count'
 
       expect(flash[:error]).wont_be_nil
-    end
-  end
-
-  describe "destroy" do
-    it "succesfully destroys category with valid id" do
-      romantic = categories(:romantic)
-      p romantic
-      expect {
-        delete category_path(romantic)
-      }.must_differ "Category.count", -1
-
-      must_respond_with :redirect
-      expect(flash[:success]).wont_be_nil
-    end
-
-    it "responds with not_found given an invalid id" do
-      expect {
-        delete category_path(-1)
-      }.wont_differ "Category.count"
-
-      must_respond_with :not_found
     end
   end
 end
