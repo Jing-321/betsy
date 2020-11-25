@@ -51,3 +51,31 @@
   margin: 1rem 0 0 0;
   width: 30%;
 }
+
+.user-show-page {
+  margin-top: 5rem;
+  justify-content: space-between
+}
+
+.user-show-page .card{
+  margin: 0;
+  width: 25%;
+}
+
+.user-show-page .table{
+  width: 70%;
+  margin: 0;
+}
+
+
+
+@include media-breakpoint-down(sm) {
+  .user-show-page .card{
+    width: auto;
+  }
+
+  .user-show-page .table{
+    width: auto;
+  }
+
+}

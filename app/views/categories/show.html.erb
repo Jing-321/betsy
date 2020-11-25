@@ -1,27 +1,27 @@
-<h2><%= @category.name %> Tours</h2>
+<div class="container"><h2><%= @category.name %> Tours</h2></div>
 
-<%# @category.products.each do |product| %>
-<!--  <article>-->
-    <%#= link_to image_tag("#{product.photo_url}", alt: "#{product.name}", class: "product-images-index"), product_path(product) %>
-<!--    <h3><%#= link_to "#{product.name}", product_path(product) %></h3>-->
-    <%# todo figure out what ratings look like, stars? %>
 
-<!--    <h4>$<%#= product.price %></h4>-->
-<!--  </article>-->
-<%# end %>
-
-<div class="row row-cols-3">
+<div class="container product-container-index">
   <% @category.products.each do |product| %>
     <%if product.active %>
-      <div class="card col">
-        <img src=<%= product.photo_url %> class="card-img-top" alt="...">
+      <div class="card product-card">
+        <%= image_tag product.photo_url, class: "card-img-top product-card-image", alt: product.name %>
         <div class="card-body">
+          <% if product.avg_rating %>
+            <p class="card-title">
+              <% product.avg_rating.times do%>
+                <span> ★ </span>
+              <% end %>
+            </p>
+          <% else %>
+            <p class="text-muted"><small>No ratings yet, be the first!</small></p>
+          <% end %>
           <h5 class="card-title"><%= product.name %></h5>
           <p class="card-text"><%= product.description %></p>
-          <strong><p class="card-text">$<%= product.price %></p></strong>
-          <%= link_to "Book", "", class: "btn btn-primary" %>
+          <%= link_to "See Details", product_path(product), class: "btn btn-primary" %>
         </div>
       </div>
     <% end %>
   <% end %>
 </div>
+
