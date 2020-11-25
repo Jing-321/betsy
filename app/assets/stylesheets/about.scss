@@ -2,6 +2,17 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-.about > * {
+.about div > * {
   width: 50%;
+}
+
+.tripsy-images {
+  display: flex;
+  flex-flow: wrap;
+}
+
+h1 {
+  width: 100%;
+  text-align: center;
+  margin: 5rem 0;
 }
