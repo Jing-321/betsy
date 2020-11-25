@@ -1,5 +1,5 @@
 class OrderItemsController < ApplicationController
-  before_action :find_product, only: :create
+  #before_action :find_product, only: :create
 
   def new
     @order_item = OrderItem.new(order_item_params)
