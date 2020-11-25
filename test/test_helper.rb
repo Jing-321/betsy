@@ -46,6 +46,22 @@ class ActiveSupport::TestCase
     OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(mock_auth_hash(user))
     get auth_callback_path(:github)
 
+    user = User.find_by(uid: user.uid)
+    expect(user).wont_be_nil
+
     expect(session[:user_id]).must_equal user.id
+  end
+
+  def add_first_item_to_cart
+    order = Order.first
+    product = Product.first
+    order_item_data = {
+        product_id: product.id, order_id: order.id, quantity: 1,
+    }
+
+    post order_items_path, params: order_item_data
+    expect(session[:order_id]).must_equal order.id
+
+    return order
   end
 end
