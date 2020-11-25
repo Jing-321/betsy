@@ -14,12 +14,26 @@ describe UsersController do
     it "can list users with listing products" do
       get "/products"
       must_respond_with :success
-      ####how???
     end
 
     it "will not list users without listing products" do
-
+      #how?
     end
+  end
+
+  describe "create" do
+    it "can login an existing user" do
+      perform_login(users(:jing))
+      must_respond_with :redirect
+    end
+
+    it "can login a new user" do
+      new_user = User.new(username: "test", provider: "github", uid: 123, photo_url: "url", email:"a@a.com")
+      expect {user = perform_login(new_user)}.must_change 'User.count', 1
+
+      must_respond_with :redirect
+    end
+
   end
 
   describe "destroy" do
@@ -32,9 +46,42 @@ describe UsersController do
     end
   end
 
-  describe "show" do
-    it "will get show for valid user id" do
+  describe "user_account" do
+    it "will respond success for logged in user" do
+      perform_login(users(:jing))
+      get user_account_path
+      must_respond_with :success
+    end
 
+    it "will redirect to homepage if user not logged in" do
+      get user_account_path
+      must_redirect_to root_path
+    end
+  end
+
+  describe "order_history" do
+    it "will respond success for logged in user" do
+      perform_login(users(:jing))
+      get order_history_path
+      must_respond_with :success
+    end
+
+    it "will redirect to homepage if user not logged in" do
+      get order_history_path
+      must_redirect_to root_path
+    end
+  end
+
+  describe "manage_tours" do
+    it "will respond success for logged in user" do
+      perform_login(users(:jing))
+      get manage_tours_path
+      must_respond_with :success
+    end
+
+    it "will redirect to homepage if user not logged in" do
+      get manage_tours_path
+      must_redirect_to root_path
     end
   end
 

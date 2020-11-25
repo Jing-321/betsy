@@ -1,5 +1,6 @@
 
-  <h2>Order <%= params[:id] %> </h2>
+  <div class="container"><h2>Order <%= params[:id] %> </h2></div>
+
 
     <div class="container" style="margin-top: 5rem">
 
@@ -27,8 +28,4 @@
     </table>
     <%= link_to "Back to #{User.find(session[:user_id]).username} account", user_account_path, class: "btn btn-primary" %>
   </div>
-
-
-
-
 

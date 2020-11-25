@@ -31,24 +31,14 @@ class UsersController < ApplicationController
     return redirect_to root_path
   end
 
-  def show
-    @user = User.find_by(id: params[:id])
-    if @user.nil?
-      head :not_found
-      return
-    end
-  end
-
   def user_account
-    @products = @current_user.products
-
-
     if @current_user.payment_infos.nil? || @current_user.payment_infos == []
       @address = "No address saved"
     else
       @payment_infos = @current_user.payment_infos
       @address = @current_user.payment_infos.first.address
     end
+    return
   end
 
   def order_history
@@ -56,7 +46,6 @@ class UsersController < ApplicationController
   end
 
   def retail_history
-    #@items = OrderItem.all(:joins => :product, :conditions => { :products => { :user_id => @current_user.id}})
     @items = OrderItem.joins(:product).where(products: {user_id: @current_user.id})
   end
 
@@ -73,6 +62,7 @@ class UsersController < ApplicationController
       redirect_to root_path
       return
     end
+    return
   end
 
 end

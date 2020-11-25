@@ -1,7 +1,6 @@
 
-  <h2>Welcome! </h2>
-  <h3><%= link_to @current_user.username, user_account_path(@current_user) %></h3>
-  <p>Joined site <%= @current_user.created_at.to_date %></p>
+  <%= render partial: "user_welcome"%>
+
 
   <div class="container" style="margin-top: 5rem">
     <ul class="nav nav-tabs">
@@ -13,7 +12,7 @@
       </li>
 
       <li class="nav-item">
-        <%= link_to "Manage Trips", manage_tours_path(@current_user.id), class: "nav-link" %>
+        <%= link_to "Manage Tours", manage_tours_path(@current_user.id), class: "nav-link" %>
       </li>
 
       <li class="nav-item">
@@ -30,20 +29,30 @@
         <th>Order ID</th>
         <th>Tour</th>
         <th>Quantity</th>
+        <th>Revenue</th>
         <th>Date</th>
-        <th>Price</th>
+        <th>Customer</th>
+        <th>Email</th>
+        <th>Address</th>
+
+
       </tr>
       </thead>
 
       <tbody>
       <%@items.each do |item| %>
         <%product = Product.find(item.product_id) %>
+        <%user = User.find(Order.find(item.order_id).user_id) %>
         <tr>
           <td><%= link_to "#{item.order_id}", order_path(item.order_id) %></td>
           <td><%= link_to "#{product.name}", product_path(product.id) %></td>
           <td><%= item.quantity %></td>
-          <td><%= item.created_at %></td>
           <td><%= item.quantity * product.price %></td>
+          <td><%= item.created_at %></td>
+          <td><%= user.username %></td>
+          <th><%= user.payment_infos.first.email %></th>
+          <th><%= user.payment_infos.first.address %></th>
+
         </tr>
       <%end %>
       </tbody>

@@ -1,10 +1,14 @@
 class OrdersController < ApplicationController
 
-  before_action :find_order, only: [:submit, :submit]
+  before_action :find_order, only: [:submit]
   before_action :current, only: [:show, :submit]
 
   def show
-    @order = Order.find(params[:id])
+    @order = Order.find_by(id: params[:id])
+    if @order.nil?
+      head :not_found
+      return
+    end
     @items = @order.order_items.order(created_at: :desc)
     if @order.user_id != session[:user_id]
       @items = @items.select {|item| Product.find(item.product_id).user_id == session[:user_id]}
