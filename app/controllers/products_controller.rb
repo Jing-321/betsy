@@ -11,7 +11,7 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @products = Product.where(active: true)
+    # @products = Product.where(active: true)
   end
 
   def new
@@ -62,7 +62,7 @@ class ProductsController < ApplicationController
   end
 
   def add_to_cart
-    @product = Product.find(params[:id])
+    @product = Product.find_by(id: params[:id])
     if @product.nil? || !@product
       return head :not_found
     end
