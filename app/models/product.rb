@@ -38,19 +38,13 @@
     end
   end
 
-
   def self.get_top_rated
 
     products = Product.where(active: true)
     products_no_reviews = products.select { |p| p.avg_rating.nil? }
     products_with_reviews = products - products_no_reviews
-    top_rated = products_with_reviews.sort  { |p| p.avg_rating }.reverse! + products_no_reviews
-        
-    # if top_rated.count < 4
-    #   (4 - top_rated.count).times do |i|
-    #     top_rated << products_no_reviews[i]
-    #   end
-    # end
+    high_reviewed = products_with_reviews.filter { |p| p.avg_rating > 3 }
+    top_rated = high_reviewed.sort { |p| p.avg_rating }.reverse + products_no_reviews
 
     return top_rated.first(4)
   end

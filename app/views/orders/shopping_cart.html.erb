@@ -12,7 +12,7 @@
   <%#end %>
 
 
-  <div class="container" style="margin-top: 5rem">
+  <div class="container flex-column" style="margin-top: 5rem">
 
     <table class="table table-hover">
       <thead>
@@ -51,14 +51,16 @@
     <%else %>
       <h4>Total: <%= @order.total_price %></h4>
     <%end %>
+
+    <%if @items.nil? || @items.empty? %>
+      <%= link_to "Add a Tour to Checkout", products_path, class: "btn btn-secondary btn-lg float-right" %>
+    <%else %>
+      <%if @current_user.nil? || @current_user.payment_infos.empty?%>
+        <%= link_to "Checkout", new_payment_info_path, class: "btn btn-primary btn-lg float-right" %>
+      <%else %>
+        <%= link_to "Checkout", edit_payment_info_path(@current_user.payment_infos.first.id), class: "btn btn-primary btn-lg float-right" %>
+      <%end %>
+    <%end %>
   </div>
 
-  <%if @items.nil? || @items.empty? %>
-    <button class="btn btn-secondary btn-lg float-right">Add a tour to checkout</button>
-  <%else %>
-    <%if @current_user.nil? || @current_user.payment_infos.empty?%>
-      <%= link_to "Checkout", new_payment_info_path, class: "btn btn-primary btn-lg float-right" %>
-    <%else %>
-      <%= link_to "Checkout", edit_payment_info_path(@current_user.payment_infos.first.id), class: "btn btn-primary btn-lg float-right" %>
-    <%end %>
-  <%end %>
+
