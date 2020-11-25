@@ -10,13 +10,33 @@
 
 //overriding users.scss styling
 .product-card {
-  width: 23rem !important;
+  width: 30% !important;
   margin: 0 !important;
 }
 
 .product-container-index {
+  justify-content: space-between;
   gap: 2rem;
 }
+
+@include media-breakpoint-down(sm) {
+  .product-card {
+    width: 45% !important;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .product-card, .product-show-card {
+    width: 100% !important;
+    margin: 0 2rem !important;
+  }
+
+  .container > h2 {
+    margin-left: 2rem !important;
+  }
+}
+
+
 
 .product-card-img {
   margin: 0;
