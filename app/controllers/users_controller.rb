@@ -55,15 +55,10 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @order = Order.find_by(id: params[:id])
-    if @order.nil?
-      return redirect_to root_path
-      head :not_found
+    if @user.nil?
+      flash[:error] = "Can't find the guide."
+      redirect_to root_path
       return
-    end
-    @items = @order.order_items.order(created_at: :desc)
-    if @order.user_id != session[:user_id]
-      @items = @items.select {|item| Product.find(item.product_id).user_id == session[:user_id]}
     end
     return
   end
