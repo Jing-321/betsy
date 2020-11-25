@@ -53,6 +53,20 @@ class UsersController < ApplicationController
     @products = @current_user.products
   end
 
+  def show
+    @order = Order.find_by(id: params[:id])
+    if @order.nil?
+      return redirect_to root_path
+      head :not_found
+      return
+    end
+    @items = @order.order_items.order(created_at: :desc)
+    if @order.user_id != session[:user_id]
+      @items = @items.select {|item| Product.find(item.product_id).user_id == session[:user_id]}
+    end
+    return
+  end
+
   private
 
   def current
