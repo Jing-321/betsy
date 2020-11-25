@@ -215,11 +215,12 @@ describe ProductsController do
 
     it "creates an order item if there are no order items but an order already exists & redirects to cart" do
       perform_login
-
-      hawaii = products(:hawaii)
+      # delete all existing test orders
+      OrderItem.all.delete_all
+      taiwan = products(:taiwan)
       japan = products(:japan)
       # initially create the Order + first order_item
-      post add_to_cart_path(hawaii)
+      post add_to_cart_path(taiwan)
       item = OrderItem.first
       # delete order_item so order is still exists
       delete order_item_path(item)
@@ -240,20 +241,24 @@ describe ProductsController do
     end
 
     it "it will increase the quantity by one if the same product exists in the cart and redirect" do
+
       perform_login
 
-      hawaii = products(:hawaii)
+      #remove any existing test orders
+      OrderItem.all.delete_all
+
+      taiwan = products(:taiwan)
       # initially create the Order + first order_item
-      post add_to_cart_path(hawaii)
+      post add_to_cart_path(taiwan)
 
       # add a new item to cart
       expect {
-        post add_to_cart_path(hawaii)
+        post add_to_cart_path(taiwan)
       }.wont_differ "OrderItem.count"
 
       item = OrderItem.last
       expect(OrderItem.all.count).must_equal 1
-      expect(item.product).must_equal hawaii
+      expect(item.product).must_equal taiwan
       expect(item.quantity).must_equal 2
       expect(item.order_id).must_equal session[:order_id]
 
