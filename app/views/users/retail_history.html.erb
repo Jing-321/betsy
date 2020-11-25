@@ -29,20 +29,30 @@
         <th>Order ID</th>
         <th>Tour</th>
         <th>Quantity</th>
-        <th>Date</th>
         <th>Revenue</th>
+        <th>Date</th>
+        <th>Customer</th>
+        <th>Email</th>
+        <th>Address</th>
+
+
       </tr>
       </thead>
 
       <tbody>
       <%@items.each do |item| %>
         <%product = Product.find(item.product_id) %>
+        <%user = User.find(Order.find(item.order_id).user_id) %>
         <tr>
           <td><%= link_to "#{item.order_id}", order_path(item.order_id) %></td>
           <td><%= link_to "#{product.name}", product_path(product.id) %></td>
           <td><%= item.quantity %></td>
-          <td><%= item.created_at %></td>
           <td><%= item.quantity * product.price %></td>
+          <td><%= item.created_at %></td>
+          <td><%= user.username %></td>
+          <th><%= user.payment_infos.first.email %></th>
+          <th><%= user.payment_infos.first.address %></th>
+
         </tr>
       <%end %>
       </tbody>
