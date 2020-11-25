@@ -1,8 +1,5 @@
 require "test_helper"
 
-# "rating"
-# "text_review"
-
 describe ReviewsController do
   let (:new_params) {
     {
@@ -14,7 +11,7 @@ describe ReviewsController do
   }
   describe "new" do
     it "can get new form" do
-      get new_review_path
+      get new_product_review_path(products(:hawaii).id)
       must_respond_with :success
     end
   end
