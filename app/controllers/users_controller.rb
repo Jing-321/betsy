@@ -54,6 +54,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = User.find(params[:id])
     @order = Order.find_by(id: params[:id])
     if @order.nil?
       return redirect_to root_path

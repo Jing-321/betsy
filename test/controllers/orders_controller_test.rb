@@ -46,9 +46,12 @@ describe OrdersController do
     end
 
     it "will lower the product stock" do
-      expect{
-        get order_submit_path
-      }.must_differ '@product.stock', 1
+      @product = @order.order_items.first.product
+      stock = @product.stock
+
+      get order_submit_path
+      @product.reload
+      expect(@product.stock).must_equal stock-1
 
     end
   end
