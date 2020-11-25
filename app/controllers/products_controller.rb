@@ -15,7 +15,13 @@ class ProductsController < ApplicationController
   end
 
   def new
-    @product = Product.new
+    if session[:user_id].nil?
+      flash[:error] = "You are not authorized to see this page."
+      redirect_to products_path
+      return
+    else
+      @product = Product.new
+    end
   end
 
   def create
