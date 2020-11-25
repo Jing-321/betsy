@@ -8,30 +8,45 @@
   </ul>
 <% end %>
 
-<%= form_with model: @payment_info, class: 'create-book' do |f| %>
+<%= form_with model: @payment_info, class: 'create-payment' do |f| %>
+  <div class="form-group">
+    <%= f.label :email %>
+    <%= f.text_field :email, class: "form-control" %>
+  </div>
 
-  <%= f.label :email %>
-  <%= f.text_field :email %>
+  <div class="form-group">
+    <%= f.label :address %>
+    <%= f.text_field :address, class: "form-control" %>
+  </div>
 
-  <%= f.label :address %>
-  <%= f.text_field :address %>
+  <div class="form-group">
+    <%= f.label "credit card name" %>
+    <%= f.text_field :credit_card_name, class: "form-control" %>
+  </div>
 
-  <%= f.label "credit card name" %>
-  <%= f.text_field :credit_card_name %>
+  <div class="form-group">
+    <%= f.label "credit card number" %>
+    <%= f.text_field :credit_card_number, class: "form-control" %>
+  </div>
 
-  <%= f.label "credit card number" %>
-  <%= f.text_field :credit_card_number %>
+  <div class="form-group">
+    <%= f.label "EXP" %>
+    <%= f.text_field :credit_card_exp, class: "form-control" %>
+  </div>
 
-  <%= f.label "EXP" %>
-  <%= f.text_field :credit_card_exp %>
+  <div class="form-group">
+    <%= f.label "CVV" %>
+    <%= f.text_field :credit_card_CVV, class: "form-control" %>
+  </div>
 
-  <%= f.label "CVV" %>
-  <%= f.text_field :credit_card_CVV %>
+  <div class="form-group">
+    <%= f.label "zip code" %>
+    <%= f.text_field :zip_code, class: "form-control" %>
+  </div>
 
-  <%= f.label "zip code" %>
-  <%= f.text_field :zip_code %>
-
-
-
-  <%= f.submit "Submit Order", class: "btn btn-primary" %>
+  <div class="form-group">
+    <%= f.submit "Submit Order", class: "btn btn-primary" %>
+  </div>
 <% end %>
+
+

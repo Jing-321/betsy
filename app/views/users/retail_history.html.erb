@@ -1,0 +1,61 @@
+
+  <%= render partial: "user_welcome"%>
+
+
+  <div class="container" style="margin-top: 5rem">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <%= link_to "Account Information", user_account_path(@current_user.id), class: "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Order History", order_history_path(@current_user.id), class: "nav-link" %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to "Manage Trips", manage_tours_path(@current_user.id), class: "nav-link" %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to "Retail History", retail_history_path(@current_user.id), class: "nav-link active" %>
+      </li>
+    </ul>
+  </div>
+
+  <div class="container" style="margin-top: 5rem">
+
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Tour</th>
+        <th>Quantity</th>
+        <th>Revenue</th>
+        <th>Date</th>
+        <th>Customer</th>
+        <th>Email</th>
+        <th>Address</th>
+
+
+      </tr>
+      </thead>
+
+      <tbody>
+      <%@items.each do |item| %>
+        <%product = Product.find(item.product_id) %>
+        <%user = User.find(Order.find(item.order_id).user_id) %>
+        <tr>
+          <td><%= link_to "#{item.order_id}", order_path(item.order_id) %></td>
+          <td><%= link_to "#{product.name}", product_path(product.id) %></td>
+          <td><%= item.quantity %></td>
+          <td><%= item.quantity * product.price %></td>
+          <td><%= item.created_at %></td>
+          <td><%= user.username %></td>
+          <th><%= user.payment_infos.first.email %></th>
+          <th><%= user.payment_infos.first.address %></th>
+
+        </tr>
+      <%end %>
+      </tbody>
+    </table>
+
+  </div>

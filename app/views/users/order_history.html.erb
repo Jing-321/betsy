@@ -1,7 +1,6 @@
 
-  <h2>Welcome! </h2>
-  <h3><%= link_to @current_user.username, user_account_path(@current_user) %></h3>
-  <p>Joined site <%= @current_user.created_at.to_date %></p>
+
+<%= render partial: "user_welcome"%>
 
 
 
@@ -13,8 +12,13 @@
       <li class="nav-item">
         <%= link_to "Order History", order_history_path(@current_user.id), class: "nav-link active" %>
       </li>
+
       <li class="nav-item">
         <%= link_to "Manage Trips", manage_tours_path(@current_user.id), class: "nav-link" %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to "Retail History", retail_history_path(@current_user.id), class: "nav-link" %>
       </li>
     </ul>
   </div>

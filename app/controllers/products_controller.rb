@@ -15,7 +15,13 @@ class ProductsController < ApplicationController
   end
 
   def new
-    @product = Product.new
+    if session[:user_id].nil?
+      flash[:error] = "You are not authorized to see this page."
+      redirect_to products_path
+      return
+    else
+      @product = Product.new
+    end
   end
 
   def create
@@ -138,16 +144,6 @@ class ProductsController < ApplicationController
   def explore
     @products = Product.get_top_rated
   end
-
-  # def change_status
-  #   if @product.switch_status
-  #     flash[:success] = "#{@product.name}'s status is now updated."
-  #     redirect_to products_path #merchant dashboard path?
-  #     return
-  #   end
-  # end
-
-  # def destroy; end
 
   private
 

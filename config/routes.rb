@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/users/id/user_account', to: 'users#user_account', as: 'user_account'
   get '/users/id/order_history', to: 'users#order_history', as: 'order_history'
   get '/users/id/manage_tours', to: 'users#manage_tours', as: 'manage_tours'
+  get '/users/id/retail_history', to: 'users#retail_history', as: 'retail_history'
 
   get '/orders/shopping_cart', to: 'orders#shopping_cart', as: 'shopping_cart'
   get '/orders/id/submit', to: 'orders#submit', as: 'order_submit'
