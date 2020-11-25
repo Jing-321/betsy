@@ -11,8 +11,6 @@
             <span> ★ </span>
           <% end %>
           </p>
-        <% else %>
-          <p class="text-muted"><small>No ratings yet, be the first!</small></p>
         <% end %>
         <h2 class="card-title"><%= @product.name %></h2>
         <p class="card-text"><%= @product.description %></p>
@@ -30,7 +28,7 @@
         <% if @product.stock > 0 %>
             <%= link_to "Add to Cart", add_to_cart_path, class: "btn btn-primary", method: :post %>
         <%else %>
-          <p>This tour is in high demand and it is currently sold out. More booking time slots will be available soon!</p>
+          <p style="color: #17a2b8">This tour is in high demand and it is currently sold out. More booking time slots will be available soon!</p>
         <% end %>
 
         <%= link_to "Rate Trip", new_product_review_path(@product), class: "btn btn-secondary" %>
@@ -46,22 +44,26 @@
 <h3>Reviews</h3>
 <hr>
 <br>
-<div class="grid-container">
-    <% @product.reviews.each do |review| %>
-      <div class="">
-        <div class="card">
-          <div class="card-body">
-            <div class="grid-item">
-                <% review.rating.times do%>
-                  <span> ★ </span>
-                <% end %>
-                </div>
-              <div><p><%= review.text_review %></p></div>
+<% if @product.reviews.empty? %>
+    <p>No one has reviewed this tour yet, be the first!</p>
+  <% else %>
+    <div class="grid-container">
+        <% @product.reviews.each do |review| %>
+          <div class="">
+            <div class="card">
+              <div class="card-body">
+                <div class="grid-item">
+                    <% review.rating.times do%>
+                      <span> ★ </span>
+                    <% end %>
+                    </div>
+                  <div><p><%= review.text_review %></p></div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-  <% end %>
-</div>
+      <% end %>
+    </div>
+<% end %>
 
 
 
