@@ -17,3 +17,8 @@ order4:
   status: complete
   user: ayesha
   payment_info_id: 2
+
+order5:
+  status: pending
+  user: jasmine
+  payment_info_id: 3

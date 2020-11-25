@@ -66,6 +66,12 @@ class ProductsController < ApplicationController
     if @product.nil? || !@product
       return head :not_found
     end
+
+    if @product.stock < 1
+      flash[:error] = "Sorry, #{@product.name} is out of stock."
+      return redirect_to product_path(@product.id)
+    end
+
     if session[:user_id].nil?
       guest = User.create!(username: "guest")
       session[:user_id] = guest.id
@@ -96,12 +102,7 @@ class ProductsController < ApplicationController
         order_item = order.order_items.find{|item| item.product_id == @product.id}
 
         if order_item
-          if @product.stock > 0
-            order_item.quantity += 1
-          else
-            flash[:error] = "Sorry, #{@product.name} is out of stock."
-            return redirect_to product_path(@product.id)
-          end
+          order_item.quantity += 1
 
           if order_item.save
             flash[:success] = "#{@product.name} is added to your cart  :)"

@@ -3,10 +3,8 @@ hawaii:
   price: 10
   description: a relaxing stroll through the beaches and mountains of hawaii
   stock: 2
-  active: true
   categories: [romantic, fun]
   user: jasmine
-  photo_url: https://i.stack.imgur.com/y9DpT.jpg
 japan:
   name: japan tour
   price: 15
@@ -14,14 +12,12 @@ japan:
   stock: 5
   categories: [peaceful, romantic, fun]
   user: jing
-  active: true
 taiwan:
   name: taiwan tour
   price: 12
   description: enjoy the breathtaking splendor of taiwan
   stock: 3
   user: ayesha
-  active: true
 disney:
   name: disney tour
   price: 10
@@ -29,7 +25,6 @@ disney:
   stock: 2
   categories: [family, fun]
   user: denise
-  active: true
 lahore:
   name: lahore tour
   price: 10
@@ -37,5 +32,4 @@ lahore:
   stock: 2
   categories: [ edu ]
   user: denise
-  active: true
-  photo_url: https://i.stack.imgur.com/y9DpT.jpg
+
