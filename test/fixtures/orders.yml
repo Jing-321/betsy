@@ -1,11 +1,11 @@
 order1:
   status: pending
-  user_id: 1
+  user: jasmine
   payment_info_id: 1
 
 order2:
   status: complete
-  user_id: 2
+  user: denise
   payment_info_id: 2
 
 order3:
