@@ -19,13 +19,13 @@
   gap: 2rem;
 }
 
-@include media-breakpoint-down(sm) {
+@media (max-width: 767.98px) {
   .product-card {
     width: 45% !important;
   }
 }
 
-@include media-breakpoint-down(xs) {
+@media (max-width: 575.98px) {
   .product-card, .product-show-card {
     width: 100% !important;
     margin: 0 2rem !important;
