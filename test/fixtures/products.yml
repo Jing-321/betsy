@@ -25,3 +25,10 @@ disney:
   stock: 2
   categories: [family, fun]
   user: denise
+lahore:
+  name: lahore tour
+  price: 10
+  description: cultural fun for the whole family
+  stock: 2
+  categories: [ edu ]
+  user: denise
