@@ -13,7 +13,6 @@ class User < ApplicationRecord
 
 
   validates :username, presence: true
-  #validates :email, confirmation: true
 
 
   def self.build_from_github(auth_hash)

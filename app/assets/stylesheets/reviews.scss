@@ -5,7 +5,7 @@
 .rate-area {
   float: left;
   border-style: none;
-  padding: 0 3em;
+  padding: 0 0em;
 }
 
 .rate-area:not(:checked) > input {
@@ -46,4 +46,9 @@
   position: relative;
   top: 2px;
   left: 2px;
+}
+
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
 }

@@ -75,17 +75,20 @@ h2.center {
   margin-right: auto;
 }
 
+
+.reviews {
+  display: flex;
+}
+
 .flex-column .btn {
   align-self: flex-end;
 }
 
-//.submit-page > h2, .submit-page > h3 {
-//  text-align: center;
-//}
 
 .submit-page > h3 {
   margin-bottom: 1rem;
 }
+
 
 
 
