@@ -5,7 +5,7 @@ describe OrdersController do
   describe "show" do
     before do
       @order = Order.first
-      session[:order_id] = @order.id
+      perform_login
     end
 
     it "will get show for valid ids" do
@@ -15,20 +15,20 @@ describe OrdersController do
 
     it "will redirect to homepage for invalid ids" do
       get "/orders/1234"
-      must_respond_with redirect
+      must_redirect_to root_path
     end
 
   end
 
   describe "shopping_cart" do
+
     it "respond with success when user is not logged in" do
       get shopping_cart_path
       must_respond_with :success
     end
 
     it "respond with success when user is logged in" do
-      user = User.create(username: "test")
-      session[:user_id] = user.id
+      perform_login
       get shopping_cart_path
       must_respond_with :success
     end
@@ -37,9 +37,11 @@ describe OrdersController do
   describe "submit" do
     before do
       @order = orders(:order1)
+      perform_login
     end
+
     it "will change order status from pending to complete" do
-      get order_submit_path
+      get order_submit_path(@order.id)
       expect(@order.status).must_equal "complete"
     end
 
@@ -49,7 +51,7 @@ describe OrdersController do
 
 
       expect{
-        get order_submit_path
+        get order_submit_path(@order.id)
       }.must_differ '@product.stock', 1
 
     end
