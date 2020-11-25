@@ -7,3 +7,13 @@ order2:
   status: complete
   user_id: 2
   payment_info_id: 2
+
+order3:
+  status: complete
+  user: ayesha
+  payment_info_id: 2
+
+order4:
+  status: complete
+  user: ayesha
+  payment_info_id: 2

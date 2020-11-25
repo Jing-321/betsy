@@ -56,10 +56,12 @@ class ReviewsController < ApplicationController
   # end
   def check_authorization(product)
     @user = User.find_by(id: session[:user_id])
-    if product.user_id == @user.id && @user != nil
-      flash[:error] = "You cannot review your own product"
-      redirect_to product_path(product) # => we can change this based on the usage
-      return
+    if @user
+      if product.user_id == @user.id
+        flash[:error] = "You cannot review your own product"
+        redirect_to product_path(product) # => we can change this based on the usage
+        return
+      end
     end
   end
 

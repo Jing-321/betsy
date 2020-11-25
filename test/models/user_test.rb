@@ -2,12 +2,12 @@ require 'test_helper'
 
 describe User do
   let(:user) {
-    User.new(username: "hamza",
+    User.new(username: 'hamza',
              uid: 54321,
-             provider: "github",
-             email: "ayesha@gmail.com",
-             order_id: orders(:order1).id,
-             product_id: products(:hawaii).id)
+             provider: 'github',
+             email: 'ayesha@gmail.com')
+             # order_id: orders(:order1).id,
+             # product_id: products(:hawaii).id)
   }
 
   it 'can be instantiated' do
@@ -19,10 +19,9 @@ describe User do
       expect(result).must_equal true
     end
     it "must have a valid 'username'" do
-      user.username = "ayesha"
       result = user.valid?
 
-      expect(result).must_be "ayesha"
+      expect(result).must_equal true
     end
 
     it 'is invalid without a username' do
@@ -34,32 +33,60 @@ describe User do
   end
   describe 'relationships' do
     it 'can have many orders' do
-      result = user.order
-      # Unsure of how to demonstrate the "order"
-      expect(result).must_equal orders(:order1)
+      result = users(:ayesha).orders
+
+      expect(result.count).must_equal 2
+      expect(result).must_include orders(:order3)
+      expect(result).must_include orders(:order4)
     end
 
     it 'can have many products' do
-      result = user.product
+      result = users(:denise).products
 
-      expect(result).must_equal products(:hawaii)
-    end
-
-    it 'can have many reviews' do
-      # Do I need to make a "Review" yml file? for
-      # this test to work?
+      expect(result.count).must_equal 2
+      expect(result).must_include products(:disney)
+      expect(result).must_include products(:lahore)
     end
 
     it 'has one payment information (card information)' do
+      # validates :email, presence: true
+      # validates :address, presence: true
+      # validates :credit_card_name, presence: true
+      # validates :credit_card_number, presence: true,
+      #           numericality: true
+      # validates :credit_card_exp, format: {with: /\d\d\/\d\d/, message: "Please use MM/YY format" }
+      # validates :credit_card_CVV, numericality: true
+      # validates :zip_code, format: {with: /\d{5}/, message: "Please enter your 5-digit zip code."}
+      user.save
+      payment = PaymentInfo.create(
+        email: 'abc@email.com',
+        address: '123 St. USA',
+        credit_card_name: 'Jane Doe',
+        credit_card_number: 123456789,
+        credit_card_exp: '12/12',
+        credit_card_CVV: 123,
+        zip_code: '456789',
+        user_id: user.id)
+
+
+
       result = user.payment_infos
-      # Unsure of how to demonstrate the "order"
-      expect(result).must_equal products(:hawaii)
+
+      expect(result).must_include payment
     end
   end
   describe 'custom methods' do
     #Authorization first
-    it "returns a user" do
 
+    it 'returns a user' do
+      user_params = {
+        uid: 123456789,
+        'info' => {provider: 'github',
+                   username: 'hamid',
+                   email: 'abc@email.com',
+                   photo_url: 'example.url'}
+      }
+      expect(User.build_from_github(user_params)).must_be_instance_of User
     end
   end
 end
