@@ -42,20 +42,27 @@
   </div>
 </div>
 
-<div class="">
-  <br>
-  <h3>Reviews</h3>
+
+<br>
+<h3>Reviews</h3>
+<hr>
+<br>
+<div class="grid-container">
     <% @product.reviews.each do |review| %>
-      <div class="card">
-        <div class="card-body">
-          <div class="">
-              <% review.rating.times do%>
-                <span> ★ </span>
-              <% end %>
-              </div>
-            <div><p><%= review.text_review %></p></div>
+<!--    <div class="row">-->
+      <div class="">
+        <div class="card">
+          <div class="card-body">
+            <div class="grid-item">
+                <% review.rating.times do%>
+                  <span> ★ </span>
+                <% end %>
+                </div>
+              <div><p><%= review.text_review %></p></div>
+          </div>
         </div>
       </div>
+<!--    </div>-->
   <% end %>
 </div>
 
