@@ -11,6 +11,15 @@
       <%= image_tag product.photo_url, class: "card-img-top product-card-image", alt: product.name %>
 
       <div class="card-body">
+        <% if product.avg_rating %>
+          <p class="card-title">
+            <% product.avg_rating.times do%>
+              <span> ★ </span>
+            <% end %>
+          </p>
+        <% else %>
+          <p class="text-muted"><small>No ratings yet, be the first!</small></p>
+        <% end %>
         <h5 class="card-title"><%= product.name %></h5>
         <p class="card-text"><%= product.description %></p>
         <%= link_to "See Details", product_path(product), class: "btn btn-primary" %>
