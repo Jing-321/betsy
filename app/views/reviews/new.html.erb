@@ -7,8 +7,8 @@
   <%= form_with model: @review, url:product_reviews_path(@product) do |f| %>
     <ul class="rate-area">
       <% 5.times do |i| %>
-        <%= f.radio_button :rating, i + 1, id: "#{i + 1}-Star" %>
-        <%= label :rating, 'Rate the trip', for: "#{i + 1}-Star" %>
+        <%= f.radio_button :rating, 5 - i, id: "#{5 - i}-Star" %>
+        <%= label :rating, 'Rate the trip', for: "#{5 - i}-Star" %>
       <% end %>
     </ul>
 
