@@ -3,7 +3,7 @@
   <h2>Trip Review</h2>
 </div>
 
-<div class="container">
+<div class="reviews">
   <%= form_with model: @review, url:product_reviews_path(@product) do |f| %>
     <ul class="rate-area">
       <% 5.times do |i| %>
@@ -21,6 +21,6 @@
     <div class="form-group">
       <%= f.submit "Submit Review", class: "btn btn-primary" %>
     </div>
-<% end %>
+  <% end %>
 </div>
 

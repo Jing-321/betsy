@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe User do
   let(:user) {
-    User.new(username: "ayesha",
+    User.new(username: "hamza",
              uid: 54321,
              provider: "github",
              email: "ayesha@gmail.com",
