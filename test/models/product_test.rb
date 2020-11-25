@@ -89,22 +89,49 @@ describe Product do
 
   describe "Relationships" do
     it "belongs to a user" do
-
+      hawaii = products(:hawaii)
+      expect(hawaii.user).must_equal users(:jasmine)
     end
 
     it "has many order_items" do
 
+      hawaii = products(:hawaii)
+      order1 = Order.create!(user_id: users(:jasmine).id, status: "pending")
+      order_item1 = OrderItem.create!(quantity: 1, product_id: hawaii.id, order_id: order1.id)
+      order_item2 = order_items(:one)
+
+      expect(hawaii.order_items.count).must_equal 2
+      expect(hawaii.order_items).must_include order_item1
+      expect(hawaii.order_items).must_include order_item2
     end
 
     it "has many reviews" do
+      hawaii = products(:hawaii)
+      review1 = Review.create(rating: 5, text_review: "very good", product_id: hawaii.id)
+      review2 = Review.create(rating: 3, text_review: "just okay", product_id: hawaii.id)
 
+      expect(hawaii.reviews.count).must_equal 2
+      expect(hawaii.reviews).must_include review1
+      expect(hawaii.reviews).must_include review2
     end
 
     it "has many categories" do
-
+      japan = products(:japan)
+      expect(japan.categories.count).must_equal 3
+      expect(japan.categories).must_include categories(:peaceful)
+      expect(japan.categories).must_include categories(:romantic)
+      expect(japan.categories).must_include categories(:fun)
     end
 
     it "belongs to many categories" do
+      japan = products(:japan)
+      peaceful = categories(:peaceful)
+      romantic = categories(:romantic)
+      fun = categories(:fun)
+
+      expect(peaceful.products).must_include japan
+      expect(romantic.products).must_include japan
+      expect(fun.products).must_include japan
 
     end
   end
@@ -112,26 +139,102 @@ describe Product do
   describe "Custom Methods" do
     describe "avg rating" do
       it "returns nil if there are no ratings" do
-
+        hawaii = products(:hawaii)
+        expect(hawaii.avg_rating).must_be_nil
       end
 
-      it "returns the average of a number of ratings" do
+      it "returns the average of a number of ratings rounded to the nearest whole number" do
+        hawaii = products(:hawaii)
 
+        review1 = Review.create(rating: 5, text_review: "very good", product_id: hawaii.id)
+        review2 = Review.create(rating: 3, text_review: "just okay", product_id: hawaii.id)
+        review2 = Review.create(rating: 4, text_review: "just okay", product_id: hawaii.id)
+
+        expect(hawaii.avg_rating).must_equal 4
       end
     end
 
-    describe "retire" do
+    describe "switch status" do
       it "will change active to true, if currently false" do
+        hawaii = products(:hawaii)
+        hawaii.active = false
+        hawaii.save!
 
+        hawaii.switch_status
+        hawaii.reload
+        expect(hawaii.active).must_equal true
       end
 
       it "will change active to false, if currently true" do
+        hawaii = products(:hawaii)
+        hawaii.active = true
+        hawaii.save!
 
+        hawaii.switch_status
+        hawaii.reload
+        expect(hawaii.active).must_equal false
       end
     end
 
     describe "get top rated" do
+      it "gets the top 4 trips rated 4 stars or higher, if there are 4 trips with ratings height than 3 starts" do
+        hawaii = products(:hawaii)
+        hawaii.active = true
+        hawaii.save
+        Review.create(rating: 5, text_review: "very good", product_id: hawaii.id)
+        japan = products(:japan)
+        japan.active = true
+        japan.save
+        Review.create(rating: 5, text_review: "very good", product_id: japan.id)
+        taiwan = products(:taiwan)
+        taiwan.active = true
+        taiwan.save
+        Review.create(rating: 4, text_review: "very good", product_id: taiwan.id)
+        disney = products(:disney)
+        disney.active = true
+        disney.save
+        Review.create(rating: 2, text_review: "very bad", product_id: disney.id)
+        lahore = products(:lahore)
+        lahore.active = true
+        lahore.save
+        Review.create(rating: 4, text_review: "very good", product_id: lahore.id)
 
+        top_rated = Product.get_top_rated
+        expect(top_rated.count).must_equal 4
+        expect(top_rated).must_include hawaii
+        expect(top_rated).must_include japan
+        expect(top_rated).must_include taiwan
+        expect(top_rated).must_include lahore
+
+      end
+
+      it "gets the trips with 4 stars or higher or with an avg rating of nil" do
+        hawaii = products(:hawaii)
+        hawaii.active = true
+        hawaii.save
+        Review.create(rating: 5, text_review: "very good", product_id: hawaii.id)
+        japan = products(:japan)
+        japan.active = true
+        japan.save
+        Review.create(rating: 5, text_review: "very good", product_id: japan.id)
+        taiwan = products(:taiwan)
+        taiwan.active = true
+        taiwan.save
+        Review.create(rating: 1, text_review: "bad", product_id: taiwan.id)
+        disney = products(:disney)
+        disney.active = true
+        disney.save
+        lahore = products(:lahore)
+        lahore.active = true
+        lahore.save
+
+        top_rated = Product.get_top_rated
+        expect(top_rated.count).must_equal 4
+        expect(top_rated).must_include hawaii
+        expect(top_rated).must_include japan
+        expect(top_rated).must_include disney
+        expect(top_rated).must_include lahore
+      end
     end
   end
 end
