@@ -1,48 +1,79 @@
 require "test_helper"
 
 describe OrderItemsController do
-
-  describe "create" do
-    it"adds new order item to current order" do
-
-    end
-
-    it "responds with :error when quantity is lower than stock" do
-
-    end
-
-    it "will respond with not found when product_id is invalid" do
-
-    end
-  end
-
   describe "destroy" do
     before do
-      fake_item_params = {product_id: products(:fake_trip).id, quantity: 2}
-      post order_items_path, params: fake_item_params
-
-      @current_order = Order.find_by(id: session[:order_id])
-      @current_item = @current_order.order_items.first
+      @order_item = order_items(:two)
     end
 
     it "deletes an order item with valid input" do
+      expect{
+        delete order_item_path(@order_item.id)
+      }.must_differ "OrderItem.count", -1
 
+      expect(flash[:result_text]).must_include "#{@order_item.product.name} removed from cart."
+
+      must_redirect_to root_path
+    end
+  end
+
+  describe "increase_qty" do
+    it "increases product quantity when product is in the cart" do
+      fake_order_item = {
+          quantity: 2,
+          product_id: products(:japan).id,
+          order_id: orders(:order1).id
+      }
+
+      expect {
+          patch add_path(products(:japan).id), params: fake_order_item
+      }.wont_differ 'OrderItem.count'
+
+      must_redirect_to shopping_cart_path
     end
 
-    it "does not delete an order item if order.status != session[:order_id]" do
+    it "won't increase product quantity when asking for more items than stock quantity" do
+      fake_order_item = {
+          quantity: 5,
+          product_id: products(:disney).id,
+          order_id: orders(:order1).id
+      }
 
+      expect {
+        patch add_path(products(:disney).id), params: fake_order_item
+      }.wont_differ 'OrderItem.count'
+
+      must_redirect_to shopping_cart_path
+    end
+  end
+
+  describe "decrease_qty" do
+    it "decreases amount of item when in cart" do
+      fake_order_item2 = {
+          quantity: 2,
+          product_id: products(:japan).id,
+          order_id: orders(:order1).id
+      }
+
+      expect {
+        patch subtract_path(products(:japan).id), params: fake_order_item2
+      }.wont_differ 'OrderItem.count'
+
+      must_redirect_to shopping_cart_path
     end
 
-    it "responds :unauthorized when order.status != pending" do
+    it "removes product from cart when product quantity in cart is <= 1" do
+      fake_order_item3 = {
+          quantity: 1,
+          product_id: products(:japan).id,
+          order_id: orders(:order1).id
+      }
 
-    end
+      expect {
+        patch subtract_path(products(:japan).id), params: fake_order_item3
+      }.wont_differ 'OrderItem.count'
 
-    it "responds :bad_request when asked to delete an order item when order_item.id is invalid" do
-
-    end
-
-    it "responds :bad_request when order.id is invalid" do
-
+      must_redirect_to shopping_cart_path
     end
   end
 end
