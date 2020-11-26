@@ -56,15 +56,11 @@ class ActiveSupport::TestCase
   end
 
   def add_first_item_to_cart
-    order = Order.first
     product = Product.first
-    order_item_data = {
-        product_id: product.id, order_id: order.id, quantity: 1,
-    }
 
-    post order_items_path, params: order_item_data
-    expect(session[:order_id]).must_equal order.id
-
+    post "/products/#{product.id}/add_to_cart"
+    expect(session[:order_id]).wont_be_nil
+    order = Order.find(session[:order_id])
     return order
   end
 end
