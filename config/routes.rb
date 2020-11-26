@@ -33,7 +33,8 @@ Rails.application.routes.draw do
   patch '/order_items/:id/add', to: "order_items#increase_qty", as: "add"
   patch '/order_items/:id/subtract', to:"order_items#decrease_qty", as: "subtract"
 
-  # resources :reviews, only: [:new]
+  #########order_items
+  get 'about/index', to: 'about#index', as: 'about'
 
 
 end
