@@ -1,14 +1,6 @@
 require "test_helper"
 
 describe UsersController do
-  # describe "create" do
-  #   it "will returns 200 for a logged-in user" do
-  #     perform_login
-  #
-  #     get
-  #   end
-  #
-  # end
 
   describe "index" do
     it "can list users with listing products" do
@@ -83,6 +75,23 @@ describe UsersController do
       get manage_tours_path
       must_redirect_to root_path
     end
+  end
+
+  describe "show" do
+    it "will show merchant will valid id" do
+      user = users(:jing)
+      get user_path(user.id)
+      must_respond_with :success
+    end
+
+    it "will redirect to root path for invalid id" do
+      get user_path(0)
+
+      expect(flash[:error]).must_equal "Can't find the guide."
+
+      must_redirect_to root_path
+    end
+
   end
 
 end
