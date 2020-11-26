@@ -72,6 +72,6 @@ class PaymentInfosController < ApplicationController
   end
 
   def find_payment_info
-    @payment_info = PaymentInfo.find(params[:id])
+    @payment_info = PaymentInfo.find_by(id: params[:id])
   end
 end
