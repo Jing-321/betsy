@@ -45,13 +45,14 @@ class OrdersController < ApplicationController
 
   def submit
     @order.status = "complete"
+    @order.save
     @items = @order.order_items
     @items.each do |item|
       product = Product.find(item.product_id)
       product.stock -= item.quantity
       product.save
     end
-    @order.save
+
     session[:order_id] = nil
     return
   end

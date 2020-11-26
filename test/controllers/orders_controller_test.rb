@@ -41,7 +41,9 @@ describe OrdersController do
     end
 
     it "will change order status from pending to complete" do
-      get order_submit_path
+      expect(@order.status).must_equal "pending"
+      get order_submit_path(@order.id)
+      @order.reload
       expect(@order.status).must_equal "complete"
     end
 
