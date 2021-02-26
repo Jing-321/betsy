@@ -1,9 +1,9 @@
 // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
-@import "~bootstrap-4.0.0/scss/_functions.scss";
-@import "~bootstrap-4.0.0/scss/_variables.scss";
-@import "~bootstrap-4.0.0/scss/mixins/_breakpoints.scss";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
 
 .avatar {
     max-width: 90%;
