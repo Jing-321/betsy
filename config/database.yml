@@ -80,6 +80,7 @@ test:
 #
 production:
   <<: *default
-  database: betsy_production
-  username: betsy
+  url: postgres://qoflhfehdlwwco:304f92fd5fba02d18e45a05304d560e40cad6ab38770a0857a86d2a58dd97ed5@ec2-54-85-13-135.compute-1.amazonaws.com:5432/d3km076hpj4r6
+  database: d3km076hpj4r6
+  username: qoflhfehdlwwco
   password: <%= ENV['BETSY_DATABASE_PASSWORD'] %>
